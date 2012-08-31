@@ -11,15 +11,21 @@ class Queue
     explicit Queue(int len);
     bool push(char ch);
     bool pop(char &ch);
-    void print()
-    {
-      for (int i=0 ; i < len_ ; ++i)
-        cout << *(q_ + i) << " ";
-      cout << endl;
-    }
-  private:
+    int len() const {return len_;}
     int begin() const {return begin_;}
     int end() const {return end_;}
+    void print()
+    {
+      cout << "-- ";
+      int e = end();
+      for (int i=e ; i != begin() ; )
+      {
+        cout << *(q_ + i) << " ";
+        i = (i + 1) % len_;
+      }
+      cout << " --" << endl;
+    }
+  private:
     bool can_push()
     {
       int next_begin = ((begin() + 1) % len_);
