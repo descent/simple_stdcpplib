@@ -4,9 +4,9 @@
 
 using namespace std;
 
-  Queue q(5);
-void push_test(char c)
+void push_test(Queue &q, char c)
 {
+    cout << "--------- push ---------------------" << endl;
     cout << "  begin: " << q.begin() << endl;
     cout << "  end: " << q.end() << endl;
     if (q.push(c))
@@ -15,13 +15,14 @@ void push_test(char c)
       cout << "cannot push: " << c << endl;
     cout << "    begin: " << q.begin() << endl;
     cout << "    end: " << q.end() << endl;
-    q.print();
-    cout << "==============================" << endl;
+    if (!q.print())
+      cout << "  q.print fail" << endl;
 }
 
-void pop_test()
+void pop_test(Queue &q)
 {
-  char c;
+    cout << "======== pop ======================" << endl;
+    char c;
     cout << "  begin: " << q.begin() << endl;
     cout << "  end: " << q.end() << endl;
 
@@ -33,12 +34,16 @@ void pop_test()
     cout << "    begin: " << q.begin() << endl;
     cout << "    end: " << q.end() << endl;
     q.print();
-    cout << "==============================" << endl;
 }
 
 // how to autotest for class Queue
 int main(void)
 {
+  for (int i= -100; i < 100 ; ++i)
+  {
+
+    Queue q(i);
+    cout << "q.len(): " << q.len() << endl;
   char test_pattern[]=
   {
     'a',
@@ -69,17 +74,18 @@ int main(void)
   while(1)
   {
     int num = rand() % (sizeof(test_pattern)/sizeof(char));
-    cout << "  num: " << num << endl;
+    cout << "times:" << times << "  num: " << num << endl;
 
     if (num % 2 == 0)
-      push_test(test_pattern[num]);
+      push_test(q, test_pattern[num]);
     else
-      pop_test();
+      pop_test(q);
 
     ++times;
     if (times >= 100)
       break;
   }
 
+  }
   return 0;
 }
