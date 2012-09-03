@@ -5,7 +5,8 @@
 // q leave one empty space when full
 Queue::Queue(int len)
 {
-  if (len > 1)
+  len_ = len;
+  if (len_ > 1)
   {
     len_ = len;
     q_ = new char[len_];
@@ -15,6 +16,8 @@ Queue::Queue(int len)
 
 bool Queue::push(char ch)
 {
+  if (ready() == false) 
+    return false;
 // copy ch to begin point
 // ++begin
 
@@ -31,6 +34,8 @@ bool Queue::push(char ch)
 
 bool Queue::pop(char &ch)
 {
+  if (ready() == false) 
+    return false;
 // return end point value, ++end
   bool ret = true;
   if (can_pop())
