@@ -14,8 +14,9 @@ class Queue
     int len() const {return len_;}
     int begin() const {return begin_;}
     int end() const {return end_;}
-    void print()
+    bool print()
     {
+      if (ready() == false) return false;
       cout << "-- ";
       int e = end();
       for (int i=e ; i != begin() ; )
@@ -24,6 +25,15 @@ class Queue
         i = (i + 1) % len_;
       }
       cout << " --" << endl;
+      return true;
+    }
+    bool ready() const
+    {
+      //cout << "len_:" << len_ << endl;
+      if (len_ > 1)
+        return true;
+      else
+        return false;
     }
   private:
     bool can_push()
