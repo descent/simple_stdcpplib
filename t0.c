@@ -2,10 +2,15 @@
 
 #include <setjmp.h>
 
-jmp_buf mark;
+
+void ff();
+
 
 int main(void)
 {
+  jmp_buf mark;
+
+  ff();
   int i=0;
   int ret = setjmp(mark);
   ++i;
@@ -15,4 +20,9 @@ int main(void)
     longjmp(mark, 5);
   }
   return 0;
+}
+
+void ff()
+{
+ int i=5;
 }
