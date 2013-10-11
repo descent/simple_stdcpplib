@@ -1,24 +1,18 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "stm32.h"
+
 #include <setjmp.h>
 
 jmp_buf mark;
 
-int main(int argc, char *argv[])
+int main(void)
 {
+  int i=0;
   int ret = setjmp(mark);
-  printf("ret: %d\n", ret);
-  if (ret == 0)
+  ++i;
+  while(1)
   {
-    printf("init setjmp\n");
+    i=10;
+    longjmp(mark, 5);
   }
-  else
-  {
-    printf("exit\n");
-    exit(0);
-  }
-  printf("xxx\n");
-  longjmp(mark, 5);
-  //longjmp(mark, 1);
   return 0;
 }
