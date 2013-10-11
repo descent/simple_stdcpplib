@@ -13,22 +13,18 @@ my_setjmp:
 
 
 
-#if 0
-	.globl	my_longjmp
+.globl	my_longjmp
 my_longjmp:
-	movl	4(%esp), %ebx	// address of buf
-	movl	8(%esp), %eax	// store return value
+  ldmfd           a1!, { v1-v7, fp, ip, lr }
+  mov             sp, ip
 
-	movl	24(%ebx), %esp	// restore stack
-	movl	32(%ebx), %edi
-// Next line sets up return address.
-	movl	%edi, 0(%esp)	
-	movl	8(%ebx), %ecx
-	movl	12(%ebx), %edx
-	movl	16(%ebx), %esi
-	movl	20(%ebx), %edi
-	movl	28(%ebx), %ebp
-	movl	4(%ebx), %ebx
+  movs            a1, a2
+  it              eq
+  moveq           a1, #1
+  bx lr
+
+#if 0
+@ x86 implementaion
 	testl	%eax,%eax
 	jne	bye
 	incl	%eax		// eax hold 0 if we are here
