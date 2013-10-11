@@ -10,7 +10,7 @@ MEMORY
 /* form: STM32F4-Discovery_FW_V1.1.0/Project/Peripheral_Examples/IO_Toggle/TrueSTUDIO/IO_Toggle/stm32_flash.ld */
 MEMORY
 {
-  FLASH (rx)      : ORIGIN = 0x00000000, LENGTH = 1024K
+  FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 1024K
   SRAM (xrw)       : ORIGIN = 0x20000000, LENGTH = 192K
   MEMORY_B1 (rx)  : ORIGIN = 0x60000000, LENGTH = 0K
 }
