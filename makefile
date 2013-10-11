@@ -14,6 +14,8 @@ all: pendsv_c.bin
 
 t0.elf: t0.o 
 	arm-none-eabi-gcc $(LD_FLAGS) -o $@ $^
+t1.elf: t1.o my_setjmp.o
+	arm-none-eabi-gcc $(LD_FLAGS) -o $@ $^
 
 pendsv_c.o: stm32.h lib_mygpio_led.h
 
@@ -21,7 +23,8 @@ pendsv_c.elf: pendsv_c.o lib_mygpio_led.o
 	arm-none-eabi-gcc $(LD_FLAGS) -o $@ $^
 
 %.bin:%.elf
-	arm-none-eabi-objcopy -R .data -O binary $< $@
+	#arm-none-eabi-objcopy -R .data -O binary $< $@
+	arm-none-eabi-objcopy -O binary $< $@
 
 pendsv.elf: pendsv.o
 	arm-none-eabi-ld -Ttext 0x0 -Tdata 0x20000000 -Tbss 0x20000100 -o $@ $^
