@@ -22,7 +22,7 @@ extern "C" {
 #endif
 
 typedef struct {
-  unsigned long eax;
+  unsigned long r4;
   unsigned long ebx;
   unsigned long ecx;
   unsigned long edx;
@@ -31,6 +31,7 @@ typedef struct {
   unsigned long ebp;
   unsigned long esp;
   unsigned long eip;
+  unsigned long lr;
 } jmp_buf[1];
 
 extern int my_setjmp(jmp_buf);
