@@ -4,7 +4,7 @@ MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb
 MYCFLAGS_NO_LD=-nostartfiles -fno-common -O0 -g -mcpu=cortex-m3 -mthumb
 LD_FLAGS=-Wl,-T./stm32.ld -nostartfiles -fno-common -mcpu=cortex-m3 -mthumb
 
-all: pendsv_c.bin
+all: t0.bin t1.bin
 
 %.o:%.S
 	arm-none-eabi-gcc $(MYCFLAGS) $(INC) -c $< 
