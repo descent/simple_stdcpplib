@@ -14,6 +14,7 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_usart.h"
+#include "s_eval.h"
 
 #ifdef __cplusplus
   #define   __I     volatile             /*!< defines 'read only' permissions                 */
@@ -499,6 +500,7 @@ int mymain()
   //init_command();
 
   ur_puts(USART2, "Init complete! Hello World!\r\n");
+#if 0
   while(1)
   {
     char ch = get_byte();
@@ -508,4 +510,9 @@ int mymain()
       USART_SendData(USART2, ch);
     //send_string("ur output\n");
   }
+#endif
+  init_eval();
+  Environment *global_env = get_env(0, "global");
+  create_primitive_procedure(global_env);
+  repl("simple scheme> ", global_env);
 }
