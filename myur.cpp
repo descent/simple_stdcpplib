@@ -510,7 +510,16 @@ int mymain()
       USART_SendData(USART2, ch);
     //send_string("ur output\n");
   }
+
+
+  while(1)
+  {
+    int ch=getchar();
+    send_byte(ch);
+  }
+
 #endif
+  mydeque.init();
   init_eval();
   Environment *global_env = get_env(0, "global");
   create_primitive_procedure(global_env);
