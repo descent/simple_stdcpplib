@@ -28,20 +28,81 @@ void myprint(int num)
 
 int keep_char = -1;
 
+MyDeque mydeque;
+
 int ungetch(int c)
 {
 #if 0
   myprint("\r\nun: ");
   myprint(c);
   myprint("\r\n");
-#endif
   keep_char = c;
+#endif
+  mydeque.push_front(c);
   return 0;
+}
+
+int read_char()
+{
+  while(USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == RESET);
+  return (USART_ReceiveData(USART2) & 0x7F);
 }
 
 int getchar()
 {
   int b;
+
+  if (mydeque.empty())
+  {
+    while(1)
+    {
+
+    b = read_char();
+
+    switch (b)
+    {
+      case 0x8: // backspace
+      {
+        if (mydeque.can_push() == false)
+          break;
+
+        send_byte(b);
+        send_byte(' ');
+        send_byte(b);
+        mydeque.pop_back(b);
+        break;
+      }
+#if 0
+      case '\n':
+      {
+        break;
+      }
+#endif
+      default:
+      {
+        if (b == '\r') // enter
+        {
+          myprint("\r\n");
+          mydeque.push_back(b);
+          goto end;
+        }
+        else
+          send_byte(b);
+
+        mydeque.push_back(b);
+        break;
+      }
+    }
+      if (mydeque.full())
+        break;
+    }
+
+  }
+
+end:
+    int ch;
+    mydeque.pop_front(ch);
+    return ch;
 
   if (keep_char != -1 )
   {
@@ -59,6 +120,14 @@ int getchar()
       {
         myprint("\r\n");
         break;
+      }
+      case 0x8: // backspace
+      {
+        send_byte(b);
+        send_byte(' ');
+        send_byte(b);
+        return getchar();
+        //break;
       }
 #if 0
       case '\n':
