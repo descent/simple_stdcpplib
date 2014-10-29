@@ -1,12 +1,13 @@
 #ifndef MYDEQUE_H
 #define MYDEQUE_H
 
-const int DEQUE_LEN = 10;
+const int DEQUE_LEN = 128;
 
 class MyDeque
 {
   public:
-    explicit MyDeque();
+    //explicit MyDeque();
+    bool init();
     bool push_back(int ch);
     bool pop_front(int &ch);
     bool push_front(int ch);
@@ -40,7 +41,14 @@ class MyDeque
       else
         return false;
     }
-  private:
+    bool full()
+    {
+      return (!can_push());
+    }
+    bool empty()
+    {
+      return (!can_pop());
+    }
     bool can_push()
     {
       int next_begin = ((begin() + 1) % len_);
@@ -56,6 +64,7 @@ class MyDeque
       else
         return true;
     }
+  private:
     int q_[DEQUE_LEN];
     int len_;
     int begin_, end_;

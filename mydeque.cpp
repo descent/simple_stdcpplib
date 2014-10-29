@@ -1,9 +1,15 @@
 #include "mydeque.h"
 
-// init: 
+#if 0
 // begin_ = end_ = 0;
 // q leave one empty space when full
 MyDeque::MyDeque()
+{
+  len_ = DEQUE_LEN;
+  begin_ = end_ = 0;
+}
+#endif
+bool MyDeque::init()
 {
   len_ = DEQUE_LEN;
   begin_ = end_ = 0;
