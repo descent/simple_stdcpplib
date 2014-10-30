@@ -26,6 +26,6 @@ include $(sources:.cpp=.dpp)
 
 	
 clean:
-	rm -rf *.o *.elf *.bin *.dpp
+	rm -rf *.o *.elf *.bin *.dpp *.dpp.*
 distclean: clean
 	find . -type l -exec rm -f {} \;
