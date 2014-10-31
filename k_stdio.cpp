@@ -63,7 +63,7 @@ int getchar()
     {
       case 0x8: // backspace
       {
-        if (mydeque.can_push() == false)
+        if (mydeque.empty())
           break;
 
         send_byte(b);
