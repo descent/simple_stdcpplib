@@ -3,7 +3,7 @@
 
 #include "lib_mygpio_led.h"
 
-#define STACK_SIZE 10240
+#define STACK_SIZE 0xffff
 extern unsigned long _etext;
 extern unsigned long _data;
 extern unsigned long _edata;
@@ -89,14 +89,16 @@ void exti0_isr(void);
 #endif
 
 typedef void (*pfnISR)(void);
-__attribute__((section(".stackares")))
-static unsigned long pulStack[STACK_SIZE];
+
+static unsigned long pulStack[10] __attribute__((section(".stackares")));
+ __attribute__((section(".ccm")))
+static u8 stack[STACK_SIZE];
 
 
 __attribute__((section(".isr_vector")))
 pfnISR VectorTable[]=
 {
-  (pfnISR)((unsigned long)pulStack+sizeof(pulStack)),
+  (pfnISR)((unsigned long)stack + STACK_SIZE),
   ResetISR, // 1
   int_isr,
   int_isr,
