@@ -11,7 +11,8 @@ MEMORY
 MEMORY
 {
   FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 1024K
-  SRAM (xrw)       : ORIGIN = 0x20000000, LENGTH = 192K
+  CCM (rw )       : ORIGIN = 0x10000000, LENGTH = 64K /* 0x1000_0000 ~ 0x1000_FFFF. */
+  SRAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 128K
   MEMORY_B1 (rx)  : ORIGIN = 0x60000000, LENGTH = 0K
 }
 
@@ -25,6 +26,14 @@ SECTIONS
     *(.rodata .rodata*)
     _etext = .;
   } > FLASH
+
+  .ccm(NOLOAD):
+  {
+    . = ALIGN(8);
+    *(.ccm)
+    . = ALIGN(8);
+  } > CCM
+
   .data : AT (_etext)
   {
     _data = .;
