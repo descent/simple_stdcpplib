@@ -11,22 +11,114 @@ using namespace std;
 //namespace DS
 //{
 
-const int DEQUE_LEN = 3;
+const int DEQUE_LEN = 30;
 
 template <typename ElmType>
 class Deque
 {
   public:
     //explicit MyDeque();
-    bool init();
+    bool init()
+    {
+      len_ = DEQUE_LEN;
+      begin_ = end_ = 0;
+    }
 
 
-    bool push_back(ElmType &ch);
-    bool back(int i, ElmType &elm);
-    bool pop_front();
-    bool pop_front(ElmType &ch);
-    bool push_front(int ch);
-    bool pop_back(int &ch);
+    bool push_back(ElmType &ch)
+    {
+      if (ready() == false) 
+        return false;
+    // copy ch to begin point
+    // ++begin
+
+      bool ret = true;
+      if (can_push())
+      {
+        *(q_ + begin_) = ch;
+        begin_ = ((begin_ + 1) % len_);
+      }
+      else
+        ret = false;
+      return ret;
+    }
+
+    bool back(int i, ElmType &elm)
+    {
+      if (ready() == false) 
+        return false;
+
+      bool ret = true;
+
+      int b = ((begin_ - i + len_) % len_);
+
+      if (b == end())
+      {
+        ret = false;
+      }
+      else
+      {
+        elm = *(q_ + b - 1);
+      }
+      return ret;
+    }
+    bool pop_front()
+    {
+      ElmType ch;
+      return pop_front(ch);
+    }
+    bool pop_front(ElmType &ch)
+    {
+      if (ready() == false) 
+        return false;
+    // return end point value, ++end
+      bool ret = true;
+      if (can_pop())
+      {
+        ch = *(q_ + end_);
+        end_ = ((end_ + 1) % len_);
+      }
+      else
+      {
+        ret = false;
+      }
+      return ret;
+    }
+
+    bool push_front(int ch)
+    {
+      if (ready() == false) 
+        return false;
+      bool ret = true;
+
+      // has space to push
+      if (can_push())
+      {
+        end_ = ((end_ + len_ - 1) % len_);
+        *(q_ + end_) = ch;
+      }
+      else
+        ret = false;
+      return ret;
+    }
+
+    bool pop_back(int &ch)
+    {
+      if (ready() == false) 
+        return false;
+
+      bool ret = true;
+      if (can_pop())
+      {
+        begin_ = ((begin_ - 1) % len_);
+        ch = *(q_ + begin_);
+      }
+      else
+      {
+        ret = false;
+      }
+      return ret;
+    }
 
     int len() const {return len_;}
     int begin() const {return begin_;}
