@@ -59,7 +59,7 @@ class Deque
       }
       else
       {
-        elm = *(q_ + b - 1);
+        elm = *(q_ + (b - 1 + len_) % len_);
       }
       return ret;
     }
