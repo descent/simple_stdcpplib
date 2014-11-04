@@ -21,13 +21,21 @@ int main()
   deque.init();
 
   move(0,0);
+  int fail_time=1;
   while(1)
   {
     char str[128];
     getstr(str);
     move(0,0);
     std::string s(str);
-    deque.push_back(s);
+    if (deque.push_back(s) == false)
+    {
+      mvprintw(20, 0, "push back fail ## %d", fail_time++);
+      deque.pop_front();
+      deque.push_back(s);
+    }
+
+    deque.print();
 
     int index=0;
     noecho();
