@@ -8,10 +8,14 @@
 
 #include <iostream>
 using namespace std;
+
+#ifdef USE_NCURSES
+#include <ncurses.h>
+#endif
 //namespace DS
 //{
 
-const int DEQUE_LEN = 30;
+const int DEQUE_LEN = 5;
 
 template <typename ElmType>
 class Deque
@@ -126,7 +130,7 @@ class Deque
     int end() const {return end_;}
     bool print()
     {
-#if 1
+#if 0
       cout << "begin: " << begin_ << endl;
       cout << "end: " << end_ << endl;
       if (ready() == false) return false;
@@ -138,6 +142,21 @@ class Deque
         i = (i + 1) % len_;
       }
       cout << " --" << endl;
+      return true;
+#endif
+#ifdef USE_NCURSES
+      mvprintw(0, 40, "begin: %d", begin_);
+      mvprintw(1, 40, "end: %d", end_);
+      if (ready() == false) return false;
+      int e = end();
+
+      int j=2;
+      for (int i=e ; i != begin() ; )
+      {
+        string s = *(q_ + i);
+        mvprintw(j++, 40, s.c_str());
+        i = (i + 1) % len_;
+      }
       return true;
 #endif
     }
