@@ -72,9 +72,14 @@ int main()
           }
           break;
         }
+        case 'q':
+        {
+          goto end;
+        }
         default:
         {
           ungetch(ch);
+          move(0, 0);
           goto outer;
           break;
         }
@@ -85,7 +90,7 @@ int main()
     outer:
     echo();
   }
-
+end:
   endwin();
   return 0;
 }
