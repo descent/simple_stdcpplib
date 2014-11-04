@@ -47,6 +47,7 @@ class Deque
     {
       if (ready() == false) 
         return false;
+      if (i < 0) return false;
 
       bool ret = true;
 
