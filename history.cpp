@@ -39,23 +39,37 @@ int main()
 
     int index=0;
     noecho();
+    string ps;
     while(1)
     {
+      mvprintw(17, 0, "index: %d", index);
+      refresh();
       int ch = getch();
       switch(ch)
       {
         case KEY_UP:
         {
-          string ps;
+          ++index;
           if (deque.back(index, ps) == true)
           {
-            ++index;
             mvprintw(0, 15, "%s", ps.c_str());
           }
+          else
+            --index;
           break;
         }
         case KEY_DOWN:
         {
+          --index;
+          if (deque.back(index, ps) == true)
+          {
+            mvprintw(0, 15, "%s", ps.c_str());
+          }
+          else
+          {
+            //mvprintw(17, 5, "back fail");
+            ++index;
+          }
           break;
         }
         default:
@@ -65,6 +79,8 @@ int main()
           break;
         }
       }
+      mvprintw(17, 0, "index: %d", index);
+      refresh();
     }
     outer:
     echo();
