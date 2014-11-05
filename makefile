@@ -8,7 +8,7 @@ myur.bin: myur.elf
 myur.elf: myur.o cell.o  s_eval.o  token_container.o k_stdio.o mydeque.o
 	$(CXX) $(LD_FLAGS) -o $@ $^
 
-sources = cell.cpp  k_stdio.cpp  mydeque.cpp  myur.cpp  s_eval.cpp  token_container.cpp
+sources = cell.cpp  k_stdio.cpp  mydeque.cpp  myur.cpp  s_eval.cpp  token_container.cpp gdeque.cpp cstring.cpp
 
 include $(sources:.cpp=.dpp)
 
