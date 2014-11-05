@@ -6,12 +6,16 @@
 #ifndef GDEQUE_H
 #define GDEQUE_H
 
-#include <iostream>
-using namespace std;
+
+//#define USE_NCURSES
 
 #ifdef USE_NCURSES
-#include <ncurses.h>
+  #include <ncurses.h>
+#else
+  #include <iostream>
+  using namespace std;
 #endif
+
 namespace DS
 {
 
@@ -139,7 +143,9 @@ class Deque
       int e = end();
       for (int i=e ; i != begin() ; )
       {
-        cout << *(q_ + i) << " ";
+        ElmType e = *(q_ + i);
+        //cout << *(q_ + i) << " ";
+        cout << e.c_str() << " ";
         i = (i + 1) % len_;
       }
       cout << " --" << endl;
@@ -154,7 +160,7 @@ class Deque
       int j=2;
       for (int i=e ; i != begin() ; )
       {
-        string s = *(q_ + i);
+        ElmType s = *(q_ + i);
         mvprintw(j++, 40, s.c_str());
         i = (i + 1) % len_;
       }
@@ -199,11 +205,5 @@ class Deque
     int begin_front_, end_front_;
 };
 
-#if 0
-template<> class Deque<char*>
-{
-};
-#endif
-
-}
+} // end namespace DS
 #endif
