@@ -2,9 +2,11 @@
 #include <locale.h>
 #include <string>
 
-using namespace std;
-
 #include "gdeque.h"
+
+using namespace std;
+using namespace DS;
+
 
 int main()
 {
