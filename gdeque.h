@@ -12,10 +12,11 @@ using namespace std;
 #ifdef USE_NCURSES
 #include <ncurses.h>
 #endif
-//namespace DS
-//{
+namespace DS
+{
 
 const int DEQUE_LEN = 5;
+
 
 template <typename ElmType>
 class Deque
@@ -198,5 +199,11 @@ class Deque
     int begin_front_, end_front_;
 };
 
-//}
+#if 0
+template<> class Deque<char*>
+{
+};
+#endif
+
+}
 #endif
