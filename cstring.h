@@ -1,9 +1,13 @@
 #ifndef CSTRING_H
 #define CSTRING_H
 
+#ifdef OS_CPP
 #include <stdio.h>
-
 using namespace std;
+#else
+#include "k_stdio.h"
+#define printf myprint
+#endif
 
 const int STRING_LEN = 128;
 

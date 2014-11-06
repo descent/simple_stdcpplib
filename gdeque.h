@@ -9,11 +9,16 @@
 
 //#define USE_NCURSES
 
+#ifdef OS_CPP
 #ifdef USE_NCURSES
   #include <ncurses.h>
 #else
   #include <iostream>
   using namespace std;
+#endif
+
+#else
+
 #endif
 
 namespace DS

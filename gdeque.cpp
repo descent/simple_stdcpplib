@@ -1,8 +1,9 @@
 #include "gdeque.h"
 
+#ifdef OS_CPP
 #include <string>
-
 using namespace std;
+#endif
 
 #define TEST_PUSH_BACK(type, val) \
 { \
