@@ -486,7 +486,6 @@ uint16_t USART_ReceiveData(USART_TypeDef* USARTx)
   return (uint16_t)(USARTx->DR & (uint16_t)0x01FF);
 }
 
-
 uint8_t get_byte()
 {
   while(USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == RESET);
@@ -494,28 +493,113 @@ uint8_t get_byte()
   return (USART_ReceiveData(USART2) & 0x7F);
 } 
 
+u8 buf[20];
+
+void go_up()
+{
+  send_byte(27);
+  send_byte(91);
+  send_byte('A');
+}
+
+void go_down()
+{
+  send_byte(27);
+  send_byte(91);
+  send_byte('B');
+}
+
+void go_right()
+{
+  send_byte(27);
+  send_byte(91);
+  send_byte('C');
+}
+
+void go_left()
+{
+  send_byte(27);
+  send_byte(91);
+  send_byte('D');
+}
+
+
 int mymain()
 {
   init_usart(9600);
   //init_command();
 
   ur_puts(USART2, "Init complete! Hello World!\r\n");
+  // up key \033[A  
+  // down key: \033[B
+ 
+#if 1
+  u16 ch16;
+  u8 ch;
+  int i=0;
+  while(1)
+  {
+    //ch16 = get_2byte();
+    ch = get_byte();
+    buf[i++] = ch;
+
+    switch (ch)
+    {
+      case 27:
+      {
+        ch = get_byte();
+        if (ch == '[')
+        {
+          ch = get_byte();
+          switch (ch)
+          {
+            case 'A':
+            {
+              go_up();
+              break;
+            }
+            case 'B':
+            {
+              go_down();
+              break;
+            }
+            case 'C':
+            {
+              go_right();
+              break;
+            }
+            case 'D':
+            {
+              go_left();
+              break;
+            }
+          }
+
+
+        }
+        break;
+      }
+      case '\r':
+      {
+        myprint("\r\n");
+      }
+      default:
+      {
+        send_byte(ch);
+      }
+      
+    }
 #if 0
-  while(1)
-  {
-    char ch = get_byte();
     if (ch == '\r') // enter, 0x13
-      ur_puts(USART2, "\r\n");
+    {
+      //ur_puts(USART2, "\r\n");
+      myprint("\r\n");
+    }
     else
-      USART_SendData(USART2, ch);
-    //send_string("ur output\n");
-  }
-
-
-  while(1)
-  {
-    int ch=getchar();
-    send_byte(ch);
+    {
+      send_byte(ch);
+    }
+#endif
   }
 
 #endif
