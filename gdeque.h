@@ -140,7 +140,7 @@ class Deque
     int end() const {return end_;}
     bool print()
     {
-#if 0
+#ifdef OS_CPP
       cout << "begin: " << begin_ << endl;
       cout << "end: " << end_ << endl;
       if (ready() == false) return false;
