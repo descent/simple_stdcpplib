@@ -24,8 +24,7 @@
 namespace DS
 {
 
-const int DEQUE_LEN = 5;
-
+const int DEQUE_LEN = 32;
 
 template <typename ElmType>
 class Deque
@@ -61,7 +60,8 @@ class Deque
     {
       if (ready() == false) 
         return false;
-      if (i < 0) return false;
+      if (i < 0 || i >= size())
+        return false;
 
       bool ret = true;
 
@@ -100,7 +100,7 @@ class Deque
       return ret;
     }
 
-    bool push_front(int ch)
+    bool push_front(ElmType ch)
     {
       if (ready() == false) 
         return false;
@@ -117,7 +117,7 @@ class Deque
       return ret;
     }
 
-    bool pop_back(int &ch)
+    bool pop_back(ElmType &ch)
     {
       if (ready() == false) 
         return false;
@@ -133,6 +133,11 @@ class Deque
         ret = false;
       }
       return ret;
+    }
+    bool pop_back()
+    {
+      ElmType elm; 
+      return pop_back(elm);
     }
 
     int len() const {return len_;}
@@ -213,6 +218,10 @@ class Deque
         return false;
       else
         return true;
+    }
+    void clear()
+    {
+      init();
     }
   private:
     ElmType q_[DEQUE_LEN];
