@@ -180,6 +180,17 @@ class Deque
       else
         return false;
     }
+    int size() const
+    {
+      if (begin_ >= end_)
+      {
+        return begin_ - end_;
+      }
+      else
+      {
+        return DEQUE_LEN - end_ + begin_;
+      }
+    }
     bool full()
     {
       return (!can_push());
