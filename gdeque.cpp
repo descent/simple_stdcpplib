@@ -1,6 +1,6 @@
 #include "gdeque.h"
 
-#ifdef OS_CPP
+#ifdef TEST_GDEQUE
 #include <string>
 using namespace std;
 
