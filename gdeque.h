@@ -125,7 +125,7 @@ class Deque
       bool ret = true;
       if (can_pop())
       {
-        begin_ = ((begin_ - 1) % len_);
+        begin_ = ((begin_ - 1 + len_) % len_);
         ch = *(q_ + begin_);
       }
       else
