@@ -2,12 +2,17 @@
 #define CSTRING_H
 
 #ifdef OS_CPP
-#include <stdio.h>
+  #include <stdio.h>
+  #include <cstring>
 using namespace std;
 #else
-#include "k_stdio.h"
-#define printf myprint
+  #include "k_stdio.h"
+  #include "k_string.h"
+  #define strlen s_strlen
+  #define strcpy s_strcpy
+  #define printf myprint
 #endif
+
 
 const int STRING_LEN = 128;
 
@@ -17,6 +22,7 @@ namespace DS
   {
     public:
       bool init(const char *str);
+      bool init(){set_null();}
       CString& operator= ( const CString& other );
       const char *c_str() const
       {
@@ -26,6 +32,14 @@ namespace DS
       {
         init(s);
         return *this;
+      }
+      void set_null()
+      {
+        str_[0] = 0;
+      }
+      int length() const
+      {
+        return strlen(str_);
       }
       void print()
       {

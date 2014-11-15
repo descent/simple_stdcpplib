@@ -1,13 +1,5 @@
 #include "cstring.h"
 
-#ifdef OS_CPP
-  #include <cstring>
-#else
-  #include "k_string.h"
-  #define strlen s_strlen
-  #define strcpy s_strcpy
-#endif
-
 using namespace DS;
 
 bool CString::init(const char *str)
