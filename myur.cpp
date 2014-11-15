@@ -15,6 +15,8 @@
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_usart.h"
 #include "s_eval.h"
+#include "gdeque.h"
+#include "cstring.h"
 
 #ifdef __cplusplus
   #define   __I     volatile             /*!< defines 'read only' permissions                 */
@@ -495,34 +497,8 @@ uint8_t get_byte()
 
 u8 buf[20];
 
-void go_up()
-{
-  send_byte(27);
-  send_byte(91);
-  send_byte('A');
-}
-
-void go_down()
-{
-  send_byte(27);
-  send_byte(91);
-  send_byte('B');
-}
-
-void go_right()
-{
-  send_byte(27);
-  send_byte(91);
-  send_byte('C');
-}
-
-void go_left()
-{
-  send_byte(27);
-  send_byte(91);
-  send_byte('D');
-}
-
+Deque<DS::CString> deque;
+DS::Deque<int> line_buf;
 
 int mymain()
 {
@@ -533,79 +509,11 @@ int mymain()
   // up key \033[A  
   // down key: \033[B
  
-#if 1
-  u16 ch16;
-  u8 ch;
-  int i=0;
-  while(1)
-  {
-    //ch16 = get_2byte();
-    ch = get_byte();
-    buf[i++] = ch;
-
-    switch (ch)
-    {
-      case 27:
-      {
-        ch = get_byte();
-        if (ch == '[')
-        {
-          ch = get_byte();
-          switch (ch)
-          {
-            case 'A':
-            {
-              go_up();
-              break;
-            }
-            case 'B':
-            {
-              go_down();
-              break;
-            }
-            case 'C':
-            {
-              go_right();
-              break;
-            }
-            case 'D':
-            {
-              go_left();
-              break;
-            }
-          }
-
-
-        }
-        break;
-      }
-      case '\r':
-      {
-        myprint("\r\n");
-      }
-      default:
-      {
-        send_byte(ch);
-      }
-      
-    }
-#if 0
-    if (ch == '\r') // enter, 0x13
-    {
-      //ur_puts(USART2, "\r\n");
-      myprint("\r\n");
-    }
-    else
-    {
-      send_byte(ch);
-    }
-#endif
-  }
-
-#endif
+  deque.init();
+  line_buf.init();
   mydeque.init();
   init_eval();
   Environment *global_env = get_env(0, "global");
   create_primitive_procedure(global_env);
-  repl("simple scheme> ", global_env);
+  non_os_repl("simple scheme> ", global_env);
 }
