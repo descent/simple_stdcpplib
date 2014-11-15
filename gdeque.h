@@ -24,16 +24,16 @@
 namespace DS
 {
 
-const int DEQUE_LEN = 32;
+//const int DEQUE_LEN = 32;
 
-template <typename ElmType>
+template <typename ElmType, int deque_size=32>
 class Deque
 {
   public:
     //explicit MyDeque();
     bool init()
     {
-      len_ = DEQUE_LEN;
+      len_ = deque_size;
       begin_ = end_ = 0;
     }
 
@@ -193,7 +193,7 @@ class Deque
       }
       else
       {
-        return DEQUE_LEN - end_ + begin_;
+        return len_ - end_ + begin_;
       }
     }
     bool full()
@@ -224,7 +224,7 @@ class Deque
       init();
     }
   private:
-    ElmType q_[DEQUE_LEN];
+    ElmType q_[deque_size];
     int len_;
     int begin_, end_;
     int begin_front_, end_front_;
