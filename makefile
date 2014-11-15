@@ -5,10 +5,10 @@ CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS)
 
 myur.bin: myur.elf
 	arm-none-eabi-objcopy -Obinary $< $@
-myur.elf: myur.o cell.o  s_eval.o  token_container.o k_stdio.o mydeque.o
+myur.elf: myur.o cell.o  s_eval.o  token_container.o k_stdio.o cstring.o
 	$(CXX) $(LD_FLAGS) -o $@ $^
 
-sources = cell.cpp  k_stdio.cpp  mydeque.cpp  myur.cpp  s_eval.cpp  token_container.cpp gdeque.cpp cstring.cpp
+sources = cell.cpp  k_stdio.cpp  myur.cpp  s_eval.cpp  token_container.cpp gdeque.cpp cstring.cpp
 
 include $(sources:.cpp=.dpp)
 
