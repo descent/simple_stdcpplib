@@ -495,11 +495,6 @@ uint8_t get_byte()
   return (USART_ReceiveData(USART2) & 0x7F);
 } 
 
-u8 buf[20];
-
-Deque<DS::CString> deque;
-DS::Deque<int> line_buf;
-
 int mymain()
 {
   init_usart(9600);
@@ -509,11 +504,11 @@ int mymain()
   // up key \033[A  
   // down key: \033[B
  
-  deque.init();
-  line_buf.init();
   mydeque.init();
   init_eval();
   Environment *global_env = get_env(0, "global");
   create_primitive_procedure(global_env);
   non_os_repl("simple scheme> ", global_env);
+
+  return 0;
 }
