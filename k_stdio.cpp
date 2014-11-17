@@ -51,10 +51,10 @@ void DS::myprint(const char *str)
     send_byte(*p++);
 }
 
-void DS::myprint(int num)
+void DS::myprint(int num, int base)
 {
   char str[10];
-  s32_itoa_s(num, str, 10);
+  s32_itoa_s(num, str, base);
   myprint(str);
 }
 

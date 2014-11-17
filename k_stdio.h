@@ -22,7 +22,7 @@
 namespace DS
 {
   void myprint(const char *str);
-  void myprint(int num);
+  void myprint(int num, int base=10);
   void myprint_float(float num);
   void send_byte(u8 b);
   int ungetch(int c);
