@@ -1,7 +1,13 @@
 include rule.mk
 
 CFLAGS += $(MYCFLAGS)
+
+# only for -finstrument-functions
+#CFLAGS += $(MYCFLAGS) -DSP_STATUS -finstrument-functions
+
 CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS)
+
+
 
 myur.bin: myur.elf
 	arm-none-eabi-objcopy -Obinary $< $@
