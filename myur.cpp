@@ -1,5 +1,5 @@
 /*
- * test usart
+ * simple scheme on stm32F4XX
  *
  *
  */
@@ -8,9 +8,6 @@
 #define USE_STDPERIPH_DRIVER
 #include "stm32.h"
 #include "stm32f4xx_gpio.h"
-//#include "stm32f10x.h"
-//#include "stm32_p103.h"
-//#include "stm32f10x_rcc.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_usart.h"
@@ -423,26 +420,6 @@ void USART_SendData(USART_TypeDef* USARTx, uint16_t Data)
   USARTx->DR = (Data & (uint16_t)0x01FF);
 }
 
-#if 0
-void send_byte(uint8_t b)
-{
-	/* Send one byte */
-    USART_SendData(USART2, b);
-
-	/* Loop until USART2 DR register is empty */
-    while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
-}
-
-void send_string(char *word)
-{
-	while(*word!='\0')
-	{
-		send_byte(*word);
-		word++;
-	}
-}
-#endif
-
 //void ur_puts(USART_TypeDef* USARTx, volatile char *s)
 void ur_puts(USART_TypeDef* USARTx, const char *s)
 {
@@ -494,6 +471,34 @@ uint8_t get_byte()
     
   return (USART_ReceiveData(USART2) & 0x7F);
 } 
+
+extern "C"
+{
+
+#ifdef SP_STATUS
+u32 sp_val=0xffffffff;
+// ref: http://blog.linux.org.tw/~jserv/archives/001870.html
+__attribute__((__no_instrument_function__))
+void __cyg_profile_func_enter(void *this_func, void *call_site)
+{
+
+}
+
+__attribute__((__no_instrument_function__))
+void __cyg_profile_func_exit(void *this_func, void *call_site)
+{
+  u32 tmp_sp; 
+
+   __asm__ (
+             "mov %0, sp\n"
+             : "=r"(tmp_sp)
+             :
+           );
+  if (tmp_sp < sp_val)
+    sp_val = tmp_sp;
+}
+#endif
+}
 
 int mymain()
 {
