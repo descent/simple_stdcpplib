@@ -472,11 +472,29 @@ uint8_t get_byte()
   return (USART_ReceiveData(USART2) & 0x7F);
 } 
 
+#ifdef SP_STATUS
+u32 get_stack_reg()
+{
+  u32 tmp_sp; 
+
+  __asm__ (
+            "mov %0, sp\n"
+            : "=r"(tmp_sp)
+            :
+          );
+  return tmp_sp;
+}
+#endif
+
 extern "C"
 {
 
 #ifdef SP_STATUS
+
+
 u32 sp_val=0xffffffff;
+u32 tmp_sp; 
+
 // ref: http://blog.linux.org.tw/~jserv/archives/001870.html
 __attribute__((__no_instrument_function__))
 void __cyg_profile_func_enter(void *this_func, void *call_site)
@@ -487,13 +505,14 @@ void __cyg_profile_func_enter(void *this_func, void *call_site)
 __attribute__((__no_instrument_function__))
 void __cyg_profile_func_exit(void *this_func, void *call_site)
 {
-  u32 tmp_sp; 
 
-   __asm__ (
-             "mov %0, sp\n"
-             : "=r"(tmp_sp)
-             :
-           );
+  //tmp_sp =  get_stack_reg();
+
+  __asm__ volatile (
+            "mov %0, sp\n"
+            : "=&r"(tmp_sp)
+            :
+          );
   if (tmp_sp < sp_val)
     sp_val = tmp_sp;
 }
