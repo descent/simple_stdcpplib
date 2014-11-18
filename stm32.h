@@ -3,7 +3,7 @@
 
 #include "lib_mygpio_led.h"
 
-#define STACK_SIZE 0xffff
+#define STACK_SIZE 0xfff0
 extern unsigned long _etext;
 extern unsigned long _data;
 extern unsigned long _edata;
