@@ -10,7 +10,6 @@ using namespace std;
   #include "k_string.h"
   #define strlen s_strlen
   #define strcpy s_strcpy
-  #define printf myprint
 #endif
 
 
