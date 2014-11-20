@@ -1,9 +1,12 @@
 include rule.mk
 
+# make STACK_REG=1 will go -finstrument-functions
+ifndef STACK_REG
 CFLAGS += $(MYCFLAGS)
-
+else
 # only for -finstrument-functions
-#CFLAGS += $(MYCFLAGS) -DSP_STATUS -finstrument-functions
+CFLAGS += $(MYCFLAGS) -DSP_STATUS -finstrument-functions
+endif
 
 CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS)
 
