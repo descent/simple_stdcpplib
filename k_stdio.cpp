@@ -1,6 +1,8 @@
 #include "k_stdio.h"
 #include "k_string.h"
 
+
+
 void DS::go_up()
 {
   send_byte(27);
@@ -233,4 +235,195 @@ int DS::getch()
 int DS::ungetc(int c)
 {
   keep_char = c;
+}
+
+
+
+// ref: http://blog.csdn.net/slvher/article/details/9881171
+int DS::vsprintf(char *str, const char *fmt, va_list ap)
+{
+#if 0
+  int d;
+  char c, *p, *s;  
+  char *cur_char = str;
+  int len = 0;
+
+  __builtin_va_start(ap,fmt);
+  while(*fmt)
+  {
+    if (*fmt == '%')
+    {
+      ++fmt;
+      switch(*fmt)
+      {  
+        case 's':
+        {
+          s = __builtin_va_arg(ap, char *);  
+          len = s_strlen(s);
+          s_strcpy(cur_char, s);
+          cur_char += len;
+          break;
+        }
+        case 'd':
+        {
+          d = __builtin_va_arg(ap, int);
+          char num_str[10];
+          s32_itoa_s(d, num_str, 10);
+          len = s_strlen(num_str);
+          s_strcpy(cur_char, num_str);
+          cur_char += len;
+          break;
+        }
+        case 'c':
+        {
+          d = (char)__builtin_va_arg(ap, int);
+          *cur_char++ = d;
+          break;
+        }
+        default:
+        {
+          *cur_char++ = *fmt;
+        }
+      }
+    }
+    else
+    {
+      *cur_char++ = *fmt;
+    }
+    ++fmt;
+  }
+
+  __builtin_va_end(ap);
+  len = s_strlen(str);
+  return len;
+#endif
+}
+
+int DS::sprintf(char *str, const char *fmt, ...)
+{
+  va_list ap;
+
+  int d;
+  char c, *p, *s;  
+  char *cur_char = str;
+  int len = 0;
+
+  __builtin_va_start(ap,fmt);
+  while(*fmt)
+  {
+    if (*fmt == '%')
+    {
+      ++fmt;
+      switch(*fmt)
+      {  
+        case 's':
+        {
+          s = __builtin_va_arg(ap, char *);  
+          len = s_strlen(s);
+          s_strcpy(cur_char, s);
+          cur_char += len;
+          break;
+        }
+        case 'd':
+        {
+          d = __builtin_va_arg(ap, int);
+          char num_str[10];
+          s32_itoa_s(d, num_str, 10);
+          len = s_strlen(num_str);
+          s_strcpy(cur_char, num_str);
+          cur_char += len;
+          break;
+        }
+        case 'c':
+        {
+          d = (char)__builtin_va_arg(ap, int);
+          *cur_char++ = d;
+          break;
+        }
+        default:
+        {
+          *cur_char++ = *fmt;
+        }
+      }
+    }
+    else
+    {
+      *cur_char++ = *fmt;
+    }
+    ++fmt;
+  }
+  __builtin_va_end(ap);
+
+  *cur_char++ = 0;
+  len = s_strlen(str);
+  return len;
+}
+
+int DS::printf(const char *fmt, ...)
+{
+  va_list ap;
+
+  char str[256];
+
+  int d;
+  char c, *p, *s;  
+  char *cur_char = str;
+  int len = 0;
+
+  __builtin_va_start(ap,fmt);
+  while(*fmt)
+  {
+    if (*fmt == '%')
+    {
+      ++fmt;
+      switch(*fmt)
+      {  
+        case 's':
+        {
+          s = __builtin_va_arg(ap, char *);  
+          len = s_strlen(s);
+          s_strcpy(cur_char, s);
+          cur_char += len;
+          break;
+        }
+        case 'd':
+        {
+          d = __builtin_va_arg(ap, int);
+          char num_str[10];
+          s32_itoa_s(d, num_str, 10);
+          len = s_strlen(num_str);
+          s_strcpy(cur_char, num_str);
+          cur_char += len;
+          break;
+        }
+        case 'c':
+        {
+          d = (char)__builtin_va_arg(ap, int);
+          *cur_char++ = d;
+          break;
+        }
+        default:
+        {
+          *cur_char++ = *fmt;
+        }
+      }
+    }
+    else
+    {
+      if (*fmt == '\n')
+      {
+        s_strcpy(cur_char, "\r\n");
+        cur_char += 2;
+      }
+      else
+        *cur_char++ = *fmt;
+    }
+    ++fmt;
+  }
+
+  __builtin_va_end(ap);
+  *cur_char++ = 0;
+  len = s_strlen(str);
+  myprint(str);
+  return len;
 }

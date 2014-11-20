@@ -1,6 +1,8 @@
 #ifndef K_STDIO_H
 #define K_STDIO_H
 
+#include <stdarg.h>
+
 #ifdef P103
 #include "stm32f10x.h"
 #define BACKSPACE 127
@@ -36,6 +38,9 @@ namespace DS
   void go_left(int time);
   void go_up();
   void go_down();
+  int sprintf(char *str, const char *fmt, ...);
+  int vsprintf(char *str, const char *fmt, va_list ap);
+  int printf(const char *fmt, ...);
 }
 
 //extern MyDeque mydeque;
