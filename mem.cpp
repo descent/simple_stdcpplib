@@ -2,6 +2,10 @@
 
 #include <stdio.h>
 
+#define EXCEED_MEMAREA -1
+#define NO_FREE_MEMAREA -2
+#define GET_FREE_MEMAREA 0
+
 const int PAGE_SIZE = 1024;
 const int PAGE = 64;
 const int HEAP_SIZE = PAGE * PAGE_SIZE;
@@ -25,16 +29,77 @@ void print_memarea()
 namespace
 {
 
-// size: 1 means 1K, size max is 64
-void *mymalloc_internal(unsigned char size)
+int is_enough(int index, u8 size)
 {
-  if (free_index + size > PAGE)
+  if (index + size > PAGE) 
+    return EXCEED_MEMAREA;
+  
+  if (*(mem_area + index + size) != 0)
+    return NO_FREE_MEMAREA;
+
+  return GET_FREE_MEMAREA;
+}
+
+bool find_free_index(int from, int &index)
+{
+  for (int i = 0 ; i < PAGE-from ; ++i)
   {
-    return 0;
+    if (*(mem_area + from + i) == 0)
+    {
+      index = i + from;
+      return true;
+    }
+  }
+  return false;
+}
+
+bool search_free_area(u8 size)
+{
+  int status;
+  int tmp_index = 0;
+  int new_index;
+  int ret;
+
+  ret = find_free_index(tmp_index, new_index);
+  if (ret == false)
+    return false;
+
+  while(1)
+  {
+    status = is_enough(new_index, size);
+    if (status == EXCEED_MEMAREA)
+    {
+      printf("EXCEED_MEMAREA\n");
+      return false;
+    }
+    if (status == GET_FREE_MEMAREA)
+    {
+      free_index = new_index;
+      printf("new_index: %d\n", new_index);
+      return true;
+    }
+
+    tmp_index = new_index + size;
+    ret = find_free_index(tmp_index, new_index);
+    printf("still search tmp_index: %d\n", tmp_index);
+    printf("still search new_index: %d\n", new_index);
+    if (ret == false)
+      return false;
+  }
+}
+
+// size: 1 means 1K, size max is 64
+void *mymalloc_internal(u8 size)
+{
+  if (is_enough(free_index, size) != GET_FREE_MEMAREA)
+  {
+    printf("not enough\n");
+    if (search_free_area(size) == false)
+      return 0;
   }
   char * ptr = heap + free_index * PAGE_SIZE;
   #if 1
-  printf("xx free_index: %d\n", free_index);
+  printf("old free_index: %d\n", free_index);
   printf("xx heap: %p\n", heap);
   printf("xx ptr: %p\n", ptr);
   #endif
@@ -44,6 +109,7 @@ void *mymalloc_internal(unsigned char size)
     *(mem_area + free_index + i) = 1;
 
   free_index += size;
+  printf("new free_index: %d\n", free_index);
   return (void*)ptr;
 }
 
@@ -51,6 +117,8 @@ void *mymalloc_internal(unsigned char size)
 
 void *mymalloc(u32 size)
 {
+  printf("mymalloc: %d byte(s)\n", size);
+
   u32 page = size / PAGE_SIZE;
   u32 remain = size % PAGE_SIZE;
   if (remain != 0)
@@ -62,10 +130,13 @@ void *mymalloc(u32 size)
 
 void myfree(void *ptr)
 {
+  printf("myfree: %p\n", ptr);
   int index = ((char *)ptr - heap) / PAGE_SIZE;
-  unsigned char size = *mem_area;
+  printf("index: %d\n", index);
+  unsigned char size = *(mem_area + index);
+  printf("size: %d\n", size);
   for (int i=0 ; i < size ; ++i)
-    *(mem_area + i) = 0;
+    *(mem_area + index + i) = 0;
 }
 
 #ifdef TEST
@@ -82,12 +153,42 @@ int main(int argc, char *argv[])
   print_memarea(); 
   #else
 
+#if 0
   print_memarea(); 
   char *p1 = (char *)mymalloc(6*PAGE_SIZE);
   print_memarea(); 
 
   myfree(p1);
   print_memarea(); 
+
+  char *p2 = (char *)mymalloc(60*PAGE_SIZE);
+  if (p2 == 0)
+    printf("p2 is 0\n");
+  else
+    printf("p2: %p\n", p2);
+  print_memarea(); 
+#endif
+  char *p1 = (char *)mymalloc(5*PAGE_SIZE);
+  char *p2 = (char *)mymalloc(10*PAGE_SIZE);
+  char *p3 = (char *)mymalloc(48*PAGE_SIZE);
+  print_memarea(); 
+
+  myfree(p2);
+  print_memarea(); 
+
+  char *p4 = (char *)mymalloc(6*PAGE_SIZE);
+  if (p4 == 0)
+    printf("p4 is 0\n");
+  else
+    printf("p4: %p\n", p4);
+
+  print_memarea(); 
+
+  char *p5 = (char *)mymalloc(5*PAGE_SIZE);
+  if (p5 == 0)
+    printf("p5 is 0\n");
+  else
+    printf("p5: %p\n", p5);
 
 
 #if 0
