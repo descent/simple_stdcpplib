@@ -1,3 +1,5 @@
+#include "mem.h"
+
 #include <stdio.h>
 
 const int PAGE = 64;
@@ -18,15 +20,19 @@ void print_memarea()
   printf("\n");
 }
 
+
+namespace
+{
+
 // size: 1 means 1K, size max is 64
-void *mymalloc(unsigned char size)
+void *mymalloc_internal(unsigned char size)
 {
   if (free_index + size > PAGE)
   {
     return 0;
   }
   char * ptr = heap + free_index * 1024;
-  #if 0
+  #if 1
   printf("xx free_index: %d\n", free_index);
   printf("xx heap: %p\n", heap);
   printf("xx ptr: %p\n", ptr);
@@ -38,6 +44,19 @@ void *mymalloc(unsigned char size)
 
   free_index += size;
   return (void*)ptr;
+}
+
+} // end anonymous namespace
+
+void *mymalloc(u32 size)
+{
+  u32 page = size / 1024;
+  u32 remain = size % 1024;
+  if (remain != 0)
+    ++page;
+  printf("alloc size: %d\n", size);
+  printf("alloc page: %d\n", page);
+  return mymalloc_internal(page);
 }
 
 void myfree(void *ptr)
