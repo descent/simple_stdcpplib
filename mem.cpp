@@ -2,8 +2,9 @@
 
 #include <stdio.h>
 
+const int PAGE_SIZE = 1024;
 const int PAGE = 64;
-const int HEAP_SIZE = PAGE*1024;
+const int HEAP_SIZE = PAGE * PAGE_SIZE;
 char heap[HEAP_SIZE];
 unsigned char mem_area[PAGE];
 int free_index = 0;
@@ -31,7 +32,7 @@ void *mymalloc_internal(unsigned char size)
   {
     return 0;
   }
-  char * ptr = heap + free_index * 1024;
+  char * ptr = heap + free_index * PAGE_SIZE;
   #if 1
   printf("xx free_index: %d\n", free_index);
   printf("xx heap: %p\n", heap);
@@ -50,8 +51,8 @@ void *mymalloc_internal(unsigned char size)
 
 void *mymalloc(u32 size)
 {
-  u32 page = size / 1024;
-  u32 remain = size % 1024;
+  u32 page = size / PAGE_SIZE;
+  u32 remain = size % PAGE_SIZE;
   if (remain != 0)
     ++page;
   printf("alloc size: %d\n", size);
@@ -61,13 +62,13 @@ void *mymalloc(u32 size)
 
 void myfree(void *ptr)
 {
-  int index = ((char *)ptr - heap) / 1024;
+  int index = ((char *)ptr - heap) / PAGE_SIZE;
   unsigned char size = *mem_area;
   for (int i=0 ; i < size ; ++i)
     *(mem_area + i) = 0;
 }
 
-#if 0
+#ifdef TEST
 int main(int argc, char *argv[])
 {
   printf("heap: %p\n", heap);
@@ -82,7 +83,7 @@ int main(int argc, char *argv[])
   #else
 
   print_memarea(); 
-  char *p1 = (char *)mymalloc(6);
+  char *p1 = (char *)mymalloc(6*PAGE_SIZE);
   print_memarea(); 
 
   myfree(p1);
