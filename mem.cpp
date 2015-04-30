@@ -176,6 +176,24 @@ int main(int argc, char *argv[])
     printf("p2: %p\n", p2);
   print_memarea(); 
 #endif
+
+#define TEST_MERGE_FREE_AREA
+#ifdef TEST_MERGE_FREE_AREA
+  char *p1 = (char *)mymalloc(4*PAGE_SIZE);
+  char *p2 = (char *)mymalloc(2*PAGE_SIZE);
+  print_memarea(); 
+  myfree(p2);
+
+  p2 = (char *)mymalloc(60*PAGE_SIZE);
+  if (p2 == 0)
+    printf("p2: 0\n");
+  else
+    printf("p2: %p\n", p2);
+
+  print_memarea(); 
+#endif
+
+#ifdef TEST_ALLOC_THEN_FREE
   char *p1 = (char *)mymalloc(5*PAGE_SIZE);
   char *p2 = (char *)mymalloc(10*PAGE_SIZE);
   char *p3 = (char *)mymalloc(48*PAGE_SIZE);
@@ -197,7 +215,7 @@ int main(int argc, char *argv[])
     printf("p5 is 0\n");
   else
     printf("p5: %p\n", p5);
-
+#endif
 
 #if 0
   char *p2 = (char *)mymalloc(3);
