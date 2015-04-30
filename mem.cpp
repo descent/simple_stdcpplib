@@ -2,6 +2,13 @@
 
 #include <stdio.h>
 
+// #define DEBUG_MSG
+#ifdef DEBUG_MSG
+  #define PF(...) printf(...)
+#else
+  #define PF(...) 
+#endif
+
 #define EXCEED_MEMAREA -1
 #define NO_FREE_MEMAREA -2
 #define GET_FREE_MEMAREA 0
@@ -13,9 +20,15 @@ char heap[HEAP_SIZE];
 unsigned char mem_area[PAGE];
 int free_index = 0;
 
+#define PRINT_PTR(p) \
+  if (p == 0) \
+    printf("p: 0\n"); \
+  else \
+    printf("p: %p\n", p);
+
 void print_memarea()
 {
-  printf("================\n");
+  printf("----------------\n");
   printf("free_index: %d\n", free_index);
   for (int i = 0 ; i < PAGE ; ++i)
   {
@@ -106,18 +119,16 @@ void *mymalloc_internal(u8 size)
       return 0;
   }
   char * ptr = heap + free_index * PAGE_SIZE;
-  #if 1
-  printf("old free_index: %d\n", free_index);
-  printf("xx heap: %p\n", heap);
-  printf("xx ptr: %p\n", ptr);
-  #endif
+  PF("old free_index: %d\n", free_index);
+  PF("xx heap: %p\n", heap);
+  PF("xx ptr: %p\n", ptr);
   *(mem_area + free_index) = size;
 
   for (int i = 1 ; i < size ; ++i)
     *(mem_area + free_index + i) = 1;
 
   free_index += size;
-  printf("new free_index: %d\n", free_index);
+  PF("new free_index: %d\n", free_index);
   return (void*)ptr;
 }
 
@@ -131,8 +142,9 @@ void *mymalloc(u32 size)
   u32 remain = size % PAGE_SIZE;
   if (remain != 0)
     ++page;
-  printf("alloc size: %d\n", size);
-  printf("alloc page: %d\n", page);
+
+  PF("alloc size: %d\n", size);
+  PF("alloc page: %d\n", page);
   return mymalloc_internal(page);
 }
 
@@ -169,7 +181,7 @@ int main(int argc, char *argv[])
   print_memarea(); 
   #else
 
-#if 0
+#if 1
   print_memarea(); 
   char *p1 = (char *)mymalloc(6*PAGE_SIZE);
   print_memarea(); 
@@ -178,14 +190,11 @@ int main(int argc, char *argv[])
   print_memarea(); 
 
   char *p2 = (char *)mymalloc(60*PAGE_SIZE);
-  if (p2 == 0)
-    printf("p2 is 0\n");
-  else
-    printf("p2: %p\n", p2);
+  PRINT_PTR(p2)
   print_memarea(); 
 #endif
 
-#define TEST_MERGE_FREE_AREA
+// #define TEST_MERGE_FREE_AREA
 #ifdef TEST_MERGE_FREE_AREA
   char *p1 = (char *)mymalloc(4*PAGE_SIZE);
   char *p2 = (char *)mymalloc(2*PAGE_SIZE);
