@@ -101,7 +101,7 @@ void *mymalloc_internal(u8 size)
 {
   if (is_enough(free_index, size) != GET_FREE_MEMAREA)
   {
-    printf("not enough\n");
+    printf("not enough: free_index: %d, size: %d\n", free_index, size);
     if (search_free_area(size) == false)
       return 0;
   }
