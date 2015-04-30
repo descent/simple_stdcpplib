@@ -34,10 +34,16 @@ namespace
 int is_enough(int index, u8 size)
 {
   if (index + size > PAGE) 
+  {
+    printf("EXCEED_MEMAREA\n");
     return EXCEED_MEMAREA;
+  }
   
-  if (*(mem_area + index + size) != 0)
+  if (*(mem_area + index + size - 1) != 0)
+  {
+    printf("NO_FREE_MEMAREA\n");
     return NO_FREE_MEMAREA;
+  }
 
   return GET_FREE_MEMAREA;
 }
