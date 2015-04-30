@@ -145,6 +145,14 @@ void myfree(void *ptr)
   printf("size: %d\n", size);
   for (int i=0 ; i < size ; ++i)
     *(mem_area + index + i) = 0;
+
+#if 1
+  // 假如 free 掉的這塊, 可以和 free_index 合併, 就可以移動 free_index
+  if ((index + size) == free_index);
+  {
+    free_index -= size;
+  }
+#endif
 }
 
 #ifdef TEST
