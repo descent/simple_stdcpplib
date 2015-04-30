@@ -15,6 +15,7 @@ int free_index = 0;
 
 void print_memarea()
 {
+  printf("================\n");
   printf("free_index: %d\n", free_index);
   for (int i = 0 ; i < PAGE ; ++i)
   {
@@ -23,6 +24,7 @@ void print_memarea()
     printf("%02d ", mem_area[i]);
   }
   printf("\n");
+  printf("================\n");
 }
 
 
