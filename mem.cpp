@@ -160,9 +160,11 @@ void myfree(void *ptr)
 
 #if 1
   // 假如 free 掉的這塊, 可以和 free_index 合併, 就可以移動 free_index
-  if ((index + size) == free_index);
+  if ((index + size) == free_index)
   {
+    PF("\told free_index: %d, index: %d, size: %d\n", free_index, index, size);
     free_index -= size;
+    PF("\tmerge free_index: %d\n", free_index);
   }
 #endif
 }
