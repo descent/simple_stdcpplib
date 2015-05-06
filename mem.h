@@ -6,5 +6,6 @@ typedef unsigned int u32;
 
 void *mymalloc(u32 size);
 void myfree(void *ptr);
+void print_memarea();
 
 #endif

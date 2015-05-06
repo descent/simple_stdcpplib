@@ -1,6 +1,18 @@
 #include "mem.h"
 
+
+#ifdef STM32
+
+#include "k_stdio.h"
+using namespace DS;
+#define NL "\r\n"
+
+#else
 #include <stdio.h>
+#define NL "\n"
+
+#endif
+
 
 // #define DEBUG_MSG
 #ifdef DEBUG_MSG
@@ -28,16 +40,20 @@ int free_index = 0;
 
 void print_memarea()
 {
-  printf("----------------\n");
-  printf("free_index: %d\n", free_index);
+  printf("----------------");
+  printf(NL);
+  printf("free_index: %d", free_index);
+  printf(NL);
   for (int i = 0 ; i < PAGE ; ++i)
   {
     if (i % 8 == 0)
-      printf("\n");
-    printf("%02d ", mem_area[i]);
+      printf(NL);
+    //printf("%02d ", mem_area[i]);
+    printf("%d ", mem_area[i]);
   }
-  printf("\n");
-  printf("================\n");
+  printf(NL);
+  printf("================");
+  printf(NL);
 }
 
 
