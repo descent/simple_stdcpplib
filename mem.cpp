@@ -48,8 +48,11 @@ void print_memarea()
   {
     if (i % 8 == 0)
       printf(NL);
-    //printf("%02d ", mem_area[i]);
+    #ifdef STM32
     printf("%d ", mem_area[i]);
+    #else
+    printf("%02d ", mem_area[i]);
+    #endif
   }
   printf(NL);
   printf("================");
