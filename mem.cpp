@@ -25,12 +25,14 @@ using namespace DS;
 #define NO_FREE_MEMAREA -2
 #define GET_FREE_MEMAREA 0
 
-const int PAGE_SIZE = 1024;
-const int PAGE = 64;
-const int HEAP_SIZE = PAGE * PAGE_SIZE;
+const int HEAP_SIZE = 64 * 1024;
+
+const int PAGE_SIZE = 128;
+const int PAGE = HEAP_SIZE/PAGE_SIZE;
 char heap[HEAP_SIZE];
-unsigned char mem_area[PAGE];
-int free_index = 0;
+// unsigned char mem_area[PAGE];
+unsigned short mem_area[HEAP_SIZE/PAGE_SIZE];
+unsigned int free_index = 0;
 
 #define PRINT_PTR(p) \
   if (p == 0) \
@@ -51,7 +53,7 @@ void print_memarea()
     #ifdef STM32
     printf("%d ", mem_area[i]);
     #else
-    printf("%02d ", mem_area[i]);
+    printf("%04d ", mem_area[i]);
     #endif
   }
   printf(NL);
