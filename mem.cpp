@@ -9,6 +9,8 @@ using namespace DS;
 
 #else
 #include <stdio.h>
+#include <unistd.h> // sbrk
+
 #define NL "\n"
 
 #endif
@@ -188,6 +190,97 @@ void myfree(void *ptr)
     PF("\tmerge free_index: %d\n", free_index);
   }
 #endif
+}
+
+namespace 
+{
+  LIST::Header base;
+  LIST::Header *freep = 0;
+}
+
+namespace LIST
+{
+  const int NALLOC = 1024; // minimum units to request
+
+  void free(void *ap)
+  {
+    Header *bp, *p;
+
+    bp = (Header *)ap -1;
+
+    for (p=freep ; !(bp > p && bp < p->s.ptr) ; p = p->s.ptr)
+      if (p >= p->s.ptr && (bp > p || bp < p->s.ptr))
+        break;
+
+    if (bp + bp->s.size == p->s.ptr)
+    {
+      bp->s.size += p->s.ptr->s.size;
+      bp->s.ptr = p->s.ptr->s.ptr;
+    }
+    else
+      bp->s.ptr = p->s.ptr;
+
+    if (p + p->s.size == bp)
+    {
+      p->s.size += bp->s.size;
+      p->s.ptr = bp->s.ptr;
+    }
+    else
+      p->s.ptr = bp;
+
+    freep = p;
+  }
+
+  Header *morecore(u32 nu)
+  {
+    char *cp;
+    Header *up;
+
+    if (nu < NALLOC)
+      nu = NALLOC;
+    cp = (char *)sbrk(nu*sizeof(Header));
+    if (cp == (char *)(-1))
+      return 0;
+    up = (Header*)cp;
+    up->s.size = nu;
+    free((void*)(up+1));
+    return freep;
+  }
+
+  void *malloc(u32 nbytes)
+  {
+    Header *p, *prevp;
+    Header *morecore(u32);
+    u32 nunits;
+    nunits = (nbytes + sizeof(Header) - 1)/sizeof(Header) + 1;
+
+    if ((prevp = freep) == 0) // no free list yet
+    {
+      base.s.ptr = freep = prevp = &base;
+      base.s.size = 0;
+    }
+    for (p=prevp->s.ptr ; ; prevp = p, p = p->s.ptr)
+    {
+      if (p->s.size >= nunits)
+      {
+        if (p->s.size == nunits)
+          prevp->s.ptr = p->s.ptr;
+        else
+        {
+          p->s.size -= nunits;
+          p += p->s.size;
+          p->s.size = nunits;
+        }
+        freep = prevp;
+        return (void *)(p+1);
+      }
+      if (p == freep)
+        if ((p = morecore(nunits)) == 0)
+          return 0;
+    }
+
+  }
+
 }
 
 #ifdef TEST
