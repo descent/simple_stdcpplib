@@ -196,11 +196,49 @@ namespace
 {
   LIST::Header base;
   LIST::Header *freep = 0;
+  char *brk_addr;
 }
 
 namespace LIST
 {
   const int NALLOC = 1024; // minimum units to request
+
+  void print_header(const Header *h, const char *prompt=0)
+  {
+    if (prompt != 0)
+      printf("%s\n", prompt);
+    if (h==0)
+      printf("self: 0\n");
+    else
+      printf("self: %p\n", h);
+    if (h->s.ptr==0)
+      printf("s.ptr: 0\n");
+    else
+      printf("s.ptr: %p\n", h->s.ptr);
+    printf("s.size: %d\n", h->s.size);
+  }
+
+
+
+  void print_free_list()
+  {
+    if (freep == 0)
+    {
+      printf("free list is empty\n");
+      return;
+    }
+    Header *p;
+
+    for (p = freep ; ; p=p->s.ptr)
+    {
+      if (p == (Header *)brk_addr)
+        printf("p: %p (brk addr)\n", p);
+      else
+        printf("p: %p%s", p, p == &base ? " (base)\n" : "\n");
+      if (p->s.ptr == freep)
+        break;
+    }
+  }
 
   void free(void *ap)
   {
@@ -208,20 +246,31 @@ namespace LIST
 
     bp = (Header *)ap -1;
 
+    int c=0;
+    int i=0;
     for (p=freep ; !(bp > p && bp < p->s.ptr) ; p = p->s.ptr)
-      if (p >= p->s.ptr && (bp > p || bp < p->s.ptr))
-        break;
-
-    if (bp + bp->s.size == p->s.ptr)
     {
+      ++c;
+      if (p >= p->s.ptr && (bp > p || bp < p->s.ptr))
+      {
+	++i;
+        break;
+      }
+    }
+    printf("in %s() ## c: %d, i: %d\n", __FUNCTION__, c, i);
+
+    if (bp + bp->s.size == p->s.ptr) // join to upper nbr
+    {
+      printf("upper nbr\n");
       bp->s.size += p->s.ptr->s.size;
       bp->s.ptr = p->s.ptr->s.ptr;
     }
     else
       bp->s.ptr = p->s.ptr;
 
-    if (p + p->s.size == bp)
+    if (p + p->s.size == bp) // join to lower nbr
     {
+      printf("join lower nbr\n");
       p->s.size += bp->s.size;
       p->s.ptr = bp->s.ptr;
     }
@@ -241,6 +290,8 @@ namespace LIST
     cp = (char *)sbrk(nu*sizeof(Header));
     if (cp == (char *)(-1))
       return 0;
+    printf("cp (by sbrk): %p\n", cp);
+    brk_addr = cp;
     up = (Header*)cp;
     up->s.size = nu;
     free((void*)(up+1));
@@ -252,7 +303,18 @@ namespace LIST
     Header *p, *prevp;
     Header *morecore(u32);
     u32 nunits;
-    nunits = (nbytes + sizeof(Header) - 1)/sizeof(Header) + 1;
+    nunits = (nbytes + sizeof(Header) - 1)/sizeof(Header) + 1; // avoid use % and /
+    print_header(&base);
+    if (freep)
+    {
+      printf("freep: %p\n", freep);
+      printf("freep->s.ptr: %p\n", freep->s.ptr);
+    }
+    else
+    {
+      printf("freep: 0\n");
+      printf("freep->s.ptr: ??\n");
+    }
 
     if ((prevp = freep) == 0) // no free list yet
     {
@@ -283,10 +345,79 @@ namespace LIST
 
 }
 
+#define MALLOC(ptr_var, ptr_name, alloc_byte) \
+  printf("-------\n"); \
+  char *ptr_var = (char *)LIST::malloc(alloc_byte); \
+  printf("\t%s: %p\n", ptr_name, ptr_var); \
+  print_header(freep, "freep info:"); \
+  printf("=======\n"); 
+
+#include <cstdlib>
+using namespace std;
+void test_list_malloc()
+{
+  print_header(&base, "base info:");
+  //using namespace LIST;
+  LIST::print_free_list();
+
+  char *p1 = (char *)LIST::malloc(2);
+  printf("\tp1: %p\n", p1);
+  print_header(freep, "freep info:");
+  printf("=======\n");
+
+
+  char *p2 = (char *)LIST::malloc(4);
+  printf("\tp2: %p\n", p2);
+  print_header(freep, "freep info:");
+  printf("=======\n");
+
+  char *p3 = (char *)LIST::malloc(6);
+  printf("\tp3: %p\n", p3);
+  print_header(freep, "freep info:");
+  printf("=======\n");
+
+  LIST::free(p1);
+  print_header(freep, "freep info:");
+  printf("=======\n");
+
+#if 0
+  //MALLOC(p4, "p4", 8)
+  char *p4 = (char *)LIST::malloc(8);
+  printf("\tp4: %p\n", p4);
+  print_header(freep, "freep info:");
+  printf("=======\n");
+#endif
+  LIST::free(p3);
+#if 0
+
+#if 1
+  printf("-- free p1\n");
+  LIST::free(p1);
+  #if 0
+  printf("-- free p2\n");
+  LIST::free(p2);
+  #endif
+#else
+  LIST::free(p2);
+#endif
+#endif
+
+  LIST::print_free_list();
+
+  //LIST::free(p2);
+  #if 0
+  char *p3 = (char *)std::malloc(2);
+  char *p4 = (char *)std::malloc(4);
+  printf("p3: %p\n", p3);
+  printf("p4: %p\n", p4);
+  #endif
+}
+
 #ifdef TEST
 int main(int argc, char *argv[])
 {
-  printf("heap: %p\n", heap);
+  test_list_malloc();
+  //printf("heap: %p\n", heap);
 
   #if 0
   char *p1 = (char *)mymalloc(64);
@@ -297,7 +428,7 @@ int main(int argc, char *argv[])
   print_memarea(); 
   #else
 
-#if 1
+#if 0
   print_memarea(); 
   char *p1 = (char *)mymalloc(6*PAGE_SIZE);
   print_memarea(); 
