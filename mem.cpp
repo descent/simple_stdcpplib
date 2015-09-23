@@ -18,7 +18,7 @@ using namespace DS;
 
 // #define DEBUG_MSG
 #ifdef DEBUG_MSG
-  #define PF(...) printf(...)
+  #define PF printf
 #else
   #define PF(...) 
 #endif
@@ -27,10 +27,10 @@ using namespace DS;
 #define NO_FREE_MEMAREA -2
 #define GET_FREE_MEMAREA 0
 
-const int HEAP_SIZE = 64 * 1024;
 
-const int PAGE_SIZE = 128;
-const int PAGE = HEAP_SIZE/PAGE_SIZE;
+const int PAGE_SIZE = 1024;
+const int PAGE = 64; // how many pages
+const int HEAP_SIZE = PAGE * PAGE_SIZE;
 char heap[HEAP_SIZE];
 // unsigned char mem_area[PAGE];
 unsigned short mem_area[HEAP_SIZE/PAGE_SIZE];
@@ -199,6 +199,7 @@ namespace
   char *brk_addr;
 }
 
+#ifndef STM32
 namespace LIST
 {
   const int NALLOC = 1024; // minimum units to request
@@ -412,6 +413,7 @@ void test_list_malloc()
   printf("p4: %p\n", p4);
   #endif
 }
+#endif // end #ifndef STM32
 
 #ifdef TEST
 int main(int argc, char *argv[])
