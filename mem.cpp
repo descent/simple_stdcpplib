@@ -71,13 +71,13 @@ int is_enough(int index, u8 size)
 {
   if (index + size > PAGE) 
   {
-    printf("EXCEED_MEMAREA\n");
+    PF("EXCEED_MEMAREA\n");
     return EXCEED_MEMAREA;
   }
   
   if (*(mem_area + index + size - 1) != 0)
   {
-    printf("NO_FREE_MEMAREA\n");
+    PF("NO_FREE_MEMAREA\n");
     return NO_FREE_MEMAREA;
   }
 
@@ -119,7 +119,7 @@ bool search_free_area(u8 size)
     if (status == GET_FREE_MEMAREA)
     {
       free_index = new_index;
-      printf("new_index: %d\n", new_index);
+      PF("new_index: %d\n", new_index);
       return true;
     }
 
@@ -137,7 +137,7 @@ void *mymalloc_internal(u8 size)
 {
   if (is_enough(free_index, size) != GET_FREE_MEMAREA)
   {
-    printf("not enough: free_index: %d, size: %d\n", free_index, size);
+    PF("not enough: free_index: %d, size: %d\n", free_index, size);
     if (search_free_area(size) == false)
       return 0;
   }
@@ -159,7 +159,7 @@ void *mymalloc_internal(u8 size)
 
 void *mymalloc(u32 size)
 {
-  printf("mymalloc: %d byte(s)\n", size);
+  PF("mymalloc: %d byte(s)\n", size);
 
   u32 page = size / PAGE_SIZE;
   u32 remain = size % PAGE_SIZE;
@@ -173,11 +173,11 @@ void *mymalloc(u32 size)
 
 void myfree(void *ptr)
 {
-  printf("myfree: %p\n", ptr);
+  PF("myfree: %p\n", ptr);
   int index = ((char *)ptr - heap) / PAGE_SIZE;
-  printf("index: %d\n", index);
+  PF("index: %d\n", index);
   unsigned char size = *(mem_area + index);
-  printf("size: %d\n", size);
+  PF("size: %d\n", size);
   for (int i=0 ; i < size ; ++i)
     *(mem_area + index + i) = 0;
 
