@@ -18,22 +18,17 @@ struct GNode
   Value v_;
 };
 
-struct Node
-{
-  int e_;
-  Node *l_, *r_;
-  std::string k_;
-  int v_;
-};
-
-
 template <typename NodeType, typename Key, typename Value>
 NodeType *make_node(const Key &k, Value v)
 {
   NodeType *n = (NodeType*)malloc(sizeof(NodeType));
-  n->k_ = k;
-  n->v_ = v;
-  n->l_ = n->l_ = 0;
+  if (n)
+  {
+    n->k_ = k;
+    n->v_ = v;
+    n->r_ = n->l_ = 0;
+  }
+  return n;
 }
 
 template <typename NodeType, typename Key, typename Value>
@@ -138,8 +133,8 @@ int main(int argc, char *argv[])
 
   GNode<double, int> *r1 = 0;
   r1 = insert(r1, 1.2, 3);
-  r1 = insert(r1, 2.2, 4);
   r1 = insert(r1, 3.2, 5);
+  r1 = insert(r1, 2.2, 4);
   printf("\\tree");
   print_tree(r1);
   printf("\n");
