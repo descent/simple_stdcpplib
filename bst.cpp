@@ -8,6 +8,16 @@
 
 using namespace std;
 
+// GNode: G - generic
+template <typename Key, typename Value>
+struct GNode
+{
+  int e_;
+  GNode *l_, *r_;
+  Key k_;
+  Value v_;
+};
+
 struct Node
 {
   int e_;
@@ -16,46 +26,30 @@ struct Node
   int v_;
 };
 
-Node *make_node(int e)
-{
-  Node *n = (Node *)malloc(sizeof(Node));
-  n->e_ = e;
-  n->l_ = n->l_ = 0;
-}
 
-Node *make_node(const std::string &k, int v)
+template <typename NodeType, typename Key, typename Value>
+NodeType *make_node(const Key &k, Value v)
 {
-  Node *n = (Node *)malloc(sizeof(Node));
+  NodeType *n = (NodeType*)malloc(sizeof(NodeType));
   n->k_ = k;
   n->v_ = v;
   n->l_ = n->l_ = 0;
 }
 
-Node *insert(Node *t, const std::string &k, int v)
+template <typename NodeType, typename Key, typename Value>
+NodeType *insert(NodeType *t, const Key &k, Value v)
 {
   if (t==0)
-    return make_node(k, v);
+    return make_node<NodeType>(k, v);
   else if (t->k_ > k)
          t->l_ = insert(t->l_, k, v);
        else
          t->r_ = insert(t->r_, k, v);
-
   return t;
 }
 
-Node *insert(Node *t, int e)
-{
-  if (t==0)
-    return make_node(e);
-  else if (t->e_ > e)
-         t->l_ = insert(t->l_, e);
-       else
-         t->r_ = insert(t->r_, e);
-
-  return t;
-}
-
-void print_tree(Node *t)
+template <typename NodeType>
+void print_tree(NodeType *t)
 {
   if (t)
   {
@@ -70,8 +64,23 @@ void print_tree(Node *t)
   }
 }
 
+
+template <typename NodeType, typename Key>
+NodeType *search (NodeType *n, const Key &k)
+{
+  if (n==0)
+    return 0;
+  if (n->k_ > k)
+    return search(n->l_, k);
+  if (n->k_ < k)
+    return search(n->r_, k);
+
+  return n; // n->k_ == k
+}
+
 void test_1()
 {
+#if 0
   Node *root = 0;
 
   root = insert(root, 3);
@@ -86,22 +95,12 @@ void test_1()
   printf("\\tree");
   print_tree(root);
   printf("\n");
+#endif
 }
 
-Node *search (Node *n, const std::string &k)
+void test_2()
 {
-  if (n==0)
-    return 0;
-  if (n->k_ > k)
-    return search(n->l_, k);
-  if (n->k_ < k)
-    return search(n->r_, k);
-
-  return n; // n->k_ == k
-}
-
-int main(int argc, char *argv[])
-{
+#if 0
   Node *root = 0;
   root = insert(root, "abc", 3);
   root = insert(root, "def", 1);
@@ -116,6 +115,34 @@ int main(int argc, char *argv[])
     cout << "not found: " << str << endl;
   else
     cout << "found (" << n->k_ << ", " <<  n->v_<< ")" << endl;
-  
+#endif
+}
+
+int main(int argc, char *argv[])
+{
+  GNode<std::string, int> *root = 0;
+  root = insert(root, "abc", 3);
+  root = insert(root, "def", 1);
+  root = insert(root, "xyz", 10);
+  root = insert(root, "lmn", 987);
+  printf("\\tree");
+  print_tree(root);
+  printf("\n");
+
+  string str("def");
+  GNode<std::string, int> *n = search(root, str);
+  if (n==0)
+    cout << "not found: " << str << endl;
+  else
+    cout << "found (" << n->k_ << ", " <<  n->v_<< ")" << endl;
+
+  GNode<double, int> *r1 = 0;
+  r1 = insert(r1, 1.2, 3);
+  r1 = insert(r1, 2.2, 4);
+  r1 = insert(r1, 3.2, 5);
+  printf("\\tree");
+  print_tree(r1);
+  printf("\n");
+
   return 0;
 }
