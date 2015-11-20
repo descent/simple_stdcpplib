@@ -1,9 +1,10 @@
 CC=gcc
 CXX=g++
+CXXFLAGS=-Wall
 bst: bst.o
-	$(CXX) -o $@ $< 
+	$(CXX) $(CXXFLAGS) -o $@ $< 
 bst.o: bst.cpp
-	$(CXX) -c -g $<
+	$(CXX) $(CXXFLAGS) -c -g $<
 
 btree: btree.o
 	$(CXX) -o $@ $< 
