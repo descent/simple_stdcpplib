@@ -113,6 +113,31 @@ void test_2()
 #endif
 }
 
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+template <typename NodeType>
+NodeType* invert_tree(NodeType* root) 
+{
+  NodeType *tmpNode;
+
+  if (root) 
+  {
+    tmpNode = root->l_;
+    root->l_ = invert_tree(root->r_);
+    root->r_ = invert_tree(tmpNode);
+  }
+
+  return root;
+}
+
 int main(int argc, char *argv[])
 {
   GNode<std::string, int> *root = 0;
@@ -135,8 +160,19 @@ int main(int argc, char *argv[])
   r1 = insert(r1, 1.2, 3);
   r1 = insert(r1, 3.2, 5);
   r1 = insert(r1, 2.2, 4);
+  r1 = insert(r1, 5.2, 7);
+  r1 = insert(r1, 5.8, 0);
   printf("\\tree");
   print_tree(r1);
+  printf("\n");
+
+  GNode<double, int> *r2 = 0;
+
+  r2 = invert_tree(r1);
+
+  printf("\n\n");
+  printf("\\tree");
+  print_tree(r2);
   printf("\n");
 
   return 0;
