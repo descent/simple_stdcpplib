@@ -16,12 +16,19 @@ struct GNode
   GNode *l_, *r_;
   Key k_;
   Value v_;
+  ~GNode()
+  {
+    cout << "~GNode" << endl;
+  }
 };
 
 template <typename NodeType, typename Key, typename Value>
 NodeType *make_node(const Key &k, Value v)
 {
-  NodeType *n = (NodeType*)malloc(sizeof(NodeType));
+  //cout << sizeof(NodeType) << endl;
+  //NodeType *n = (NodeType*)malloc(sizeof(NodeType));
+  //(n->k_).string("abc");
+  NodeType *n = new NodeType;
   if (n)
   {
     n->k_ = k;
