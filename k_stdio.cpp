@@ -368,6 +368,7 @@ int DS::printf(const char *fmt, ...)
   int d;
   char c, *p, *s;  
   char *cur_char = str;
+  double f_value;
   int len = 0;
 
   __builtin_va_start(ap,fmt);
@@ -378,6 +379,15 @@ int DS::printf(const char *fmt, ...)
       ++fmt;
       switch(*fmt)
       {  
+        case 'f':
+        {
+          f_value = __builtin_va_arg(ap, double);
+          u8 *str = float_to_str(f_value);
+          len = s_strlen((char *)str);
+          s_strcpy(cur_char, (char *)str);
+          cur_char += len;
+          break;
+        }
         case 's':
         {
           s = __builtin_va_arg(ap, char *);  
