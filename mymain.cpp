@@ -51,16 +51,18 @@ extern "C"
 int main(void)
 {
   int val=98;
+  double d_val=3.56;
   init_rs232();
   USART_Cmd(USART2, ENABLE);
 
-  printf("test bst: %d\r\n", val);
+  printf("test bst: %d, d_val: %f\r\n", val, d_val);
 
-  GNode<int, int> *root = 0;
+  //GNode<int, int> *root = 0;
+  GNode<double, int> *root = 0;
 
-  root = insert(root, 8, 7);
-  root = insert(root, 4, 7);
-  root = insert(root, 14, 7);
+  root = insert(root, 8.1, 7);
+  root = insert(root, 4.2, 7);
+  root = insert(root, 14.3, 7);
 
   print_tree(root);
   while(1);
