@@ -11,11 +11,20 @@ CXX=arm-none-eabi-g++
 
 all: mymain.bin
 
-mymain.elf: mymain.o 
+mymain.elf: mymain.o bst.o k_stdio.o mem.o
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -o $@ $(OTHER_OBJS) $^ -lgcc
 
-mymain.o: mymain.cpp
+mymain.o: mymain.cpp bst.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+
+k_stdio.o: k_stdio.cpp k_stdio.h
+	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+
+bst.o: bst.cpp bst.h
+	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+
+mem.o: mem.cpp mem.h
+	arm-none-eabi-g++ -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 mymain.bin: mymain.elf
 	arm-none-eabi-objcopy -Obinary $< $@
