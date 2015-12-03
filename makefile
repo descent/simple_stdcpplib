@@ -1,6 +1,6 @@
 CC=gcc
 CXX=g++
-CXXFLAGS=-Wall
+CXXFLAGS=-Wall -DTEST_MAIN -DUSE_OS
 bst: bst.o
 	$(CXX) $(CXXFLAGS) -o $@ $< 
 bst.o: bst.cpp
