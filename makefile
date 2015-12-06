@@ -9,13 +9,39 @@ OTHER_OBJS = ../../../libraries/CMSIS/CM3/CoreSupport/core_cm3.c ../../../librar
 
 CXX=arm-none-eabi-g++
 
+LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
+
 all: mymain.bin
 
-mymain.elf: mymain.o bst.o k_stdio.o mem.o
+mymain.elf: mymain.o bst.o k_stdio.o mem.o myiostream.o
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -o $@ $(OTHER_OBJS) $^ -lgcc
 
 mymain.o: mymain.cpp bst.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+
+bst.h:
+	ln -s /home/descent/git/progs/tree/$@ .
+
+bst.cpp:
+	ln -s /home/descent/git/progs/tree/$@ .
+
+k_stdio.cpp:
+	ln -s /home/descent/git/jserv-course/stm32f4_prog/stm32f4_simple_scheme/$@ .
+k_stdio.h:
+	ln -s /home/descent/git/jserv-course/stm32f4_prog/stm32f4_simple_scheme/$@ .
+
+mem.h:
+	ln -s /home/descent/git/progs/mem_alloc/$@ .
+mem.cpp:
+	ln -s /home/descent/git/progs/mem_alloc/$@ .
+
+
+mystring.o: mystring.cpp mystring.h
+	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+
+myiostream.o: myiostream.cpp myiostream.h
+	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+
 
 k_stdio.o: k_stdio.cpp k_stdio.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
@@ -34,4 +60,5 @@ mymain.bin: mymain.elf
 clean:
 	rm -rf *.o *.elf *.bin *.dpp *.dpp.*
 distclean:
-	find . -type l -exec rm -f {} \;
+	find . -type l -exec rm -f {} \; 
+	rm -f $(LINK_FILES)
