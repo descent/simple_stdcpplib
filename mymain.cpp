@@ -57,12 +57,20 @@ int main(void)
 
   printf("test bst: %d, d_val: %f\r\n", val, d_val);
 
-  //GNode<int, int> *root = 0;
+  cout << "test bst: " << val << endl;
+
+  GNode<int, int> *root = 0;
+  root = insert(root, 8, 7);
+  root = insert(root, 4, 7);
+  root = insert(root, 14, 7);
+
+#if 0
   GNode<double, int> *root = 0;
 
   root = insert(root, 8.1, 7);
   root = insert(root, 4.2, 7);
   root = insert(root, 14.3, 7);
+#endif
 
   print_tree(root);
   while(1);
