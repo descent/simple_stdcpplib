@@ -1,10 +1,11 @@
 #include "myiostream.h"
+#include "mystring.h"
 
 #include "k_stdio.h"
 
 namespace DS
 {
-  const char *endl="\r\n";
+  //const char *endl="\r\n";
 
   ofstream cout;
 }
@@ -22,13 +23,57 @@ DS::ofstream& DS::ofstream::operator<<(const char *str)
 DS::ofstream& DS::ofstream::operator<<(unsigned int num)
 {
   // fixed me: it is unsigned int, but use signed int to print
-  myprint(num);
+  switch (basefield_)
+  {
+    case HEX:
+    {
+      myprint("hex\r\n");
+      myprint(num, 16);
+      break;
+    }
+    case OCT:
+    {
+      myprint(num, 8);
+      break;
+    }
+    case DEC:
+    {
+    }
+    default:
+    {
+      myprint("dec\r\n");
+      myprint(num);
+      break;
+    }
+  }
   return *this;
 }
 
 DS::ofstream& DS::ofstream::operator<<(int num)
 {
-  myprint(num);
+  switch (basefield_)
+  {
+    case HEX:
+    {
+      myprint("hex\r\n");
+      myprint(num, 16);
+      break;
+    }
+    case OCT:
+    {
+      myprint(num, 8);
+      break;
+    }
+    case DEC:
+    {
+    }
+    default:
+    {
+      myprint("dec\r\n");
+      myprint(num);
+      break;
+    }
+  }
   return *this;
 }
 
