@@ -11,6 +11,7 @@
 using namespace std;
 #else
 
+#include "myiostream.h"
 #include "k_stdio.h"
 using namespace DS;
 
@@ -107,11 +108,11 @@ void print_tree(NodeType *t)
 {
   if (t)
   {
-    //cout << "(" << t->k_;
-    printf("(%f", t->k_);
+    cout << "(" << t->k_;
+    //printf("(%f", t->k_);
     print_tree(t->l_);
     print_tree(t->r_);
-    printf(")");
+    cout << ")";
   }
   else
   {
