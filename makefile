@@ -13,7 +13,7 @@ LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
 all: mymain.bin
 
-mymain.elf: mymain.o bst.o k_stdio.o mem.o myiostream.o
+mymain.elf: mymain.o bst.o k_stdio.o mem.o myiostream.o mystring.o
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -o $@ $(OTHER_OBJS) $^ -lgcc
 
 mymain.o: mymain.cpp bst.h
