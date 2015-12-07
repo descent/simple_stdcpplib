@@ -13,7 +13,7 @@ LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
 all: mymain.bin
 
-mymain.elf: mymain.o bst.o k_stdio.o mem.o myiostream.o mystring.o
+mymain.elf: mymain.o bst.o k_stdio.o mem.o myiostream.o mystring.o gdeque.o
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -o $@ $(OTHER_OBJS) $^ -lgcc
 
 mymain.o: mymain.cpp bst.h
@@ -29,6 +29,17 @@ k_stdio.cpp:
 	ln -s /home/descent/git/jserv-course/stm32f4_prog/stm32f4_simple_scheme/$@ .
 k_stdio.h:
 	ln -s /home/descent/git/jserv-course/stm32f4_prog/stm32f4_simple_scheme/$@ .
+
+k_string.h:
+	ln -s /home/descent/git/jserv-course/stm32f4_prog/stm32f4_simple_scheme/$@ .
+
+gdeque.h:
+	ln -s /home/descent/git/progs/queue/$@ .
+gdeque.cpp:
+	ln -s /home/descent/git/progs/queue/$@ .
+
+gdeque.o: gdeque.cpp gdeque.h
+	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 mem.h:
 	ln -s /home/descent/git/progs/mem_alloc/$@ .
