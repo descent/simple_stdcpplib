@@ -5,6 +5,7 @@
 
 #include "bst.h"
 #include "mem.h"
+#include "mystring.h"
 
 #if 0
 #include "k_stdio.h"
@@ -13,7 +14,7 @@
 #include "cstring.h"
 #endif
 
-// using namespace DS;
+using namespace DS;
 
 uint8_t get_byte()
 {
@@ -52,27 +53,51 @@ int main(void)
 {
   int val=98;
   double d_val=3.56;
+
+
+
   init_rs232();
   USART_Cmd(USART2, ENABLE);
+
+  {
+    string str("i am mystring");
+    cout << str << endl;
+  }
 
   printf("test bst: %d, d_val: %f\r\n", val, d_val);
 
   cout << "test bst: " << val << endl;
 
-  GNode<int, int> *root = 0;
-  root = insert(root, 8, 7);
-  root = insert(root, 4, 7);
-  root = insert(root, 14, 7);
+  {
+    GNode<int, int> *root = 0;
+    root = insert(root, 8, 7);
+    root = insert(root, 4, 7);
+    root = insert(root, 14, 7);
+    print_tree(root);
+  }
 
-#if 0
-  GNode<double, int> *root = 0;
+  cout << endl;
 
-  root = insert(root, 8.1, 7);
-  root = insert(root, 4.2, 7);
-  root = insert(root, 14.3, 7);
-#endif
+  {
+    GNode<double, int> *root = 0;
 
-  print_tree(root);
+    root = insert(root, 8.1, 7);
+    root = insert(root, 4.2, 7);
+    root = insert(root, 14.3, 7);
+    print_tree(root);
+  }
+
+  cout << endl;
+
+
+  {
+    GNode<DS::string, int> *root = 0;
+    root = insert(root, "def", 7);
+    root = insert(root, "xyz", 5);
+    root = insert(root, "abc", 8);
+    print_tree(root);
+  }
+
   while(1);
 
   return 0;
