@@ -15,6 +15,7 @@ namespace DS
       ofstream& operator<<(int num);
       ofstream& operator<<(double num);
       ofstream& operator<<(const DS::string &str);
+      ofstream& operator<<(unsigned int num);
     private:
   };
 

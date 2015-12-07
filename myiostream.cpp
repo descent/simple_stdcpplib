@@ -19,6 +19,13 @@ DS::ofstream& DS::ofstream::operator<<(const char *str)
   return *this;
 }
 
+DS::ofstream& DS::ofstream::operator<<(unsigned int num)
+{
+  // fixed me: it is unsigned int, but use signed int to print
+  myprint(num);
+  return *this;
+}
+
 DS::ofstream& DS::ofstream::operator<<(int num)
 {
   myprint(num);
