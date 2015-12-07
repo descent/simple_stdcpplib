@@ -2,6 +2,13 @@
 
 #include "k_stdio.h"
 
+namespace DS
+{
+  const char *endl="\r\n";
+
+  ofstream cout;
+}
+
 DS::ofstream& DS::ofstream::operator<<(char c)
 {
 }
@@ -24,9 +31,8 @@ DS::ofstream& DS::ofstream::operator<<(double num)
   return *this;
 }
 
-namespace DS
+DS::ofstream& DS::ofstream::operator<<(const DS::string& str)
 {
-  const char *endl="\r\n";
-
-  ofstream cout;
+  myprint(str.c_str());
+  return *this;
 }
