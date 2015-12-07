@@ -18,6 +18,12 @@ DS::ofstream& DS::ofstream::operator<<(int num)
   return *this;
 }
 
+DS::ofstream& DS::ofstream::operator<<(double num)
+{
+  myprint_float(num);
+  return *this;
+}
+
 namespace DS
 {
   const char *endl="\r\n";

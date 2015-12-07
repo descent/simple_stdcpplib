@@ -11,6 +11,7 @@ namespace DS
       ofstream& operator<<(char c);
       ofstream& operator<<(const char *str);
       ofstream& operator<<(int num);
+      ofstream& operator<<(double num);
     private:
   };
 
