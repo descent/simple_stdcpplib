@@ -27,7 +27,7 @@ DS::ofstream& DS::ofstream::operator<<(unsigned int num)
   {
     case HEX:
     {
-      myprint("hex\r\n");
+      //myprint("hex\r\n");
       myprint(num, 16);
       break;
     }
@@ -41,7 +41,7 @@ DS::ofstream& DS::ofstream::operator<<(unsigned int num)
     }
     default:
     {
-      myprint("dec\r\n");
+      //myprint("dec\r\n");
       myprint(num);
       break;
     }
@@ -55,7 +55,7 @@ DS::ofstream& DS::ofstream::operator<<(int num)
   {
     case HEX:
     {
-      myprint("hex\r\n");
+      //myprint("hex\r\n");
       myprint(num, 16);
       break;
     }
@@ -69,7 +69,7 @@ DS::ofstream& DS::ofstream::operator<<(int num)
     }
     default:
     {
-      myprint("dec\r\n");
+      //myprint("dec\r\n");
       myprint(num);
       break;
     }
