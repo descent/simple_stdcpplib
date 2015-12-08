@@ -2,10 +2,20 @@
 #define MYIOSTREAM_H
 
 #include "type.h"
+#include "k_stdio.h"
 
 #define HEX 1
 #define DEC 2
 #define OCT 3
+
+extern void *__dso_handle;
+
+struct DObjs
+{
+  void (*dtor_) (void *);
+  void *arg_;
+  void *dso_handle_;
+};
 
 namespace DS
 {
@@ -17,6 +27,10 @@ namespace DS
   {
     public:
       ofstream():basefield_(DEC)
+      {
+        printf("i am cout ctor\r\n");
+      }
+      ~ofstream()
       {
       }
       ofstream& operator<<(char c);
