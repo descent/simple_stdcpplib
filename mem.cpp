@@ -31,6 +31,9 @@ using namespace DS;
 const int PAGE_SIZE = 1024;
 const int PAGE = 64; // how many pages
 const int HEAP_SIZE = PAGE * PAGE_SIZE;
+#ifdef STM32
+__attribute__((section(".myheap")))
+#endif
 char heap[HEAP_SIZE];
 // unsigned char mem_area[PAGE];
 unsigned short mem_area[HEAP_SIZE/PAGE_SIZE];
