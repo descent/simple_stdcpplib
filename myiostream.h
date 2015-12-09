@@ -17,6 +17,9 @@ struct DObjs
   void *dso_handle_;
 };
 
+void g_dtor();
+
+
 namespace DS
 {
   class string;
@@ -26,12 +29,14 @@ namespace DS
   class ofstream
   {
     public:
-      ofstream():basefield_(DEC)
+      ofstream(int id=0):basefield_(DEC)
       {
-        printf("i am cout ctor\r\n");
+        id_ = id;
+        printf("i am cout ctor: %d\r\n", id_);
       }
       ~ofstream()
       {
+        printf("i am cout dtor: %d\r\n", id_);
       }
       ofstream& operator<<(char c);
       ofstream& operator<<(const char *str);
@@ -41,6 +46,7 @@ namespace DS
       ofstream& operator<<(unsigned int num);
       ofstream& operator<<(ofstream& (*op)(ofstream &)) { return (*op)(*this); }
       void set_basefield(u8 basefield){basefield_ = basefield;}
+      int id_;
     private:
       u8 basefield_;
   };

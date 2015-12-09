@@ -8,6 +8,12 @@ void *__dso_handle;
 static DObjs dobjs[DOBJS_SIZE];
 static int obj_count=0;
 
+void g_dtor()
+{
+  for (int i=obj_count-1 ; i >= 0 ; --i)
+    dobjs[i].dtor_(dobjs[i].arg_);
+}
+
 extern "C"
 {
   int __cxa_atexit(void (*destructor) (void *), void *arg, void *__dso_handle)
@@ -16,7 +22,7 @@ extern "C"
     dobjs[obj_count].dtor_ = destructor;
     dobjs[obj_count].arg_ = arg;
     dobjs[obj_count].dso_handle_ = __dso_handle;
-    DS::printf("fill ctor data: obj_count: %d\r\n", obj_count);
+    DS::printf("fill ctor data: obj_count: %d, arg:%d\r\n", obj_count, arg);
     ++obj_count;
   }
 
@@ -36,8 +42,8 @@ namespace DS
   //const char *endl="\r\n";
 
   ofstream cout;
-  ofstream cout1;
-  ofstream cout2;
+  ofstream cout1(1);
+  ofstream cout2(2);
 }
 
 DS::ofstream& DS::ofstream::operator<<(char c)
