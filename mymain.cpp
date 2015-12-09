@@ -37,6 +37,9 @@ void *mymalloc(int size)
 
 void *operator new(unsigned int s)
 {
+  if (mymalloc(s) == 0)
+    THROW(NOFREE_MEM);
+
   return mymalloc(s);
 }
 
@@ -45,47 +48,75 @@ void operator delete(void *p)
   myfree(p);
 }
 
+void test_bst()
+{
+  int i=0;
+
+  GNode<int, int> *root = 0;
+  for (i=0 ; i < 1000 ; ++i)
+  {
+    cout << "insert:" << endl;
+    root = insert(root, 8, 7);
+  }
+  //root = insert(root, 4, 7);
+  //root = insert(root, 14, 7);
+  print_tree(root);
+}
+
 
 extern "C"
 {
 
 int main(void)
 {
+
+  //extern int __start_global_ctor__;
+  //extern int __end_global_ctor__;
+
   int val=98;
   double d_val=3.56;
-
-
 
   init_rs232();
   USART_Cmd(USART2, ENABLE);
 
   {
     string str("i am mystring");
-    cout << str << endl;
   }
 
   printf("test bst: %d, d_val: %f\r\n", val, d_val);
 
   cout << "test bst: " << val << endl;
 
+  int i=100;
+  TRY
   {
-    GNode<int, int> *root = 0;
-    root = insert(root, 8, 7);
-    root = insert(root, 4, 7);
-    root = insert(root, 14, 7);
-    print_tree(root);
+    test_bst();
   }
+  CATCH(NOFREE_MEM)
+  {
+    cout << "no mem, i: " << i << endl;
+    print_memarea();
+  }
+  ETRY
+
+  while(1);
+
 
   cout << endl;
 
   {
     GNode<double, int> *root = 0;
 
+    cout << "sizeof(double): " << sizeof(double) << endl;
+
     root = insert(root, 8.1, 7);
     root = insert(root, 4.2, 7);
     root = insert(root, 14.3, 7);
     print_tree(root);
+    print_memarea();
   }
+
+  while(1);
 
   cout << endl;
 
