@@ -8,6 +8,8 @@ void *__dso_handle;
 static DObjs dobjs[DOBJS_SIZE];
 static int obj_count=0;
 
+int ex_code;
+
 void g_dtor()
 {
   for (int i=obj_count-1 ; i >= 0 ; --i)
