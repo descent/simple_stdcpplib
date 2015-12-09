@@ -2,7 +2,7 @@ ENTRY(main)
 MEMORY
 {
   FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 128K
-  RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 128K
+  RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 192K
 
 }
 
@@ -16,11 +16,23 @@ SECTIONS
 		*(.rodata)
 		_sidata = .;
 	} >FLASH
+        .myheap (NOLOAD):
+        {
+          . = ALIGN(8);
+          *(.myheap)
+          . = ALIGN(8);
+        } >RAM
+
 
 	/* Initialized data will initially be loaded in FLASH at the end of the .text section. */
     .data : AT (_sidata) 
     {
+
 		_sdata = .;
+        __start_global_ctor__ = .;
+        *(.init_array)
+        __end_global_ctor__ = .;
+
 		*(.data)		/* Initialized data */
 		_edata = .;
 	} >RAM
