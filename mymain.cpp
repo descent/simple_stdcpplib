@@ -5,7 +5,9 @@
 
 #include "bst.h"
 #include "mem.h"
+#include "myiostream.h"
 #include "mystring.h"
+#include "myvec.h"
 
 #if 0
 #include "k_stdio.h"
@@ -83,6 +85,22 @@ void test_bst()
   print_tree(root);
 }
 
+void test_vec()
+{
+  DS::vector<int> vec;
+
+  vec.push_back(1);
+  vec.push_back(2);
+  vec.push_back(3);
+  vec.push_back(4);
+  vec.push_back(5);
+  vec.push_back(6);
+  for (int i=0 ; i < vec.length() ; ++i)
+  {
+    cout << vec[i] << endl;
+  }
+  cout << vec.max_size() << endl;
+}
 
 extern "C"
 {
@@ -99,6 +117,16 @@ int main(void)
   init_rs232();
   USART_Cmd(USART2, ENABLE);
 
+
+  //char *p1 = (char *)mymalloc(4);
+#if 0
+  char *p1 = new char;
+  print_memarea();
+  delete p1;
+  print_memarea();
+#endif
+
+#if 0
   {
     string str("i am mystring");
   }
@@ -106,19 +134,21 @@ int main(void)
   printf("test bst: %d, d_val: %f\r\n", val, d_val);
 
   cout << "test bst: " << val << endl;
-
+#endif
   int i=100;
+  print_memarea();
   TRY
   {
-    test_bst();
+    test_vec();
+    //test_bst();
   }
   CATCH(NOFREE_MEM)
   {
     cout << "no mem, i: " << i << endl;
-    print_memarea();
   }
   ETRY
 
+  // print_memarea();
   while(1);
 
 
