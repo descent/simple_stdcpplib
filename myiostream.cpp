@@ -1,5 +1,6 @@
 #include "myiostream.h"
 #include "mystring.h"
+#include "myvec.h"
 
 #define DOBJS_SIZE 3
 
@@ -8,18 +9,34 @@ void *__dso_handle;
 static DObjs dobjs[DOBJS_SIZE];
 static int obj_count=0;
 
+DS::vector<DObjs> dobjs_vec;
+
 int ex_code;
 
 void g_dtor()
 {
+#if 0
   for (int i=obj_count-1 ; i >= 0 ; --i)
     dobjs[i].dtor_(dobjs[i].arg_);
+#endif
+
+  for (int i=0 ; i < dobjs_vec.length() ; ++i)
+  {
+    dobjs_vec[i].dtor_(dobjs_vec[i].arg_);
+  }
 }
 
 extern "C"
 {
   int __cxa_atexit(void (*destructor) (void *), void *arg, void *__dso_handle)
   {
+    DObjs dobj;
+
+    dobj.dtor_ = destructor;
+    dobj.arg_ = arg;
+    dobj.dso_handle_ = __dso_handle;
+
+    dobjs_vec.push_back(dobj);
 
     dobjs[obj_count].dtor_ = destructor;
     dobjs[obj_count].arg_ = arg;
