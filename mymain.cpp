@@ -102,20 +102,32 @@ void test_vec()
   cout << vec.max_size() << endl;
 }
 
+typedef void (*Fp)();
+
 extern "C"
 {
 
 int main(void)
 {
+  init_rs232();
+  USART_Cmd(USART2, ENABLE);
 
-  //extern int __start_global_ctor__;
-  //extern int __end_global_ctor__;
+  extern unsigned int __start_global_ctor__;
+  extern unsigned int __end_global_ctor__;
+  unsigned int *start = &__start_global_ctor__;
+  unsigned int *end = &__end_global_ctor__;
+
+#if 1
+  for (unsigned int *i = start; i != end; ++i)
+  {
+    Fp fp = (Fp)(*i);
+    (*fp)();
+  }
+#endif
 
   int val=98;
   double d_val=3.56;
 
-  init_rs232();
-  USART_Cmd(USART2, ENABLE);
 
 
   //char *p1 = (char *)mymalloc(4);
