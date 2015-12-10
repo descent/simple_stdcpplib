@@ -13,7 +13,7 @@ LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
 all: mymain.bin
 
-mymain.elf: mymain.o bst.o k_stdio.o mem.o myiostream.o mystring.o gdeque.o my_setjmp.o
+mymain.elf: mymain.o bst.o k_stdio.o mem.o myiostream.o mystring.o gdeque.o my_setjmp.o myvec.o
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -o $@ $(OTHER_OBJS) $^ -lgcc
 
 mymain.o: mymain.cpp bst.h
@@ -51,6 +51,9 @@ mystring.o: mystring.cpp mystring.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 myiostream.o: myiostream.cpp myiostream.h
+	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+
+myvec.o: myvec.cpp myvec.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 
