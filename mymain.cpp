@@ -37,13 +37,33 @@ void *mymalloc(int size)
 
 void *operator new(unsigned int s)
 {
-  if (mymalloc(s) == 0)
+  void *ptr = mymalloc(s);
+
+  if (ptr == 0)
     THROW(NOFREE_MEM);
 
-  return mymalloc(s);
+  return ptr;
+}
+
+void *operator new[](unsigned int s)
+{
+  //cout << "s: " << s << endl;
+  // printf("s: %d\r\n", s);
+
+  void *ptr = mymalloc(s);
+
+  if (ptr == 0)
+    THROW(NOFREE_MEM);
+
+  return ptr;
 }
 
 void operator delete(void *p)
+{
+  myfree(p);
+}
+
+void operator delete[](void *p)
 {
   myfree(p);
 }
