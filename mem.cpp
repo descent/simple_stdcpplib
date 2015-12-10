@@ -176,6 +176,8 @@ void *mymalloc(u32 size)
 
 void myfree(void *ptr)
 {
+  if (ptr == 0) return;
+
   PF("myfree: %p\n", ptr);
   int index = ((char *)ptr - heap) / PAGE_SIZE;
   PF("index: %d\n", index);
