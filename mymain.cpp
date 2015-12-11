@@ -8,6 +8,7 @@
 #include "myiostream.h"
 #include "mystring.h"
 #include "myvec.h"
+#include "mylist.h"
 
 #if 0
 #include "k_stdio.h"
@@ -104,6 +105,8 @@ void test_vec()
 
 typedef void (*Fp)();
 
+static int value=6;
+
 extern "C"
 {
 
@@ -112,11 +115,40 @@ int main(void)
   init_rs232();
   USART_Cmd(USART2, ENABLE);
 
+{
+  list<int> list;
+
+  list.push_back(1);
+  //print_memarea();
+  list.push_back(2);
+  //print_memarea();
+  list.push_back(3);
+  //print_memarea();
+
+  //auto it = list.begin();
+  auto it = list.begin();
+  //cout << *it << endl;
+  for (int e : list)
+    cout << e << endl;
+#if 0
+  for (it ; it != list.end() ; ++it)
+    cout << *it << endl;
+#endif
+}
+  print_memarea();
+  while(1);
+
   extern unsigned int __start_global_ctor__;
   extern unsigned int __end_global_ctor__;
   unsigned int *start = &__start_global_ctor__;
   unsigned int *end = &__end_global_ctor__;
 
+{
+  int ptr = (int)(&value);
+
+  cout << "ptr: " << hex << ptr << endl;
+  while(1);
+}
 #if 1
   for (unsigned int *i = start; i != end; ++i)
   {
