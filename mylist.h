@@ -57,7 +57,7 @@ namespace DS
 template <typename Type>
 DS::list<Type>::list():len_(0), head_(0), tail_(0)
 {
-  printf("global list ctor\r\n");
+  printf("list ctor\r\n");
   //data_ = new Type[VEC_DEFAULT_LEN];
   //max_len_ = VEC_DEFAULT_LEN;
 }
@@ -65,7 +65,7 @@ DS::list<Type>::list():len_(0), head_(0), tail_(0)
 template <typename Type>
 DS::list<Type>::~list()
 {
-  printf("global list dtor\r\n");
+  printf("list dtor\r\n");
   Node<Type> *n;
 
   for (n = head_ ; n ; n=n->r_)
