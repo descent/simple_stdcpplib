@@ -9,6 +9,7 @@
 #include "mystring.h"
 #include "myvec.h"
 #include "mylist.h"
+#include "mymap.h"
 
 #if 0
 #include "k_stdio.h"
@@ -114,6 +115,17 @@ int main(void)
 {
   init_rs232();
   USART_Cmd(USART2, ENABLE);
+  {
+    map<int, int> mymap;
+
+    mymap.insert(15, 65);
+    mymap.insert(5, 165);
+
+    auto it = mymap.begin();
+    for (it ; it != mymap.end() ; ++it)
+    {
+    }
+  }
 
 {
   list<int> list;
