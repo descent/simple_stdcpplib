@@ -1,8 +1,8 @@
-CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS)
+CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS) 
 
 CFLAGS=-g
 MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I../ -I./ -I../../../libraries/CMSIS/CM3/CoreSupport -I../../../libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -I../../../libraries/STM32F10x_StdPeriph_Driver/inc -I../../../demos/common -mfloat-abi=soft -DP103
-MYCXXFLAGS = -fno-exceptions -fno-rtti -ffreestanding -nostdlib -nodefaultlibs
+MYCXXFLAGS = -fno-exceptions -fno-rtti -ffreestanding -nostdlib -nodefaultlibs -std=c++11
 LD_FLAGS=-Wl,-T./stm32.ld -nostartfiles
 
 OTHER_OBJS = ../../../libraries/CMSIS/CM3/CoreSupport/core_cm3.c ../../../libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.c ../../../libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/gcc_ride7/startup_stm32f10x_md.s ../../../demos/common/stm32_p103.c ../../../libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c ../../../libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c ../../../libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c ../../../libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_exti.c ../../../libraries/STM32F10x_StdPeriph_Driver/src/misc.c
@@ -13,7 +13,7 @@ LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
 all: mymain.bin
 
-mymain.elf: mymain.o bst.o k_stdio.o mem.o myiostream.o mystring.o gdeque.o my_setjmp.o myvec.o
+mymain.elf: mymain.o bst.o k_stdio.o mem.o myiostream.o mystring.o gdeque.o my_setjmp.o myvec.o mylist.o
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -o $@ $(OTHER_OBJS) $^ -lgcc
 
 mymain.o: mymain.cpp bst.h
@@ -54,6 +54,9 @@ myiostream.o: myiostream.cpp myiostream.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 myvec.o: myvec.cpp myvec.h
+	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+
+mylist.o: mylist.cpp mylist.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 
