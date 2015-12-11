@@ -143,3 +143,15 @@ DS::ofstream& DS::ofstream::operator<<(const DS::string& str)
   myprint(str.c_str());
   return *this;
 }
+
+DS::ofstream& DS::ofstream::operator<<(u32 *ptr)
+{
+  u32 num = (u32)ptr;
+  return operator<<(num);
+}
+
+DS::ofstream& DS::ofstream::operator<<(s32 *ptr)
+{
+  s32 num = (s32)ptr;
+  return operator<<(num);
+}

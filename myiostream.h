@@ -63,6 +63,8 @@ namespace DS
       ofstream& operator<<(const DS::string &str);
       ofstream& operator<<(unsigned int num);
       ofstream& operator<<(ofstream& (*op)(ofstream &)) { return (*op)(*this); }
+      ofstream& operator<<(u32 *ptr);
+      ofstream& operator<<(s32 *ptr);
       void set_basefield(u8 basefield){basefield_ = basefield;}
       int id_;
     private:
