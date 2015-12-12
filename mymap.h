@@ -9,6 +9,7 @@
 using namespace std;
 #else
 #include "myiostream.h"
+#include "myvec.h"
 #include "mem.h"
 #endif
 
@@ -22,22 +23,29 @@ namespace DS
       class iterator 
       {
         public:
-          iterator(GNode<Key, Value> * p){ptr_ = p;}
-          iterator operator++() {}
-          bool operator!=(const iterator & other) {}
-          const GNode<Key, Value>& operator*() const {return ptr_;}
+          iterator(vector<GNode<Key, Value> *> *it):it_(it), index_(0)
+          {}
+          iterator operator++() {++index_; return *this;}
+          bool operator!=(const iterator & other) {return index_ != it_->length();}
+          GNode<Key, Value> operator*(){return *((*it_)[index_]);}
         private:
-          GNode<Key, Value>* ptr_;
+          vector<GNode<Key, Value>*>* it_;
+          int index_;
+          int end_;
       };
 
       map();
       ~map();
 
-      iterator begin() const 
+      iterator begin()
       { 
-        return iterator(root_); 
+        in_order(root_);
+        return iterator(&it_order_);
       }
-      iterator end() const { return iterator(root_); }
+      iterator end() 
+      { 
+        return iterator(&it_order_);
+      }
 
       void insert(const Key &k, const Value v)
       {
@@ -51,6 +59,17 @@ namespace DS
         else
           return 0;
       }
+
+      void in_order(GNode<Key, Value> *n)
+      {
+        if (n == 0)
+          return;
+        in_order(n->l_);
+        it_order_.push_back(n);
+        in_order(n->r_);
+      }
+
+      vector<GNode<Key, Value> *> it_order_;
     private:
       GNode<Key, Value> *root_;
   };

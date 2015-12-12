@@ -1,6 +1,4 @@
-#include "myvec.h"
-
-
+#include "mymap.h"
 
 #ifdef TEST
 int main(int argc, char *argv[])
