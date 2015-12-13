@@ -116,15 +116,24 @@ int main(void)
   init_rs232();
   USART_Cmd(USART2, ENABLE);
   {
+    cout << "abv" << endl;
+  }
+  {
     map<int, int> mymap;
 
     mymap.insert(15, 65);
     mymap.insert(5, 165);
+    mymap.insert(25, 365);
+    mymap.insert(1, 12);
+    mymap.insert(191, 23);
 
     auto it = mymap.begin();
     for (it ; it != mymap.end() ; ++it)
     {
+      //(*it).k_;
+      cout << "(*it).k: "<< (*it).k_ << endl;
     }
+    while(1);
   }
 
 {
