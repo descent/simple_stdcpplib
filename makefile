@@ -16,7 +16,14 @@ all: mymain.bin
 mymain.elf: mymain.o bst.o k_stdio.o mem.o myiostream.o mystring.o gdeque.o my_setjmp.o myvec.o mylist.o mymap.o
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -o $@ $(OTHER_OBJS) $^ -lgcc
 
-mymain.o: mymain.cpp bst.h
+mymain.o: mymain.cpp stm32f10x.h \
+ ../../../libraries/CMSIS/CM3/CoreSupport/core_cm3.h \
+  ../../../libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.h \
+   type.h stm32f10x_conf.h \
+    ../../../libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h \
+     ../stm32f10x.h ../stm32_p103.h bst.h myiostream.h k_stdio.h gdeque.h \
+      my_setjmp.h mem.h mystring.h ../k_string.h ../type.h myvec.h mylist.h \
+       mymap.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 bst.h:
@@ -56,7 +63,12 @@ myiostream.o: myiostream.cpp myiostream.h
 myvec.o: myvec.cpp myvec.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
-mymap.o: mymap.cpp mymap.h
+mymap.o: mymap.cpp mymap.h type.h bst.h myiostream.h k_stdio.h \
+ stm32f10x.h ../../../libraries/CMSIS/CM3/CoreSupport/core_cm3.h \
+ ../../../libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.h \
+ stm32f10x_conf.h \
+ ../../../libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h \
+ ../stm32f10x.h gdeque.h my_setjmp.h myvec.h mem.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 mylist.o: mylist.cpp mylist.h
