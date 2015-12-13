@@ -61,19 +61,19 @@ void DS::vector<Type>::push_back (const Type& val)
 template <typename Type>
 void DS::vector<Type>::grow()
 {
-  cout << "grow max_len: " << max_len_ << endl;
+  //cout << "grow max_len: " << max_len_ << endl;
   if (max_len_ == 0)
     max_len_ = 1;
   else
     max_len_ *= 2; // note overflow u32
-  cout << "after grow max_len: " << max_len_ << endl;
+  //cout << "after grow max_len: " << max_len_ << endl;
   Type *tmp = new Type[max_len_];
-  print_memarea();
+  //print_memarea();
   for (int i=0 ; i < len_ ; ++i)
     tmp[i] = data_[i];
   delete [] data_;
-  print_memarea();
-  cout << "===" << endl;
+  //print_memarea();
+  //cout << "===" << endl;
   data_ = tmp;
 }
 
