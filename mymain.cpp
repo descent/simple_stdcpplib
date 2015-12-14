@@ -1,5 +1,7 @@
 #define USE_STDPERIPH_DRIVER
 
+#define TEST_VEC
+
 #include "stm32f10x.h"
 #include "stm32_p103.h"
 
@@ -95,13 +97,24 @@ void test_vec()
   vec.push_back(2);
   vec.push_back(3);
   vec.push_back(4);
+  vec.push_back(-1);
   vec.push_back(5);
-  vec.push_back(6);
+
+  auto it = vec.begin();
+  for (it ; it != vec.end() ; ++it)
+  {
+    cout << *it << endl;
+  }
+
+
+#if 0
   for (int i=0 ; i < vec.length() ; ++i)
   {
     cout << vec[i] << endl;
   }
-  cout << vec.max_size() << endl;
+#endif
+  cout << "vec.capacity(): " << vec.capacity() << endl;
+  cout << "vec.max_size(): " << vec.max_size() << endl;
 }
 
 typedef void (*Fp)();
@@ -115,9 +128,48 @@ int main(void)
 {
   init_rs232();
   USART_Cmd(USART2, ENABLE);
+
+  extern unsigned int __start_global_ctor__;
+  extern unsigned int __end_global_ctor__;
+  unsigned int *start = &__start_global_ctor__;
+  unsigned int *end = &__end_global_ctor__;
+
+{
+  int ptr = (int)(&value);
+
+  cout << "ptr: " << hex << ptr << endl;
+}
+#if 1
+  for (unsigned int *i = start; i != end; ++i)
   {
-    cout << "abv" << endl;
+    Fp fp = (Fp)(*i);
+    (*fp)();
   }
+#endif
+
+
+  {
+    cout << "abc" << endl;
+  }
+
+#ifdef TEST_VEC
+  TRY
+  {
+    test_vec();
+    //test_bst();
+  }
+  CATCH(NOFREE_MEM)
+  {
+    int i=-1;
+    cout << "no mem, i: " << i << endl;
+  }
+  ETRY
+
+  while(1);
+
+#endif
+
+#ifdef TEST_MAP
   {
     map<int, int> mymap;
 
@@ -130,12 +182,14 @@ int main(void)
     auto it = mymap.begin();
     for (it ; it != mymap.end() ; ++it)
     {
-      //(*it).k_;
+      cout << "it->k_: " << it->k_ << endl;
       cout << "(*it).k: "<< (*it).k_ << endl;
     }
     while(1);
   }
+#endif
 
+#ifdef TEST_LIST
 {
   list<int> list;
 
@@ -155,28 +209,11 @@ int main(void)
   for (it ; it != list.end() ; ++it)
     cout << *it << endl;
 #endif
-}
   print_memarea();
   while(1);
-
-  extern unsigned int __start_global_ctor__;
-  extern unsigned int __end_global_ctor__;
-  unsigned int *start = &__start_global_ctor__;
-  unsigned int *end = &__end_global_ctor__;
-
-{
-  int ptr = (int)(&value);
-
-  cout << "ptr: " << hex << ptr << endl;
-  while(1);
 }
-#if 1
-  for (unsigned int *i = start; i != end; ++i)
-  {
-    Fp fp = (Fp)(*i);
-    (*fp)();
-  }
 #endif
+
 
   int val=98;
   double d_val=3.56;
@@ -202,16 +239,6 @@ int main(void)
 #endif
   int i=100;
   print_memarea();
-  TRY
-  {
-    test_vec();
-    //test_bst();
-  }
-  CATCH(NOFREE_MEM)
-  {
-    cout << "no mem, i: " << i << endl;
-  }
-  ETRY
 
   // print_memarea();
   while(1);
