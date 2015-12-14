@@ -1,6 +1,7 @@
 #define USE_STDPERIPH_DRIVER
 
-#define TEST_VEC
+//#define TEST_VEC
+#define TEST_STRING
 
 #include "stm32f10x.h"
 #include "stm32_p103.h"
@@ -126,6 +127,8 @@ extern "C"
 
 int main(void)
 {
+  int i=0;
+
   init_rs232();
   USART_Cmd(USART2, ENABLE);
 
@@ -151,6 +154,24 @@ int main(void)
   {
     cout << "abc" << endl;
   }
+
+#ifdef TEST_STRING
+  TRY
+  {
+    const int MAX = 100;
+    string str[MAX];
+    print_memarea();
+    for (i=0 ; i < MAX ; ++i)
+      str[i] = "abc";
+    print_memarea();
+  }
+  CATCH(NOFREE_MEM)
+  {
+    cout << "no mem, i: " << i << endl;
+  }
+  ETRY
+  while(1);
+#endif
 
 #ifdef TEST_VEC
   TRY
@@ -237,7 +258,6 @@ int main(void)
 
   cout << "test bst: " << val << endl;
 #endif
-  int i=100;
   print_memarea();
 
   // print_memarea();
