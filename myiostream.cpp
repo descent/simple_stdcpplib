@@ -2,6 +2,7 @@
 #include "mystring.h"
 #include "myvec.h"
 
+#ifdef P103
 #define DOBJS_SIZE 3
 
 void *__dso_handle;
@@ -55,6 +56,7 @@ extern "C"
     return __cxa_atexit (func, arg, d);
   }
 }
+#endif
 
 namespace DS
 {

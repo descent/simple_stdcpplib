@@ -6,12 +6,9 @@
 
 #include "my_setjmp.h"
 
-#define HEX 1
-#define DEC 2
-#define OCT 3
 
 
-
+#ifdef P103
 #define setjmp my_setjmp
 #define longjmp my_longjmp
 
@@ -36,7 +33,11 @@ struct DObjs
 };
 
 void g_dtor();
+#endif
 
+#define HEX 1
+#define DEC 2
+#define OCT 3
 
 namespace DS
 {
