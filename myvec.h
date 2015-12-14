@@ -39,8 +39,8 @@ namespace DS
       Type& operator[](unsigned int idx){return data_[idx];}
       void push_back (const Type& val);
       u32 length() const {return len_;}
-      u32 max_size() const {return (u32)(-1);}
-      u32 capacity() const {return max_len_;}
+      u32 max_size() const {return MAX_LEN_;} // ref: http://www.cnblogs.com/selaselah/archive/2012/05/30/2526736.html
+      u32 capacity() const {return capacity_;}
       iterator begin()
       {
         return iterator(data_, len_);
@@ -49,21 +49,22 @@ namespace DS
       {
         return iterator(data_, len_);
       }
-      Type *data_;
     private:
       void grow();
       u32 len_;
-      u32 max_len_;
+      const u32 MAX_LEN_ = (u32)-2;
+      u32 capacity_;
+      Type *data_;
   };
 
 }
 
 template <typename Type>
-DS::vector<Type>::vector():len_(0), data_(0), max_len_(0)
+DS::vector<Type>::vector():len_(0), data_(0), capacity_(0)
 {
   printf("vector ctor\r\n");
   //data_ = new Type[VEC_DEFAULT_LEN];
-  //max_len_ = VEC_DEFAULT_LEN;
+  //capacity_ = VEC_DEFAULT_LEN;
 }
 
 template <typename Type>
@@ -76,7 +77,7 @@ DS::vector<Type>::~vector()
 template <typename Type>
 void DS::vector<Type>::push_back (const Type& val)
 {
-  if (len_ >= max_len_)
+  if (len_ >= capacity_)
   {
     grow();
   }
@@ -87,13 +88,13 @@ void DS::vector<Type>::push_back (const Type& val)
 template <typename Type>
 void DS::vector<Type>::grow()
 {
-  //cout << "grow max_len: " << max_len_ << endl;
-  if (max_len_ == 0)
-    max_len_ = 1;
+  //cout << "grow max_len: " << capacity_ << endl;
+  if (capacity_ == 0)
+    capacity_ = 1;
   else
-    max_len_ *= 2; // note overflow u32
-  //cout << "after grow max_len: " << max_len_ << endl;
-  Type *tmp = new Type[max_len_];
+    capacity_ *= 2; // note overflow u32
+  //cout << "after grow max_len: " << capacity_ << endl;
+  Type *tmp = new Type[capacity_];
   //print_memarea();
   for (int i=0 ; i < len_ ; ++i)
     tmp[i] = data_[i];
