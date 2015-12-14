@@ -21,7 +21,7 @@ mymain.o: mymain.cpp stm32f10x.h \
   ../../../libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.h \
    type.h stm32f10x_conf.h \
     ../../../libraries/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h \
-     ../stm32f10x.h ../stm32_p103.h bst.h myiostream.h k_stdio.h gdeque.h \
+      bst.h myiostream.h k_stdio.h gdeque.h \
       my_setjmp.h mem.h mystring.h ../k_string.h ../type.h myvec.h mylist.h \
        mymap.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
