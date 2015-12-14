@@ -28,6 +28,7 @@ namespace DS
           iterator operator++() {++index_; return *this;}
           bool operator!=(const iterator & other) {return index_ != it_->length();}
           GNode<Key, Value> operator*(){return *((*it_)[index_]);}
+          GNode<Key, Value>* operator->(){return (*it_)[index_];}
         private:
           vector<GNode<Key, Value>*>* it_;
           int index_;
