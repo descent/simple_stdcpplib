@@ -610,6 +610,7 @@ void ResetISR(void)
   for (pulDest = &_bss; pulDest < &_ebss;)
     *pulDest++ = 0;
 
+  enter_main();
 }
 
 void pendsv_isr(void)
