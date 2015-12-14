@@ -39,6 +39,7 @@ namespace DS
       Type& operator[](unsigned int idx){return data_[idx];}
       void push_back (const Type& val);
       u32 length() const {return len_;}
+      u32 size() const {return len_;}
       u32 max_size() const {return MAX_LEN_;} // ref: http://www.cnblogs.com/selaselah/archive/2012/05/30/2526736.html
       u32 capacity() const {return capacity_;}
       iterator begin()
