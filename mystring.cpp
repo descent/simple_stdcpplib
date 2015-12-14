@@ -9,11 +9,8 @@ DS::string::string():len_(0), str_(0)
 DS::string::string(const char *str)
 {
   len_ = s_strlen(str);
-  str_ = (char *)mymalloc(len_);
-  if (str_ == 0)
-  {
-    // throw exception
-  }
+  // str_ = (char *)mymalloc(len_);
+  str_ = new char[len_];
   s_strcpy(str_, str);
 
   cout << "string ctor" << endl;
@@ -21,7 +18,7 @@ DS::string::string(const char *str)
 
 DS::string::~string()
 {
-  myfree(str_);
+  delete [] str_;
   cout << "string ~ctor" << endl;
 }
 
@@ -33,14 +30,10 @@ DS::string& DS::string::operator=(const DS::string& s)
 
 DS::string& DS::string::operator=(const char *str)
 {
-  myfree(str_);
+  delete [] str_;
 
   len_ = s_strlen(str);
-  str_ = (char *)mymalloc(len_);
-  if (str_ == 0)
-  {
-    // throw exception
-  }
+  str_ = new char[len_];
   s_strcpy(str_, str);
 
   return *this;
