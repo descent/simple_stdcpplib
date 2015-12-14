@@ -19,15 +19,39 @@ namespace DS
   struct vector
   {
     public:
+      class iterator
+      {
+        public:
+          iterator(Type *data, u32 vec_size):element_data_(data),index_(0), vec_size_(vec_size)
+          {
+          }
+          iterator operator++() {++index_; return *this;}
+          bool operator!=(const iterator & other) {return index_ != other.vec_size_;}
+          Type operator*(){return element_data_[index_];}
+          Type* operator->(){return &element_data_[index_];}
+        private:
+          u32 index_, vec_size_;
+          Type *element_data_;
+      };
+
       vector();
       ~vector();
       Type& operator[](unsigned int idx){return data_[idx];}
       void push_back (const Type& val);
       u32 length() const {return len_;}
-      u32 max_size() const {return max_len_;}
+      u32 max_size() const {return (u32)(-1);}
+      u32 capacity() const {return max_len_;}
+      iterator begin()
+      {
+        return iterator(data_, len_);
+      }
+      iterator end()
+      {
+        return iterator(data_, len_);
+      }
+      Type *data_;
     private:
       void grow();
-      Type *data_;
       u32 len_;
       u32 max_len_;
   };
@@ -37,6 +61,7 @@ namespace DS
 template <typename Type>
 DS::vector<Type>::vector():len_(0), data_(0), max_len_(0)
 {
+  printf("vector ctor\r\n");
   //data_ = new Type[VEC_DEFAULT_LEN];
   //max_len_ = VEC_DEFAULT_LEN;
 }
@@ -45,6 +70,7 @@ template <typename Type>
 DS::vector<Type>::~vector()
 {
   delete [] data_;
+  printf("vector dtor\r\n");
 }
 
 template <typename Type>
