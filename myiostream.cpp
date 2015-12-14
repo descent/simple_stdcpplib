@@ -77,18 +77,21 @@ DS::ofstream& DS::ofstream::operator<<(const char *str)
 
 DS::ofstream& DS::ofstream::operator<<(unsigned int num)
 {
-  // fixed me: it is unsigned int, but use signed int to print
+  int radix=10;
+  u8 str[10];
+
   switch (basefield_)
   {
     case HEX:
     {
       //myprint("hex\r\n");
-      myprint(num, 16);
+      radix=16;
       break;
     }
     case OCT:
     {
-      myprint(num, 8);
+      //myprint(num, 8);
+      radix=8;
       break;
     }
     case DEC:
@@ -97,10 +100,15 @@ DS::ofstream& DS::ofstream::operator<<(unsigned int num)
     default:
     {
       //myprint("dec\r\n");
-      myprint(num);
+      //myprint(num);
+      radix=10;
       break;
     }
   }
+
+  s32_itoa(num, str, radix);
+  myprint((char*)str);
+
   return *this;
 }
 
