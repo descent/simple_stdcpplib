@@ -13,8 +13,11 @@ LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
 all: mymain.bin
 
-mymain.elf: mymain.o bst.o k_stdio.o mem.o myiostream.o mystring.o gdeque.o my_setjmp.o myvec.o mylist.o mymap.o
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -o $@ $(OTHER_OBJS) $^ -lgcc
+libmystdcpp.a: myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o 
+	arm-none-eabi-ar rcs $@ $^
+
+mymain.elf: mymain.o libmystdcpp.a
+	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -o $@ $(OTHER_OBJS) $< -L. -lmystdcpp -lgcc
 
 mymain.o: mymain.cpp stm32f10x.h \
  ../../../libraries/CMSIS/CM3/CoreSupport/core_cm3.h \
