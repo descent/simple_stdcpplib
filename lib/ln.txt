@@ -1,0 +1,41 @@
+total 128
+lrwxrwxrwx 1 descent descent   77 Dec 19 15:00 bst.cpp -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/bst.cpp
+lrwxrwxrwx 1 descent descent   75 Dec 19 15:00 bst.h -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/bst.h
+lrwxrwxrwx 1 descent descent   58 Dec 19 15:00 core_cm4.h -> /home/descent/git/jserv-course/stm32f4_prog/inc/core_cm4.h
+lrwxrwxrwx 1 descent descent   63 Dec 19 15:00 core_cm4_simd.h -> /home/descent/git/jserv-course/stm32f4_prog/inc/core_cm4_simd.h
+lrwxrwxrwx 1 descent descent   61 Dec 19 15:00 core_cmFunc.h -> /home/descent/git/jserv-course/stm32f4_prog/inc/core_cmFunc.h
+lrwxrwxrwx 1 descent descent   62 Dec 19 15:00 core_cmInstr.h -> /home/descent/git/jserv-course/stm32f4_prog/inc/core_cmInstr.h
+lrwxrwxrwx 1 descent descent   57 Dec 19 15:02 crtbegin.cpp -> /home/descent/git/jserv-course/cm3_simple_os/crtbegin.cpp
+lrwxrwxrwx 1 descent descent   55 Dec 19 15:02 crtbegin.h -> /home/descent/git/jserv-course/cm3_simple_os/crtbegin.h
+lrwxrwxrwx 1 descent descent   51 Dec 19 15:02 eh.cpp -> /home/descent/git/jserv-course/cm3_simple_os/eh.cpp
+lrwxrwxrwx 1 descent descent   49 Dec 19 15:02 eh.h -> /home/descent/git/jserv-course/cm3_simple_os/eh.h
+lrwxrwxrwx 1 descent descent   80 Dec 19 15:00 gdeque.cpp -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/gdeque.cpp
+lrwxrwxrwx 1 descent descent   78 Dec 19 15:00 gdeque.h -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/gdeque.h
+lrwxrwxrwx 1 descent descent   81 Dec 19 15:00 k_stdio.cpp -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/k_stdio.cpp
+lrwxrwxrwx 1 descent descent   79 Dec 19 15:00 k_stdio.h -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/k_stdio.h
+lrwxrwxrwx 1 descent descent   76 Dec 19 15:00 k_string.h -> /home/descent/git/jserv-course/stm32f4_prog/stm32f4_simple_scheme/k_string.h
+-rwxr-xr-x 1 descent descent 2548 Dec 19 15:00 ln.sh
+-rw-r--r-- 1 descent descent    0 Dec 19 15:42 ln.txt
+-rw-r--r-- 1 descent descent 3575 Dec 19 15:01 makefile
+lrwxrwxrwx 1 descent descent   77 Dec 19 15:00 mem.cpp -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mem.cpp
+lrwxrwxrwx 1 descent descent   75 Dec 19 15:00 mem.h -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mem.h
+lrwxrwxrwx 1 descent descent   84 Dec 19 15:00 myiostream.cpp -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/myiostream.cpp
+lrwxrwxrwx 1 descent descent   82 Dec 19 15:00 myiostream.h -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/myiostream.h
+lrwxrwxrwx 1 descent descent   80 Dec 19 15:00 mylist.cpp -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mylist.cpp
+lrwxrwxrwx 1 descent descent   78 Dec 19 15:00 mylist.h -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mylist.h
+lrwxrwxrwx 1 descent descent   79 Dec 19 15:00 mymap.cpp -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mymap.cpp
+lrwxrwxrwx 1 descent descent   77 Dec 19 15:00 mymap.h -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mymap.h
+lrwxrwxrwx 1 descent descent   61 Dec 19 15:00 my_setjmp.h -> /home/descent/git/jserv-course/stm32f4_prog/myjmp/my_setjmp.h
+lrwxrwxrwx 1 descent descent   61 Dec 19 15:00 my_setjmp.S -> /home/descent/git/jserv-course/stm32f4_prog/myjmp/my_setjmp.S
+lrwxrwxrwx 1 descent descent   82 Dec 19 15:00 mystring.cpp -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mystring.cpp
+lrwxrwxrwx 1 descent descent   80 Dec 19 15:00 mystring.h -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mystring.h
+lrwxrwxrwx 1 descent descent   79 Dec 19 15:00 myvec.cpp -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/myvec.cpp
+lrwxrwxrwx 1 descent descent   77 Dec 19 15:00 myvec.h -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/myvec.h
+lrwxrwxrwx 1 descent descent   86 Dec 19 15:00 stm32f10x_conf.h -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/stm32f10x_conf.h
+lrwxrwxrwx 1 descent descent   81 Dec 19 15:00 stm32f10x.h -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/stm32f10x.h
+lrwxrwxrwx 1 descent descent   64 Dec 19 15:00 stm32f4xx_gpio.h -> /home/descent/git/jserv-course/stm32f4_prog/inc/stm32f4xx_gpio.h
+lrwxrwxrwx 1 descent descent   59 Dec 19 15:00 stm32f4xx.h -> /home/descent/git/jserv-course/stm32f4_prog/inc/stm32f4xx.h
+lrwxrwxrwx 1 descent descent   63 Dec 19 15:00 stm32f4xx_rcc.h -> /home/descent/git/jserv-course/stm32f4_prog/inc/stm32f4xx_rcc.h
+lrwxrwxrwx 1 descent descent   65 Dec 19 15:00 stm32f4xx_usart.h -> /home/descent/git/jserv-course/stm32f4_prog/inc/stm32f4xx_usart.h
+lrwxrwxrwx 1 descent descent   52 Dec 19 15:02 stm32.h -> /home/descent/git/jserv-course/cm3_simple_os/stm32.h
+lrwxrwxrwx 1 descent descent   76 Dec 19 15:00 type.h -> /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/type.h
