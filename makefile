@@ -1,3 +1,12 @@
+CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS) 
+
+CFLAGS=-g
+MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I./inc -mfloat-abi=soft 
+MYCXXFLAGS = -fno-exceptions -fno-rtti -ffreestanding -nostdlib -nodefaultlibs -std=c++11
+LD_FLAGS=-Wl,-T./stm32.ld -nostartfiles
+
+OTHER_OBJS = 
+
 include rule.mk
 
 # make STACK_REG=1 will go -finstrument-functions
@@ -10,31 +19,31 @@ endif
 
 CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS)
 
+CXX=arm-none-eabi-g++
 
+LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
-myur.bin: myur.elf
+all: mymain.bin
+
+mymain.bin: mymain.elf
 	arm-none-eabi-objcopy -Obinary $< $@
-myur.elf: myur.o cell.o  s_eval.o  token_container.o k_stdio.o cstring.o
-	$(CXX) $(LD_FLAGS) -o $@ $^
 
-sources = cell.cpp  k_stdio.cpp  myur.cpp  s_eval.cpp  token_container.cpp gdeque.cpp cstring.cpp
+mymain.elf: mymain.o cell.o  s_eval.o  token_container.o gdeque.o cstring.o lib/libmystdcpp.a
+	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tstm32.ld -nostartfiles $(CFLAGS) -o $@ $(OTHER_OBJS) $^ -lgcc
 
+mymain.o: mymain.cpp
+	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -nostartfiles $(CFLAGS) -c $<
+
+sources = cell.cpp  s_eval.cpp  token_container.cpp gdeque.cpp cstring.cpp 
 include $(sources:.cpp=.dpp)
 
-# useless MYCFLAGS_NO_LD=-nostartfiles -fno-common -O0 -g -mcpu=cortex-m3 -mthumb
+%.o:%.S
+	arm-none-eabi-gcc $(MYCFLAGS) $(INC) -c $< 
 
+#arm-none-eabi-objdump -S demos/uart_echo/main.elf > demos/uart_echo/main.list
 
-#%.o:%.S
-#	arm-none-eabi-gcc $(MYCFLAGS) $(INC) -c $< 
-
-#%.o:%.c
-#	arm-none-eabi-gcc $(MYCFLAGS) $(INC) -c $< 
-
-
-
-
-	
 clean:
 	rm -rf *.o *.elf *.bin *.dpp *.dpp.*
-distclean: clean
-	find . -type l -exec rm -f {} \;
+distclean:
+	find . -type l -exec rm -f {} \; 
+	rm -f $(LINK_FILES)
