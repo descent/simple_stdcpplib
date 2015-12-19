@@ -17,7 +17,7 @@ ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/myli
 ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mylist.h .
 ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mymap.cpp .
 ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mymap.h .
-ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/my_setjmp.h .
+ln -s /home/descent/git/jserv-course/stm32f4_prog/myjmp/my_setjmp.h .
 ln -s /home/descent/git/jserv-course/stm32f4_prog/myjmp/my_setjmp.S .
 ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mystring.cpp .
 ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mystring.h .
