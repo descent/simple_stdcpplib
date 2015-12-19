@@ -6,7 +6,6 @@
   #include <cstring>
 using namespace std;
 #else
-  #include "k_stdio.h"
   #include "k_string.h"
   #define strlen s_strlen
   #define strcpy s_strcpy
@@ -40,10 +39,7 @@ namespace DS
       {
         return strlen(str_);
       }
-      void print()
-      {
-        printf(str_);
-      }
+      void print();
 
     private:
       char str_[STRING_LEN];
