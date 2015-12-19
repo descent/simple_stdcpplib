@@ -1,13 +1,11 @@
-#include "myiostream.h"
 #include "s_eval.h"
 #include "gdeque.h"
-#include "cstring.h"
 
 using namespace DS;
 
 int mymain()
 { 
-  mydeque.init();
+  //mydeque.init();
   init_eval();
   Environment *global_env = get_env(0, "global");
   create_primitive_procedure(global_env);
