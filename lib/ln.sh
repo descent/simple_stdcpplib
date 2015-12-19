@@ -10,8 +10,8 @@ ln -s /home/descent/git/jserv-course/cm3_simple_os/eh.cpp .
 ln -s /home/descent/git/jserv-course/cm3_simple_os/eh.h .
 ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/gdeque.cpp .
 ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/gdeque.h .
-ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/k_stdio.cpp .
-ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/k_stdio.h .
+ln -s ../k_stdio.cpp .
+ln -s ../k_stdio.h .
 ln -s /home/descent/git/jserv-course/stm32f4_prog/stm32f4_simple_scheme/k_string.h .
 ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mem.cpp .
 ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/mem.h .
