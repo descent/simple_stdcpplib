@@ -610,6 +610,8 @@ void enter_main()
   }
   ETRY
   // run global object dtor
+  g_dtor();
+  while(1);
 }
 
 void ResetISR(void)
