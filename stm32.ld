@@ -34,9 +34,23 @@ SECTIONS
     . = ALIGN(8);
   } > CCM
 
+  .myheap (NOLOAD):
+  {
+    . = ALIGN(8);
+    *(.myheap)
+    . = ALIGN(8);
+  } >SRAM
+
+
   .data : AT (_etext)
   {
     _data = .;
+
+    /* c++ ctor */
+    __start_global_ctor__ = .;
+    *(.init_array)
+    __end_global_ctor__ = .;
+
     *(.data .data.*)
     _edata = .;
   } > SRAM
