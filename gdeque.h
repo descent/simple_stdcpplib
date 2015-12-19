@@ -30,11 +30,9 @@ template <typename ElmType, int deque_size=32>
 class Deque
 {
   public:
-    //explicit MyDeque();
-    bool init()
+    explicit Deque()
     {
-      len_ = deque_size;
-      begin_ = end_ = 0;
+      init();
     }
 
 
@@ -224,6 +222,11 @@ class Deque
       init();
     }
   private:
+    void init()
+    {
+      len_ = deque_size;
+      begin_ = end_ = 0;
+    }
     ElmType q_[deque_size];
     int len_;
     int begin_, end_;
