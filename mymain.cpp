@@ -1,4 +1,5 @@
 #include "myiostream.h"
+#include "mem.h"
 
 using namespace DS;
 
@@ -35,7 +36,10 @@ void plat_boot(void)
 }
 
 int mymain()
-{
-  char *c = new char;
-  cout << "abc" << endl;
+{ 
+  for (int i=0 ; i < 100 ; ++i)
+  {
+    char *c = new char;
+    cout << i << ": abc" << endl;
+  }
 }
