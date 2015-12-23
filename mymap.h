@@ -36,7 +36,7 @@ namespace DS
           iterator(vector<GNode<Key, Value> *> *it):it_(it), index_(0)
           {}
           iterator operator++() {++index_; return *this;}
-          bool operator!=(const iterator & other) {return index_ != it_->length();}
+          bool operator!=(const iterator & other) {return index_ != other.it_->length();}
           GNode<Key, Value> operator*(){return *((*it_)[index_]);}
           GNode<Key, Value>* operator->(){return (*it_)[index_];}
         private:
