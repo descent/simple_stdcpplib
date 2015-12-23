@@ -193,10 +193,15 @@ int main(void)
 
 #ifdef TEST_MAP
   {
+  TRY
+  {
     //GNode<int, int> node;
     map<int, int> mymap = {{100,2},{3,4}};
     //map<int, int> mymap;
-    mymap.insert({99,100});
+    #if 0
+    for (int i=0 ; i < 30 ; ++i)
+      mymap.insert({i,100});
+    #endif
 
 
   #if 0
@@ -217,6 +222,12 @@ int main(void)
       cout << "it->k_: " << it->k_ << endl;
       cout << "(*it).k: "<< (*it).k_ << endl;
     }
+  }
+  CATCH(NOFREE_MEM)
+  {
+    cout << "no mem" << endl;
+  }
+  ETRY
     while(1);
   }
 #endif
