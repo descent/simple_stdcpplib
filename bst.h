@@ -25,6 +25,12 @@ struct GNode
   GNode *l_, *r_;
   Key k_;
   Value v_;
+  GNode(){}
+  #if 1
+  GNode(const Key &k, const Value &v):k_(k), v_(v)
+  {
+  }
+  #endif
   ~GNode()
   {
     // cout << "~GNode" << endl;
