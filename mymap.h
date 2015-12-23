@@ -16,7 +16,7 @@ using namespace std;
 namespace DS
 {
   template <typename Key, typename Value>
-  struct map
+  class map
   {
     public:
 
