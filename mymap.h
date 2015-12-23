@@ -20,6 +20,15 @@ namespace DS
   class map
   {
     public:
+      typedef GNode<Key, Value> value_type;
+      #if 0
+      void insert(std::initializer_list<value_type> __list)
+      { 
+      //insert(__list.begin(), __list.end()); 
+      }
+      #endif
+
+
 
       class iterator 
       {
@@ -54,10 +63,18 @@ namespace DS
         return iterator(&it_order_);
       }
 
+      void insert(const value_type& node)
+      {
+        root_ = ::insert(root_, node.k_, node.v_);
+      }
+
+
+#if 0
       void insert(const Key &k, const Value v)
       {
         root_ = ::insert(root_, k, v);
       }
+#endif
       Value& operator[](Key key)
       {
         GNode<Key, Value> *n = search(root_, key);
