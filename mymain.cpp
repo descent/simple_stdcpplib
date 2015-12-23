@@ -1,7 +1,8 @@
 #define USE_STDPERIPH_DRIVER
 
 //#define TEST_VEC
-#define TEST_STRING
+//#define TEST_STRING
+#define TEST_MAP
 
 #include "stm32f10x.h"
 #include "stm32_p103.h"
@@ -192,14 +193,24 @@ int main(void)
 
 #ifdef TEST_MAP
   {
-    map<int, int> mymap;
+    //GNode<int, int> node;
+    map<int, int> mymap = {{100,2},{3,4}};
+    //map<int, int> mymap;
+    mymap.insert({99,100});
 
-    mymap.insert(15, 65);
+
+  #if 0
+    mymap.insert(map<int, int>::value_type(35, 23));
+    mymap.insert(map<int, int>::value_type(15, 65));
+    mymap.insert(map<int, int>::value_type(25, 12));
+    mymap.insert(map<int, int>::value_type(123, 74));
+    mymap.insert(map<int, int>::value_type(45, 111));
     mymap.insert(5, 165);
     mymap.insert(25, 365);
     mymap.insert(1, 12);
     mymap.insert(191, 23);
 
+    #endif
     auto it = mymap.begin();
     for (it ; it != mymap.end() ; ++it)
     {
