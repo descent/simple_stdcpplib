@@ -3,6 +3,7 @@
 
 #include "type.h"
 #include "bst.h"
+#include "initializer_list"
 
 #ifdef USE_OS
 #include <iostream>
@@ -36,6 +37,11 @@ namespace DS
       };
 
       map();
+      map(std::initializer_list<value_type> list)
+      {
+        for (auto it = list.begin(); it != list.end() ; ++it)
+          insert(*it);
+      }
       ~map();
 
       iterator begin()
