@@ -35,3 +35,4 @@ ln -s /home/descent/git/jserv-course/stm32f4_prog/inc/stm32f4xx_rcc.h .
 ln -s /home/descent/git/jserv-course/stm32f4_prog/inc/stm32f4xx_usart.h .
 ln -s /home/descent/git/jserv-course/cm3_simple_os/stm32.h .
 ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/type.h .
+ln -s /home/descent/git/jserv-course/stm32_p103_demos/demos/uart_echo/mymap/initializer_list .
