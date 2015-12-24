@@ -24,7 +24,11 @@ DS::string::~string()
 
 DS::string& DS::string::operator=(const DS::string& s)
 {
-  cout << "xxx" << endl;
+  //cout << "xxx" << endl;
+  delete [] str_;
+  len_ = s_strlen(s.c_str());
+  str_ = new char[len_];
+  s_strcpy(str_, s.c_str());
   return *this;
 }
 
