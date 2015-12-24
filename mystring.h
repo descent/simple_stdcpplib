@@ -10,7 +10,7 @@ namespace DS
   {
     public:
       explicit string();
-      explicit string(const char *str);
+      string(const char *str);
       ~string();
       string& operator=(const string& s);
       string& operator=(const char *str);
