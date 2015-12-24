@@ -54,7 +54,7 @@ namespace DS
       }
 
       map();
-      map(std::initializer_list<value_type> list)
+      map(std::initializer_list<value_type> list):root_(0)
       {
         for (auto it = list.begin(); it != list.end() ; ++it)
           insert(*it);
