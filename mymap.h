@@ -3,15 +3,18 @@
 
 #include "type.h"
 #include "bst.h"
-#include "initializer_list"
 
 #ifdef USE_OS
 #include <iostream>
+#include <vector>
+#include <initializer_list>
 using namespace std;
 #else
+#include "initializer_list"
 #include "myiostream.h"
 #include "myvec.h"
 #include "mem.h"
+using namespace DS;
 #endif
 
 namespace DS
