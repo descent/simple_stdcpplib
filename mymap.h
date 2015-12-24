@@ -50,9 +50,10 @@ namespace DS
           int end_;
       };
 
-      iterator find(const Key& k) 
+      // return iterator is to hard to implement, so return GNode<Key, Value>
+      GNode<Key, Value> *find(const Key& k) 
       { 
-        //GNode<Key, Value> *n = search(root_, k);
+        return search(root_, k);
       // return _M_t.find(__x); 
       }
 
