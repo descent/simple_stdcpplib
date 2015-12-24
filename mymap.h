@@ -21,6 +21,8 @@ namespace DS
   {
     public:
       typedef GNode<Key, Value> value_type;
+
+
       #if 0
       void insert(std::initializer_list<value_type> __list)
       { 
@@ -44,6 +46,12 @@ namespace DS
           int index_;
           int end_;
       };
+
+      iterator find(const Key& k) 
+      { 
+        //GNode<Key, Value> *n = search(root_, k);
+      // return _M_t.find(__x); 
+      }
 
       map();
       map(std::initializer_list<value_type> list)
