@@ -16,6 +16,8 @@ all: mymain.bin
 libmystdcpp.a: myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o 
 	arm-none-eabi-ar rcs $@ $^
 
+mymap: mymap.cpp mymap.h
+	g++ -g -DTEST -DUSE_OS -std=c++11 -o $@ $<
 mymain.elf: mymain.o libmystdcpp.a
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -o $@ $(OTHER_OBJS) $< -L. -lmystdcpp -lgcc
 
