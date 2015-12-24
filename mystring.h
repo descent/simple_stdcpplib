@@ -32,8 +32,12 @@ namespace DS
 }
 
 #if 1
-static inline bool operator>(const DS::string& lhs, const DS::string& rhs )
+static inline bool operator>(const DS::string& lhs, const DS::string& rhs)
 {
+  if (s_strcmp(lhs.c_str(), rhs.c_str()) > 0)
+    return true;
+  else
+    return false;
 }
 static inline bool operator>(const DS::string& lhs, const char* rhs)
 {
@@ -54,6 +58,7 @@ static inline bool operator<(const DS::string& lhs, const char* rhs)
   else
     return false;
 }
+
 static inline bool operator<(const DS::string& lhs, const DS::string& rhs)
 {
   //int ret = s_strcmp(lhs.c_str(), rhs.c_str());
