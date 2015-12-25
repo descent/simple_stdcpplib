@@ -1,7 +1,7 @@
 CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS) 
 
 CFLAGS=-g
-MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -Istm32f407 -I../ -I./ -I../../../libraries/CMSIS/CM3/CoreSupport -I../../../libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -I../../../libraries/STM32F10x_StdPeriph_Driver/inc -I../../../demos/common -mfloat-abi=soft 
+MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I../ -I./ -I../../../libraries/CMSIS/CM3/CoreSupport -I../../../libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -I../../../libraries/STM32F10x_StdPeriph_Driver/inc -I../../../demos/common -mfloat-abi=soft 
 MYCXXFLAGS = -fno-exceptions -fno-rtti -ffreestanding -nostdlib -nodefaultlibs -std=c++11
 LD_FLAGS=-Wl,-T./stm32.ld -nostartfiles
 
