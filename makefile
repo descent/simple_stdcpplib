@@ -17,7 +17,7 @@ ifdef P103
 LD_FLAGS=-Wl,-T./main.ld -nostartfiles
 INC=-Ip103
 P103_PATH=/home/descent/git/jserv-course/stm32_p103_demos/
-MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I/home/descent/git/jserv-course/stm32_p103_demos/libraries/CMSIS/CM3/CoreSupport -I/home/descent/git/jserv-course/stm32_p103_demos/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -I/home/descent/git/jserv-course/stm32_p103_demos//libraries/STM32F10x_StdPeriph_Driver/inc -I../../../demos/common -mfloat-abi=soft -DP103 -I$(P103_PATH)/demos/uart_echo/
+MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I$(P103_PATH)/libraries/CMSIS/CM3/CoreSupport -I$(P103_PATH)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -I$(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/inc -I$(P103_PATH)/demos/common -mfloat-abi=soft -DP103 -I$(P103_PATH)/demos/uart_echo/ $(INC) -I.
 
 OTHER_OBJS = $(P103_PATH)/libraries/CMSIS/CM3/CoreSupport/core_cm3.c $(P103_PATH)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.c $(P103_PATH)/demos/common/stm32_p103.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_exti.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/misc.c
 #$(P103_PATH)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/gcc_ride7/startup_stm32f10x_md.s 
@@ -28,7 +28,8 @@ CXX=arm-none-eabi-g++
 
 #LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
-all: mymain.bin
+TARGET=mymain.bin libmystdcpp.a
+all: $(TARGET)
 
 libmystdcpp.a: myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o $(PLATFORM_OBJ)
 	arm-none-eabi-ar rcs $@ $^
@@ -71,7 +72,7 @@ mystring.o: mystring.cpp mystring.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 myiostream.o: myiostream.cpp myiostream.h
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
 
 myvec.o: myvec.cpp myvec.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
@@ -109,7 +110,7 @@ mymain.bin: mymain.elf
 #arm-none-eabi-objdump -S demos/uart_echo/main.elf > demos/uart_echo/main.list
 
 clean:
-	rm -rf *.o *.elf *.bin *.dpp *.dpp.*
+	rm -rf *.o *.elf *.bin *.dpp *.dpp.* $(TARGET)
 distclean:
 	find . -type l -exec rm -f {} \; 
 	rm -f $(LINK_FILES) libmystdcpp.a
