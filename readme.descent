@@ -1,8 +1,29 @@
-6bf99e1abd4e01e316ff47fbc4f5ad82cd625cf5
-test binary search tree
+support stm32f4 discovery
+support p103 emulator
 
-cc60621fbeb12080d12a98b0622f8f02338fe3b6
-test key, value pair for binary search tree
+ex:
+#include "myiostream.h"
 
-d0a7b42f08b756883702911446d7cd16dec66d0a
-template version
+using namespace DS;
+
+int mymain()
+{
+  for (int i=0 ; i < 100 ; ++i)
+    char *c = new char;
+  cout << "abc" << endl;
+}
+ 
+output:
+i am cout ctor: 0
+fill ctor data: obj_count: 0, arg:537002064
+i am cout ctor: 1
+fill ctor data: obj_count: 1, arg:537002072
+i am cout ctor: 2
+fill ctor data: obj_count: 2, arg:537002080
+vector ctor
+fill ctor data: obj_count: 3, arg:537002316
+no mem
+
+support:
+  global ctor/dtor
+  memory exception (not c++ exception, use setjmp/longjmp to implement it)
