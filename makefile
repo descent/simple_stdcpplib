@@ -1,8 +1,10 @@
 MYCXXFLAGS = -fno-exceptions -fno-rtti -ffreestanding -nostdlib -nodefaultlibs -std=c++11
 CFLAGS=-g
 
+PLATFORM_OBJ=
 #STM32F407=1
 ifdef STM32F407
+PLATFORM_OBJ=stm32f407/stm32f407_io.o
 LD_FLAGS=-Wl,-T./stm32.ld -nostartfiles
 STM32F407_FLAG=-Istm32f407 -DSTM32F407
 MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I. -mfloat-abi=soft $(STM32F407_FLAG)
@@ -28,7 +30,7 @@ CXX=arm-none-eabi-g++
 
 all: mymain.bin
 
-libmystdcpp.a: myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o stm32f407/stm32f407_io.o
+libmystdcpp.a: myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o $(PLATFORM_OBJ)
 	arm-none-eabi-ar rcs $@ $^
 
 mymain.elf: mymain.o libmystdcpp.a
