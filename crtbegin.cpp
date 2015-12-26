@@ -572,7 +572,17 @@ void enter_main()
 {
   // init usart for showing error message
  
+  // stm32f407
+#ifdef STM32F407
   init_usart(9600);
+#endif
+
+  // p103
+#ifdef P103
+  init_rs232();
+  USART_Cmd(USART2, ENABLE);
+#endif
+
   // ur_puts(USART2, "Init complete! Hello World!\r\n");
 
   TRY
