@@ -1,4 +1,4 @@
-ENTRY(main)
+/* ENTRY(main) */
 MEMORY
 {
   FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 128K
@@ -15,6 +15,7 @@ SECTIONS
  		*(.text.*)
 		*(.rodata)
 		_sidata = .;
+    _etext = .;
 	} >FLASH
         .myheap (NOLOAD):
         {
@@ -27,6 +28,7 @@ SECTIONS
 	/* Initialized data will initially be loaded in FLASH at the end of the .text section. */
     .data : AT (_sidata) 
     {
+    _data = .;
 
 		_sdata = .;
         __start_global_ctor__ = .;
@@ -38,6 +40,7 @@ SECTIONS
 	} >RAM
 
 	.bss : {
+    _bss = .;
 		_sbss = .;
 		*(.bss)         /* Zero-filled run time allocate data memory */
 		_ebss = .;
