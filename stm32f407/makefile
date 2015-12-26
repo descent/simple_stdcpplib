@@ -8,3 +8,5 @@ MYCFLAGS=-I.. -fno-common -O0 -g -mcpu=cortex-m3 -mthumb -Istm32f407 -mfloat-abi
 
 stm32f407_io.o: stm32f407_io.cpp stm32f407_io.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
+clean:
+	rm -rf *.o 
