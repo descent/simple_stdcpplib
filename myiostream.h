@@ -8,7 +8,7 @@
 
 
 
-#ifdef P103
+#if 0
 #define setjmp my_setjmp
 #define longjmp my_longjmp
 

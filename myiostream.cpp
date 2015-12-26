@@ -2,7 +2,7 @@
 #include "mystring.h"
 #include "myvec.h"
 
-#ifdef P103
+#if 0
 #define DOBJS_SIZE 3
 
 void *__dso_handle;
