@@ -1,21 +1,24 @@
-LD_FLAGS=-Wl,-T./stm32.ld -nostartfiles
 MYCXXFLAGS = -fno-exceptions -fno-rtti -ffreestanding -nostdlib -nodefaultlibs -std=c++11
 CFLAGS=-g
 
-STM32F407=1
+#STM32F407=1
 ifdef STM32F407
+LD_FLAGS=-Wl,-T./stm32.ld -nostartfiles
 STM32F407_FLAG=-Istm32f407 -DSTM32F407
 MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I. -mfloat-abi=soft $(STM32F407_FLAG)
 OTHER_OBJS=
 endif
 
+P103=1
 #for p103
 ifdef P103
+LD_FLAGS=-Wl,-T./main.ld -nostartfiles
 INC=-Ip103
 P103_PATH=/home/descent/git/jserv-course/stm32_p103_demos/
 MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I/home/descent/git/jserv-course/stm32_p103_demos/libraries/CMSIS/CM3/CoreSupport -I/home/descent/git/jserv-course/stm32_p103_demos/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -I/home/descent/git/jserv-course/stm32_p103_demos//libraries/STM32F10x_StdPeriph_Driver/inc -I../../../demos/common -mfloat-abi=soft -DP103 -I$(P103_PATH)/demos/uart_echo/
 
-OTHER_OBJS = $(P103_PATH)/libraries/CMSIS/CM3/CoreSupport/core_cm3.c $(P103_PATH)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.c $(P103_PATH)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/gcc_ride7/startup_stm32f10x_md.s $(P103_PATH)/demos/common/stm32_p103.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_exti.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/misc.c
+OTHER_OBJS = $(P103_PATH)/libraries/CMSIS/CM3/CoreSupport/core_cm3.c $(P103_PATH)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.c $(P103_PATH)/demos/common/stm32_p103.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_exti.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/misc.c
+#$(P103_PATH)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/gcc_ride7/startup_stm32f10x_md.s 
 endif
 
 CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS) 
@@ -29,8 +32,7 @@ libmystdcpp.a: myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o
 	arm-none-eabi-ar rcs $@ $^
 
 mymain.elf: mymain.o libmystdcpp.a
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tstm32.ld -nostartfiles $(CFLAGS) -o $@ $(OTHER_OBJS) $< -L. -lmystdcpp -lgcc
-	#arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -o $@ $(OTHER_OBJS) $< -L. -lmystdcpp -lgcc
+	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) $(LD_FLAGS) -o $@ $(OTHER_OBJS) $< -L. -lmystdcpp -lgcc
 
 mymain.o: mymain.cpp
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -nostartfiles $(CFLAGS) -c $<
