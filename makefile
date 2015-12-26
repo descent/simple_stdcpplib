@@ -1,23 +1,36 @@
-CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS) 
-
-CFLAGS=-g
-MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -Istm32f407 -I../ -I./ -I../../../libraries/CMSIS/CM3/CoreSupport -I../../../libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -I../../../libraries/STM32F10x_StdPeriph_Driver/inc -I../../../demos/common -mfloat-abi=soft 
-MYCXXFLAGS = -fno-exceptions -fno-rtti -ffreestanding -nostdlib -nodefaultlibs -std=c++11
 LD_FLAGS=-Wl,-T./stm32.ld -nostartfiles
+MYCXXFLAGS = -fno-exceptions -fno-rtti -ffreestanding -nostdlib -nodefaultlibs -std=c++11
+CFLAGS=-g
 
-OTHER_OBJS = 
+STM32F407=1
+ifdef STM32F407
+STM32F407_FLAG=-Istm32f407 -DSTM32F407
+MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I. -mfloat-abi=soft $(STM32F407_FLAG)
+OTHER_OBJS=
+endif
 
+#for p103
+ifdef P103
+INC=-Ip103
+P103_PATH=/home/descent/git/jserv-course/stm32_p103_demos/
+MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I/home/descent/git/jserv-course/stm32_p103_demos/libraries/CMSIS/CM3/CoreSupport -I/home/descent/git/jserv-course/stm32_p103_demos/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -I/home/descent/git/jserv-course/stm32_p103_demos//libraries/STM32F10x_StdPeriph_Driver/inc -I../../../demos/common -mfloat-abi=soft -DP103 -I$(P103_PATH)/demos/uart_echo/
+
+OTHER_OBJS = $(P103_PATH)/libraries/CMSIS/CM3/CoreSupport/core_cm3.c $(P103_PATH)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.c $(P103_PATH)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/gcc_ride7/startup_stm32f10x_md.s $(P103_PATH)/demos/common/stm32_p103.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_exti.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/misc.c
+endif
+
+CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS) 
 CXX=arm-none-eabi-g++
 
-LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
+#LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
 all: mymain.bin
 
-libmystdcpp.a: myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o
+libmystdcpp.a: myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o stm32f407/stm32f407_io.o
 	arm-none-eabi-ar rcs $@ $^
 
 mymain.elf: mymain.o libmystdcpp.a
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tstm32.ld -nostartfiles $(CFLAGS) -o $@ $(OTHER_OBJS) $< -L. -lmystdcpp -lgcc
+	#arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -o $@ $(OTHER_OBJS) $< -L. -lmystdcpp -lgcc
 
 mymain.o: mymain.cpp
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -nostartfiles $(CFLAGS) -c $<
@@ -82,10 +95,6 @@ crtbegin.o: crtbegin.cpp stm32.h crtbegin.h
 mem.o: mem.cpp mem.h
 	arm-none-eabi-g++ -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
-my_setjmp.h:
-	ln -s /home/descent/git/jserv-course/stm32f4_prog/myjmp/$@ .
-my_setjmp.S:
-	ln -s /home/descent/git/jserv-course/stm32f4_prog/myjmp/$@ .
 
 my_setjmp.o: my_setjmp.S my_setjmp.h
 	arm-none-eabi-g++ -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
@@ -99,4 +108,4 @@ clean:
 	rm -rf *.o *.elf *.bin *.dpp *.dpp.*
 distclean:
 	find . -type l -exec rm -f {} \; 
-	rm -f $(LINK_FILES)
+	rm -f $(LINK_FILES) libmystdcpp.a
