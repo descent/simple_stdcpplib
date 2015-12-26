@@ -1,17 +1,27 @@
+# make STM32F407=1
+# make P103=1
+#STM32F407=1
+P103=1
+
 MYCXXFLAGS = -fno-exceptions -fno-rtti -ffreestanding -nostdlib -nodefaultlibs -std=c++11
 CFLAGS=-g
 
 PLATFORM_OBJ=
-#STM32F407=1
+
+TARGET=mymain.bin libmystdcpp.a
+all: $(TARGET)
+
 ifdef STM32F407
 PLATFORM_OBJ=stm32f407/stm32f407_io.o
+stm32f407/stm32f407_io.o: stm32f407/stm32f407_io.cpp stm32f407/stm32f407_io.h
+	(cd stm32f407 ; make)
+
 LD_FLAGS=-Wl,-T./stm32.ld -nostartfiles
 STM32F407_FLAG=-Istm32f407 -DSTM32F407
 MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I. -mfloat-abi=soft $(STM32F407_FLAG)
 OTHER_OBJS=
 endif
 
-P103=1
 #for p103
 ifdef P103
 LD_FLAGS=-Wl,-T./main.ld -nostartfiles
@@ -28,8 +38,6 @@ CXX=arm-none-eabi-g++
 
 #LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
-TARGET=mymain.bin libmystdcpp.a
-all: $(TARGET)
 
 libmystdcpp.a: myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o $(PLATFORM_OBJ)
 	arm-none-eabi-ar rcs $@ $^
@@ -111,6 +119,7 @@ mymain.bin: mymain.elf
 
 clean:
 	rm -rf *.o *.elf *.bin *.dpp *.dpp.* $(TARGET)
+	(cd stm32f407 ; make clean)
 distclean:
 	find . -type l -exec rm -f {} \; 
 	rm -f $(LINK_FILES) libmystdcpp.a
