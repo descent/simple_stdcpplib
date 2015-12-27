@@ -1,4 +1,5 @@
 #include "myiostream.h"
+#include "mem.h"
 
 using namespace DS;
 

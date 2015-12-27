@@ -78,7 +78,9 @@ void *__dso_handle;
 
 static int obj_count=0;
 
-DS::vector<DObjs> dobjs_vec;
+static const int DOBJS_SIZE = 10;
+//DS::vector<DObjs> dobjs_vec;
+DObjs dobjs_vec[DOBJS_SIZE];
 
 int ex_code;
 
@@ -89,7 +91,8 @@ void g_dtor()
     dobjs[i].dtor_(dobjs[i].arg_);
 #endif
 
-  for (int i=0 ; i < dobjs_vec.length() ; ++i)
+  //for (int i=0 ; i < dobjs_vec.length() ; ++i)
+  for (int i=0 ; i < DOBJS_SIZE ; ++i)
   {
     dobjs_vec[i].dtor_(dobjs_vec[i].arg_);
   }
@@ -105,10 +108,19 @@ extern "C"
     dobj.arg_ = arg;
     dobj.dso_handle_ = __dso_handle;
 
-    dobjs_vec.push_back(dobj);
+    if (obj_count >= DOBJS_SIZE)
+    {
+      DS::printf("too many global objects\r\n");
+      return -1;
+    }
+    dobjs_vec[obj_count] = dobj;
+    ++obj_count;
+
+    //dobjs_vec.push_back(dobj);
+print_memarea();
 
     DS::printf("fill ctor data: obj_count: %d, arg:%d\r\n", obj_count, arg);
-    ++obj_count;
+    return 0;
   }
 
   // ref: http://git.opencores.org/?a=viewblob&p=uClibc&h=ebb233b4fce33b04953f1d9158a0479487bb50db&f=libc/sysdeps/linux/arm/aeabi_atexit.c
@@ -164,6 +176,8 @@ void enter_main()
   }
   ETRY
   // run global object dtor
+  g_dtor();
+  while(1);
 }
 
 void ResetISR(void)
