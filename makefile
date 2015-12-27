@@ -39,7 +39,7 @@ CXX=arm-none-eabi-g++
 #LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
 
-libmystdcpp.a: myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o $(PLATFORM_OBJ)
+libmystdcpp.a: cstring.o myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o $(PLATFORM_OBJ)
 	arm-none-eabi-ar rcs $@ $^
 
 mymain.elf: mymain.o libmystdcpp.a
@@ -107,6 +107,9 @@ crtbegin.o: crtbegin.cpp stm32.h crtbegin.h
 
 mem.o: mem.cpp mem.h
 	arm-none-eabi-g++ -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+
+cstring.o: cstring.cpp  cstring.h    
+	arm-none-eabi-g++ -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
 
 
 my_setjmp.o: my_setjmp.S my_setjmp.h
