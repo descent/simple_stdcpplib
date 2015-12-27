@@ -3,16 +3,15 @@
 
 #include <stdarg.h>
 
-#ifdef P103
-#include "stm32f10x.h"
-#define BACKSPACE 127
-#else
-#include "stm32f4xx_usart.h"
-#define BACKSPACE 8
-#endif
 
 #include "type.h"
 #include "gdeque.h"
+
+#ifdef P103
+#define BACKSPACE 127
+#else
+#define BACKSPACE 8
+#endif
 
 #define ENTER '\r'
 
