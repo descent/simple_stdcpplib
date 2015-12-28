@@ -32,6 +32,8 @@ MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I$(P103_PATH)/libraries/CMS
 #OTHER_OBJS = $(P103_PATH)/libraries/CMSIS/CM3/CoreSupport/core_cm3.c $(P103_PATH)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.c $(P103_PATH)/demos/common/stm32_p103.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_rcc.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_gpio.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_usart.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/stm32f10x_exti.c $(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/src/misc.c
 
 PLATFORM_OBJ=p103/core_cm3.o  p103/stm32f10x_exti.o  p103/stm32f10x_rcc.o    p103/stm32_p103.o p103/misc.o      p103/stm32f10x_gpio.o  p103/stm32f10x_usart.o  p103/system_stm32f10x.o
+$(PLATFORM_OBJ):
+	(cd p103 ; ./p103_io.sh ; make)
 
 
 #$(P103_PATH)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/gcc_ride7/startup_stm32f10x_md.s 
