@@ -3,14 +3,10 @@
 //-------------------------------------------------------------------------
 
 //Uncomment one of these
-#include "BCM2835.h" /* Original B,A,A+,B+ */
-//#include "BCM2836.h" /* Raspberriy Pi 2 */
+//#include "BCM2835.h" /* Original B,A,A+,B+ */
+#include "bcm2836.h" /* Raspberriy Pi 2 */
+#include "rpi2_io.h"
 
-extern void PUT32 ( unsigned int, unsigned int );
-extern void PUT16 ( unsigned int, unsigned int );
-extern void PUT8 ( unsigned int, unsigned int );
-extern unsigned int GET32 ( unsigned int );
-extern void dummy ( unsigned int );
 
 #define ARM_TIMER_CTL   (PBASE+0x0000B408)
 #define ARM_TIMER_CNT   (PBASE+0x0000B420)
@@ -73,33 +69,8 @@ void uart_flush ( void )
         if((GET32(AUX_MU_LSR_REG)&0x100)==0) break;
     }
 }
-//------------------------------------------------------------------------
-void hexstrings ( unsigned int d )
-{
-    //unsigned int ra;
-    unsigned int rb;
-    unsigned int rc;
 
-    rb=32;
-    while(1)
-    {
-        rb-=4;
-        rc=(d>>rb)&0xF;
-        if(rc>9) rc+=0x37; else rc+=0x30;
-        uart_send(rc);
-        if(rb==0) break;
-    }
-    uart_send(0x20);
-}
-//------------------------------------------------------------------------
-void hexstring ( unsigned int d )
-{
-    hexstrings(d);
-    uart_send(0x0D);
-    uart_send(0x0A);
-}
-//------------------------------------------------------------------------
-void uart_init ( void )
+void uart_init()
 {
     unsigned int ra;
 
