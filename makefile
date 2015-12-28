@@ -1,7 +1,10 @@
 # make STM32F407=1
 # make P103=1
 #STM32F407=1
-P103=1
+#P103=1
+RPI2=1
+
+CXX=arm-none-eabi-g++
 
 MYCXXFLAGS = -fno-exceptions -fno-rtti -ffreestanding -nostdlib -nodefaultlibs -std=c++11
 CFLAGS=-g
@@ -39,8 +42,17 @@ $(PLATFORM_OBJ):
 #$(P103_PATH)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/gcc_ride7/startup_stm32f10x_md.s 
 endif
 
+ifdef RPI2
+CXX=arm-linux-gnueabihf-g++
+MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-a7 -I. -DRPI2 -Irpi2
+LD_FLAGS=-Wl,--build-id=none -Wl,-T./rpi2.ld -nostartfiles
+PLATFORM_OBJ=rpi2/periph.o rpi2/start.o 
+
+$(PLATFORM_OBJ):
+	(cd rpi2 ; make)
+endif
+
 CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS) 
-CXX=arm-none-eabi-g++
 
 #LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
@@ -51,10 +63,10 @@ p103_io: $(OTHER_OBJS)
 	ls -l $^
 mymain.elf: mymain.o libmystdcpp.a
 	#arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) $(LD_FLAGS) -o $@ $(OTHER_OBJS) $< -L. -lmystdcpp -lgcc
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) $(LD_FLAGS) -o $@ $< -L. -lmystdcpp -lgcc
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) $(LD_FLAGS) -o $@ $< -L. -lmystdcpp -lgcc
 
 mymain.o: mymain.cpp
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -nostartfiles $(CFLAGS) -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -nostartfiles $(CFLAGS) -c $<
 
 bst.h:
 	ln -s /home/descent/git/progs/tree/$@ .
@@ -76,7 +88,7 @@ gdeque.cpp:
 	ln -s /home/descent/git/progs/queue/$@ .
 
 gdeque.o: gdeque.cpp gdeque.h
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 mem.h:
 	ln -s /home/descent/git/progs/mem_alloc/$@ .
@@ -85,43 +97,43 @@ mem.cpp:
 
 
 mystring.o: mystring.cpp mystring.h
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 myiostream.o: myiostream.cpp myiostream.h
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
 
 myvec.o: myvec.cpp myvec.h
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 mymap.o: mymap.cpp mymap.h type.h bst.h myiostream.h k_stdio.h gdeque.h my_setjmp.h myvec.h mem.h
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 mylist.o: mylist.cpp mylist.h
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 
 k_stdio.o: k_stdio.cpp k_stdio.h
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 bst.o: bst.cpp bst.h
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 eh.o: eh.cpp stm32.h
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -c $<
 
 
 crtbegin.o: crtbegin.cpp stm32.h crtbegin.h
-	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -c $<
 
 mem.o: mem.cpp mem.h
-	arm-none-eabi-g++ -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 cstring.o: cstring.cpp  cstring.h    
-	arm-none-eabi-g++ -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
+	$(CXX) -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
 
 
 my_setjmp.o: my_setjmp.S my_setjmp.h
-	arm-none-eabi-g++ -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 mymain.bin: mymain.elf
 	arm-none-eabi-objcopy -Obinary $< $@
