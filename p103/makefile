@@ -19,3 +19,5 @@ all: $(OBJS)
 
 clean:
 	rm -rf *.o 
+distclean:
+	find . -type l -exec rm -f {} \; 
