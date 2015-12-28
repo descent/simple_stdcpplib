@@ -15,9 +15,10 @@ TARGET=mymain.bin libmystdcpp.a
 all: $(TARGET)
 
 ifdef STM32F407
+IODIR=stm32f407
 PLATFORM_OBJ=stm32f407/stm32f407_io.o
 stm32f407/stm32f407_io.o: stm32f407/stm32f407_io.cpp stm32f407/stm32f407_io.h
-	(cd stm32f407 ; make)
+	(cd $(IODIR) ; make)
 
 LD_FLAGS=-Wl,-T./stm32.ld -nostartfiles
 STM32F407_FLAG=-Istm32f407 -DSTM32F407
@@ -27,6 +28,7 @@ endif
 
 #for p103
 ifdef P103
+IODIR=p103
 LD_FLAGS=-Wl,-T./main.ld -nostartfiles
 INC=-Ip103
 P103_PATH=/home/descent/git/jserv-course/stm32_p103_demos/
@@ -36,13 +38,14 @@ MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I$(P103_PATH)/libraries/CMS
 
 PLATFORM_OBJ=p103/core_cm3.o  p103/stm32f10x_exti.o  p103/stm32f10x_rcc.o    p103/stm32_p103.o p103/misc.o      p103/stm32f10x_gpio.o  p103/stm32f10x_usart.o  p103/system_stm32f10x.o
 $(PLATFORM_OBJ):
-	(cd p103 ; ./p103_io.sh ; make)
+	(cd $(IODIR) ; ./p103_io.sh ; make)
 
 
 #$(P103_PATH)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/gcc_ride7/startup_stm32f10x_md.s 
 endif
 
 ifdef RPI2
+IODIR=rpi2
 CXX=arm-linux-gnueabihf-g++
 MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-a7 -I. -DRPI2 -Irpi2
 LD_FLAGS=-Wl,--build-id=none -Wl,-T./rpi2.ld -nostartfiles
@@ -142,7 +145,7 @@ mymain.bin: mymain.elf
 
 clean:
 	rm -rf *.o *.elf *.bin *.dpp *.dpp.* $(TARGET)
-	(cd stm32f407 ; make clean)
+	(cd $(IODIR) ; make clean)
 distclean:
 	find . -type l -exec rm -f {} \; 
 	rm -f $(LINK_FILES) libmystdcpp.a
