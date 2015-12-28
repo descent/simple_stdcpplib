@@ -48,6 +48,7 @@ ifdef RPI2
 IODIR=rpi2
 CXX=arm-linux-gnueabihf-g++
 MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-a7 -I. -DRPI2 -Irpi2
+#ref: -Wl,--build-id=none http://stackoverflow.com/questions/15316384/do-not-pass-build-id-to-linker-from-gcc
 LD_FLAGS=-Wl,--build-id=none -Wl,-T./rpi2.ld -nostartfiles
 PLATFORM_OBJ=rpi2/periph.o rpi2/start.o 
 
