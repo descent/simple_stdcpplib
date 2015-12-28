@@ -15,6 +15,9 @@
 #include "stm32f407_io.h"
 #endif
 
+#ifdef RPI2
+#include "rpi2_io.h"
+#endif
 
 using namespace DS;
 
@@ -150,6 +153,11 @@ void enter_main()
   init_rs232();
   USART_Cmd(USART2, ENABLE);
 #endif
+
+#ifdef RPI2
+    uart_init();
+#endif
+
 
   // ur_puts(USART2, "Init complete! Hello World!\r\n");
 

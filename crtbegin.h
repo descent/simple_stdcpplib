@@ -12,5 +12,6 @@ struct DObjs
 };
 
 void g_dtor();
+extern "C" void enter_main();
 
 #endif
