@@ -29,7 +29,7 @@ extern unsigned int timer_tick ( void );
 
 //------------------------------------------------------------------------
 extern "C"
-int notmain ( void )
+int enter_main ( void )
 {
     unsigned int ra;
     uart_init();
