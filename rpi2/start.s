@@ -5,7 +5,8 @@
 .globl _start
 _start:
     mov sp,#0x8000
-    bl notmain
+    bl enter_main
+    #bl _Z10enter_mainv
 hang: b hang
 
 .globl PUT32
