@@ -105,6 +105,7 @@ int DS::read_char()
 #else
 int DS::read_char()
 {
+  return uart_recv();
 }
 #endif
 
