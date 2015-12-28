@@ -3,8 +3,16 @@
 
 #ifdef P103
 #include "stm32f10x.h"
-#else
+#endif
+
+#ifdef STM32F407
 #include "stm32f4xx_usart.h"
+#endif
+
+#ifdef RPI2
+#include "rpi2_io.h"
+#define send_byte uart_send
+//extern void uart_send ( unsigned int );
 #endif
 
 
@@ -42,6 +50,7 @@ void DS::go_left(int time)
     go_left();
 }
 
+#ifndef RPI2
 void DS::send_byte(u8 b)
 {
   /* Send one byte */
@@ -50,6 +59,7 @@ void DS::send_byte(u8 b)
   /* Loop until USART2 DR register is empty */
   while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
 }
+#endif
 
 void DS::myprint(const char *str)
 {
@@ -86,12 +96,17 @@ int DS::ungetch(int c)
   return 0;
 }
 
+#ifndef RPI2
 int DS::read_char()
 {
   while(USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == RESET);
   return (USART_ReceiveData(USART2) & 0x7F);
 }
-
+#else
+int DS::read_char()
+{
+}
+#endif
 
 int DS::getchar()
 {
