@@ -15,6 +15,11 @@
 //extern void uart_send ( unsigned int );
 #endif
 
+int DS::putchar(int c)
+{
+  send_byte(c);
+  return c;
+}
 
 void DS::go_up()
 {
