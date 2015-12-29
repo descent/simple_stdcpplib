@@ -31,9 +31,9 @@ periph.o : periph.c
 uart05.elf : start.o periph.o uart05.o 
 	$(CXX) -Wl,--build-id=none  -Wl,-T../rpi2.ld  $(COPS) -o $@ $^
 
-uart05.bin : memmap start.o periph.o uart05.o 
-	$(ARMGNU)-ld start.o periph.o uart05.o -T memmap -o uart05.elf
-	$(ARMGNU)-objdump -D uart05.elf > uart05.list
-	$(ARMGNU)-objcopy uart05.elf -O ihex uart05.hex
-	$(ARMGNU)-objcopy uart05.elf -O binary uart05.bin
+uart05.bin : uart05.elf
+	#$(ARMGNU)-ld start.o periph.o uart05.o -T memmap -o uart05.elf
+	#$(ARMGNU)-objdump -D uart05.elf > uart05.list
+	#$(ARMGNU)-objcopy uart05.elf -O ihex uart05.hex
+	arm-linux-gnueabihf-objcopy $< -O binary uart05.bin
 
