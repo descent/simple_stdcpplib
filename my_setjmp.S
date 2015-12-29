@@ -1,7 +1,11 @@
 // our buffer looks like: eax,ebx,ecx,edx,esi,edi,esp,ebp,pc
 
 .text
+#ifdef RPI2
+.code 32
+#else
 .code 16
+#endif
 .syntax unified
 
   .globl	my_setjmp
