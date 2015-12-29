@@ -27,6 +27,7 @@ namespace DS
   void myprint_float(float num);
   void send_byte(u8 b);
   int ungetch(int c);
+  int putchar(int c);
   int getchar();
   int getch(); // no buffer
   int ungetc(int c);
