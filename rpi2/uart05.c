@@ -33,6 +33,18 @@ int enter_main ( void )
 {
     unsigned int ra;
     uart_init();
+    while(1)
+    {
+      int c;
+      uart_send('a');
+      uart_send('\r');
+      uart_send('\n');
+      uart_flush();
+      c = uart_recv();
+      uart_send(c);
+      uart_send('\r');
+      uart_send('\n');
+    }
     return(0);
 }
 //-------------------------------------------------------------------------
