@@ -137,7 +137,7 @@ cstring.o: cstring.cpp  cstring.h
 
 
 my_setjmp.o: my_setjmp.S my_setjmp.h
-	$(CXX) -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 mymain.bin: mymain.elf
 	arm-none-eabi-objcopy -Obinary $< $@
