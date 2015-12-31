@@ -5,7 +5,7 @@
 .section booting
 .globl _start
 _start:
-    mov sp,#0x8000
+    mov sp,#0x10000000
     bl enter_main
     #bl _Z10enter_mainv
 hang: b hang
