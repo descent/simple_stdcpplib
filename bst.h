@@ -109,6 +109,19 @@ NodeType* del(NodeType *n, const Key &k)
   return n;
 }
 
+template <typename NodeType, typename Key>
+NodeType *search (NodeType *n, const Key &k)
+{
+  if (n==0)
+    return 0;
+  if (n->k_ > k)
+    return search(n->l_, k);
+  if (n->k_ < k)
+    return search(n->r_, k);
+
+  return n; // n->k_ == k
+}
+
 template <typename NodeType>
 void print_tree(NodeType *t)
 {
