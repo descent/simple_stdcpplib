@@ -139,6 +139,11 @@ cstring.o: cstring.cpp  cstring.h
 my_setjmp.o: my_setjmp.S my_setjmp.h
 	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
+
+mymap: mymap.cpp mymap.h
+	g++ -g -DTEST -DUSE_OS -std=c++11 -o $@ $<
+
+
 mymain.bin: mymain.elf
 	arm-none-eabi-objcopy -Obinary $< $@
 
