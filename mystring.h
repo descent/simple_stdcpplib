@@ -11,6 +11,7 @@ namespace DS
     public:
       explicit string();
       string(const char *str);
+      string(const string &s);
       ~string();
       string& operator=(const string& s);
       string& operator=(const char *str);
@@ -25,6 +26,7 @@ namespace DS
       }
       #endif
     private:
+      int generate_string(const char *str, int len);
       char *str_;
       u32 len_;
   };
