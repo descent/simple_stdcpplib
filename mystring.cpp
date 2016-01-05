@@ -5,37 +5,49 @@
 #ifdef TEST
 #include <cstdio>
 using namespace std;
+#else
+// #define std DS
 #endif
 
 DS::string::string():len_(0), str_(0)
 {
+#ifdef TEST
   std::printf("1 ctor\n");
+#endif
 }
 
 DS::string::string(const char *str)
 {
   generate_string(str, s_strlen(str));
 
+#ifdef TEST
   std::printf("2 ctor\n");
-  //cout << "string ctor" << endl;
+#endif
 }
 
 DS::string::string(const string &s)
 {
   generate_string(s.c_str(), s.length());
+
+#ifdef TEST
   std::printf("3 ctor\n");
+#endif
 }
 
 DS::string::~string()
 {
+#ifdef TEST
   std::printf("11 dtor:%s\n", str_);
+#endif
   delete [] str_;
   //cout << "string ~ctor" << endl;
 }
 
 DS::string& DS::string::operator=(const DS::string& s)
 {
+#ifdef TEST
   std::printf("1 op=\n");
+#endif
   delete [] str_;
 
   generate_string(s.c_str(), s.length());
@@ -44,7 +56,9 @@ DS::string& DS::string::operator=(const DS::string& s)
 
 DS::string& DS::string::operator=(const char *str)
 {
+#ifdef TEST
   std::printf("2 op=\n");
+#endif
   delete [] str_;
 
   generate_string(str, s_strlen(str));
