@@ -141,8 +141,13 @@ my_setjmp.o: my_setjmp.S my_setjmp.h
 
 
 mymap: mymap.cpp mymap.h
-	g++ -g -DTEST -DUSE_OS -std=c++11 -o $@ $<
+	g++ -g -DTEST -DUSE_OS -m32 -std=c++11 -o $@ $<
 
+mystring: mystring.cpp mystring.h
+	g++ -static -g -DTEST -m32 -std=c++11 -o $@ $<
+
+myiostream: myiostream.cpp myiostream.h
+	g++ -g -DTEST -m32 -std=c++11 -o $@ $<
 
 mymain.bin: mymain.elf
 	arm-none-eabi-objcopy -Obinary $< $@
