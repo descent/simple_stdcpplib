@@ -2,9 +2,18 @@
 #define MYIOSTREAM_H
 
 #include "type.h"
+
+#ifdef TEST
+
+#include <cstdio>
+using namespace std;
+
+#else
+
 #include "k_stdio.h"
 
 #include "my_setjmp.h"
+#endif
 
 
 

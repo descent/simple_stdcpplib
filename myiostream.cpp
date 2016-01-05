@@ -74,7 +74,11 @@ DS::ofstream& DS::ofstream::operator<<(char c)
 
 DS::ofstream& DS::ofstream::operator<<(const char *str)
 {
+#ifdef TEST
+  printf(str);
+#else
   myprint(str);
+#endif
   return *this;
 }
 
@@ -110,7 +114,10 @@ DS::ofstream& DS::ofstream::operator<<(unsigned int num)
   }
 
   s32_itoa(num, str, radix);
+#ifdef TEST
+#else
   myprint((char*)str);
+#endif
 
   return *this;
 }
@@ -121,13 +128,19 @@ DS::ofstream& DS::ofstream::operator<<(int num)
   {
     case HEX:
     {
+#ifdef TEST
+#else
       //myprint("hex\r\n");
       myprint(num, 16);
+#endif
       break;
     }
     case OCT:
     {
+#ifdef TEST
+#else
       myprint(num, 8);
+#endif
       break;
     }
     case DEC:
@@ -136,7 +149,10 @@ DS::ofstream& DS::ofstream::operator<<(int num)
     default:
     {
       //myprint("dec\r\n");
+#ifdef TEST
+#else
       myprint(num);
+#endif
       break;
     }
   }
@@ -145,13 +161,19 @@ DS::ofstream& DS::ofstream::operator<<(int num)
 
 DS::ofstream& DS::ofstream::operator<<(double num)
 {
+#ifdef TEST
+#else
   myprint_float(num);
+#endif
   return *this;
 }
 
 DS::ofstream& DS::ofstream::operator<<(const DS::string& str)
 {
+#ifdef TEST
+#else
   myprint(str.c_str());
+#endif
   return *this;
 }
 
@@ -166,3 +188,11 @@ DS::ofstream& DS::ofstream::operator<<(s32 *ptr)
   s32 num = (s32)ptr;
   return operator<<(num);
 }
+
+#ifdef TEST
+int main(int argc, char *argv[])
+{
+  DS::cout << "abc" << DS::endl;  
+  return 0;
+}
+#endif
