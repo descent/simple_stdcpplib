@@ -61,7 +61,8 @@ int DS::string::generate_string(const char *str, int len)
 
 char& DS::string::operator[](unsigned int idx)
 {
-  // if (
+  // don't check idx range
+  return str_[idx];
 }
 
 #ifdef TEST
@@ -78,6 +79,19 @@ int main(int argc, char *argv[])
 {
   DS::string s1{"123"};
   DS::string s2{"456"};
+
+  char ch = s1[2];
+  printf("ch: %c\n", ch);
+
+  if (s1 < s2)
+  {
+    printf("s1 < s1\n");
+  }
+  else
+  {
+    printf("s1 >= s1\n");
+  }
+
   DS::string s3{s1};
   s2=s1;
   printf("s1: %s\n", s1.c_str());
