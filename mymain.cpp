@@ -2,7 +2,6 @@
 #include "myvec.h"
 #include "mymap.h"
 #include "mystring.h"
-#include "mem.h"
 
 using namespace DS;
 
