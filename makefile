@@ -1,8 +1,8 @@
 # make STM32F407=1
 # make P103=1
 #STM32F407=1
-#P103=1
-RPI2=1
+P103=1
+#RPI2=1
 
 CXX=arm-none-eabi-g++
 
@@ -18,7 +18,7 @@ ifdef STM32F407
 IODIR=stm32f407
 PLATFORM_OBJ=stm32f407/stm32f407_io.o
 stm32f407/stm32f407_io.o: stm32f407/stm32f407_io.cpp stm32f407/stm32f407_io.h
-	(cd $(IODIR) ; make)
+	(cd $(IODIR) ; ./ln.sh ; make)
 
 LD_FLAGS=-Wl,-T./stm32.ld -nostartfiles
 STM32F407_FLAG=-Istm32f407 -DSTM32F407
