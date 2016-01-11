@@ -12,9 +12,8 @@ using namespace std;
 #else
 
 #include "myiostream.h"
-#include "k_stdio.h"
+//#include "k_stdio.h"
 using namespace DS;
-
 #endif
 
 // GNode: G - generic
@@ -135,7 +134,7 @@ void print_tree(NodeType *t)
   }
   else
   {
-    printf("()");
+    cout << "()";
   }
 }
 
