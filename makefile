@@ -149,6 +149,9 @@ mystring: mystring.cpp mystring.h
 myiostream: myiostream.cpp myiostream.h
 	g++ -g -DTEST -m32 -std=c++11 -o $@ $<
 
+bst: bst.cpp bst.h
+	g++ -g -DTEST_MAIN -DUSE_OS -m32 -std=c++11 -o $@ $<
+
 mymain.bin: mymain.elf
 	arm-none-eabi-objcopy -Obinary $< $@
 
