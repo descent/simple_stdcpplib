@@ -10,3 +10,7 @@ stm32f407_io.o: stm32f407_io.cpp stm32f407_io.h
 	arm-none-eabi-g++ $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
 clean:
 	rm -rf *.o 
+distclean:
+	make clean
+	rm -rf stm32f4_prog ; find . -type l -exec rm -f {} \; 
+
