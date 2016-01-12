@@ -104,6 +104,15 @@ namespace DS
         it_order_.push_back(n);
         in_order(n->r_);
       }
+      void del_tree(GNode<Key, Value> *n)
+      {
+        if (n)
+        {
+          del_tree(n->l_);
+          del_tree(n->r_);
+          delete n;
+        }
+      }
 
       vector<GNode<Key, Value> *> it_order_;
     private:
@@ -121,6 +130,7 @@ DS::map<Key, Value>::map():root_(0)
 template <typename Key, typename Value>
 DS::map<Key, Value>::~map()
 {
+  del_tree(root_);
   printf("map dtor\r\n");
   // delete all node
 }
