@@ -143,6 +143,9 @@ my_setjmp.o: my_setjmp.S my_setjmp.h
 mymap: mymap.cpp mymap.h
 	g++ -g -DTEST -DUSE_OS -m32 -std=c++11 -o $@ $<
 
+myvec: myvec.cpp myvec.h
+	g++ -g -DTEST_MAIN -DUSE_OS -m32 -std=c++11 -o $@ $<
+
 mystring: mystring.cpp mystring.h
 	g++ -static -g -DTEST -m32 -std=c++11 -o $@ $<
 
