@@ -25,7 +25,7 @@ namespace DS
           iterator(Type *data, u32 vec_size):element_data_(data),index_(0), vec_size_(vec_size)
           {
           }
-          iterator operator++() {++index_; return *this;}
+          iterator &operator++() {++index_; return *this;}
           bool operator!=(const iterator & other) {return index_ != other.vec_size_;}
           Type operator*(){return element_data_[index_];}
           Type* operator->(){return &element_data_[index_];}
