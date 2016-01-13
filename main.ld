@@ -14,6 +14,9 @@ SECTIONS
  		*(.text)
  		*(.text.*)
 		*(.rodata)
+        __start_global_ctor__ = .;
+        *(.init_array)
+        __end_global_ctor__ = .;
 		_sidata = .;
     _etext = .;
 	} >FLASH
@@ -31,9 +34,6 @@ SECTIONS
     _data = .;
 
 		_sdata = .;
-        __start_global_ctor__ = .;
-        *(.init_array)
-        __end_global_ctor__ = .;
 
 		*(.data)		/* Initialized data */
 		_edata = .;
