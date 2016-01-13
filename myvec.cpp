@@ -2,7 +2,7 @@
 
 
 
-#ifdef TEST
+#ifdef TEST_MAIN
 int main(int argc, char *argv[])
 {
   DS::vector<int> vec;  
@@ -16,6 +16,14 @@ int main(int argc, char *argv[])
   {
     cout << vec[i] << endl;
   }
+
+  cout << "test iterator" << endl;
+
+  for (auto it = vec.begin() ; it != vec.end() ; ++it)
+  {
+    cout << *it << endl;
+  }
+
   cout << vec.max_size() << endl;
 
   return 0;
