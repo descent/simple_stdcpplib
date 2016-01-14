@@ -1,7 +1,13 @@
-This is a very simple c++ standard library for stm32f4discovery, p103 qemu, rpi2.
+This is a very simple c++ standard library for "bare-metal".
+
+support soc:
+* stm32f4discovery
+* p103 qemu
+* rpi2
+
 mymain.cpp is a example for testing.
 
-support:
+feature:
 * c runtime
 * c++ runtime
 * global object ctor/dtor
