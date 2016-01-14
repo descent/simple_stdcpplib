@@ -29,7 +29,7 @@ endif
 #for p103
 ifdef P103
 IODIR=p103
-LD_FLAGS=-Wl,-T./main.ld -nostartfiles
+LD_FLAGS=-Wl,-T./p103.ld -nostartfiles
 INC=-Ip103
 P103_PATH=/home/descent/git/jserv-course/stm32_p103_demos/
 MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-m3 -mthumb -I$(P103_PATH)/libraries/CMSIS/CM3/CoreSupport -I$(P103_PATH)/libraries/STM32F10x_StdPeriph_Driver/inc -I$(P103_PATH)/demos/common -mfloat-abi=soft -DP103 -I$(P103_PATH)/demos/uart_echo/ $(INC) -I.
@@ -70,7 +70,7 @@ mymain.elf: mymain.o libmystdcpp.a
 	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) $(LD_FLAGS) -o $@ $< -L. -lmystdcpp -lgcc
 
 mymain.o: mymain.cpp
-	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -nostartfiles $(CFLAGS) -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
 
 bst.h:
 	ln -s /home/descent/git/progs/tree/$@ .
@@ -92,7 +92,7 @@ gdeque.cpp:
 	ln -s /home/descent/git/progs/queue/$@ .
 
 gdeque.o: gdeque.cpp gdeque.h
-	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 mem.h:
 	ln -s /home/descent/git/progs/mem_alloc/$@ .
@@ -101,44 +101,43 @@ mem.cpp:
 
 
 mystring.o: mystring.cpp mystring.h
-	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 myiostream.o: myiostream.cpp myiostream.h
 	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
 
 myvec.o: myvec.cpp myvec.h
-	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 mymap.o: mymap.cpp mymap.h type.h bst.h myiostream.h k_stdio.h gdeque.h my_setjmp.h myvec.h mem.h
-	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 mylist.o: mylist.cpp mylist.h
-	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 
 k_stdio.o: k_stdio.cpp k_stdio.h
-	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 bst.o: bst.cpp bst.h
-	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 eh.o: eh.cpp stm32.h
-	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
 
 
 crtbegin.o: crtbegin.cpp stm32.h crtbegin.h
-	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -c $<
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
 
 mem.o: mem.cpp mem.h
-	$(CXX) -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
+	$(CXX) -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 cstring.o: cstring.cpp  cstring.h    
 	$(CXX) -DSTM32 $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
 
 
 my_setjmp.o: my_setjmp.S my_setjmp.h
-	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) -Wl,-Tmain.ld -nostartfiles $(CFLAGS) -I../../demos/uart_echo/ -c $<
-
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS)  $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
 mymap: mymap.cpp mymap.h
 	g++ -g -DTEST -DUSE_OS -m32 -std=c++11 -o $@ $<
