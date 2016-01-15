@@ -145,6 +145,9 @@ mymap: mymap.cpp mymap.h
 myvec: myvec.cpp myvec.h
 	g++ -g -DTEST_MAIN -DUSE_OS -m32 -std=c++11 -o $@ $<
 
+mylist: mylist.cpp mylist.h
+	g++ -g -DTEST_MAIN -DUSE_OS -m32 -std=c++11 -o $@ $<
+
 mystring: mystring.cpp mystring.h
 	g++ -static -g -DTEST -m32 -std=c++11 -o $@ $<
 
