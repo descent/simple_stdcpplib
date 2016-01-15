@@ -7,10 +7,16 @@
 #ifdef USE_OS
 #include <iostream>
 #include <vector>
+#if __cplusplus >= 201103L
 #include <initializer_list>
+#endif
 using namespace std;
 #else
+
+#if __cplusplus >= 201103L
 #include "initializer_list"
+#endif
+
 #include "myiostream.h"
 #include "myvec.h"
 #include "mem.h"
