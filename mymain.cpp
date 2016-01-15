@@ -2,6 +2,7 @@
 #include "myvec.h"
 #include "mymap.h"
 #include "mystring.h"
+#include "mylist.h"
 
 using namespace DS;
 
@@ -37,6 +38,16 @@ int mymain()
 
 }
 
+{
+  list<string> list;
+
+  list.push_back("xyz");
+  list.push_back("123");
+  list.push_back("qwerty");
+  cout << "test list" << endl;
+  for (auto it=list.begin() ; it!=list.end() ; ++it)
+    cout << *it << endl;
+}
   for (i=0 ; i < 100 ; ++i)
   {
     char *c = new char;
