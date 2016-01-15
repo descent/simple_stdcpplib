@@ -32,7 +32,7 @@ namespace DS
    class iterator {
    public:
      iterator(Node<Type> * p){ptr = p;}
-     iterator operator++() {ptr=ptr->r_ ; return *this;}// iterator i(ptr); ptr = ptr->r_; return i; }
+     iterator &operator++() {ptr=ptr->r_ ; return *this;}// iterator i(ptr); ptr = ptr->r_; return i; }
      bool operator!=(const iterator & other) {return (ptr != 0);}// return ptr != other.ptr; }
      const Type& operator*() const {return ptr->e_;}
    private:
