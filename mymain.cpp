@@ -6,8 +6,51 @@
 
 using namespace DS;
 
+class BaseClass
+{
+  public:
+    BaseClass(int base=5): base_(base)
+    {
+      cout << "BaseClass: " << base_ << endl;
+    }
+    virtual void vfunc()
+    {
+      cout << "Base vfunc: " << base_ << endl;
+    }
+  private:
+    int base_;
+};
+
+class DeriveClass : public BaseClass
+{
+  public:
+    DeriveClass(int d=10): BaseClass(99), d_(d)
+    {
+      cout << "DeriveClass: " << d_ << endl;
+    }
+    virtual void vfunc()
+    {
+      cout << "derive vfunc: " << d_ << endl;
+    }
+  private:
+    int d_;
+};
+
 int mymain()
 {
+
+#if 1
+  BaseClass *bc = new BaseClass(1);
+  DeriveClass *dv = new DeriveClass(2);
+
+  cout << "call bc->vfunc();" << endl;
+  bc->vfunc();
+
+  bc = dv;
+  cout << "call dv->vfunc();" << endl;
+  bc->vfunc();
+#endif
+
   int i=0;
 
 {
