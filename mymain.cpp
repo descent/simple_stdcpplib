@@ -17,6 +17,10 @@ class BaseClass
     {
       cout << "Base vfunc: " << base_ << endl;
     }
+
+#ifdef SUPPORT_PURE_VIRTUAL_FUNCTION
+    virtual void pf()=0;
+#endif
   private:
     int base_;
 };
@@ -32,6 +36,12 @@ class DeriveClass : public BaseClass
     {
       cout << "derive vfunc: " << d_ << endl;
     }
+#ifdef SUPPORT_PURE_VIRTUAL_FUNCTION
+    virtual void pf()
+    {
+      cout << "pure virtual: " << endl;
+    }
+#endif
   private:
     int d_;
 };
@@ -40,11 +50,18 @@ int mymain()
 {
 
 #if 1
+
+#ifdef SUPPORT_PURE_VIRTUAL_FUNCTION
+  BaseClass *bc = 0;
+#else
   BaseClass *bc = new BaseClass(1);
+#endif
   DeriveClass *dv = new DeriveClass(2);
 
+#ifndef SUPPORT_PURE_VIRTUAL_FUNCTION
   cout << "call bc->vfunc();" << endl;
   bc->vfunc();
+#endif
 
   bc = dv;
   cout << "call dv->vfunc();" << endl;
