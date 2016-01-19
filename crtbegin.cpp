@@ -76,6 +76,14 @@ void operator delete[](void *p)
   myfree(p);
 }
 
+#ifdef SUPPORT_PURE_VIRTUAL_FUNCTION
+// ref: http://wiki.osdev.org/C%2B%2B#Pure_virtual_functions
+extern "C" void __cxa_pure_virtual()
+{
+    // Do nothing or print an error message.
+}
+#endif
+
 
 void *__dso_handle;
 
