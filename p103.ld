@@ -8,43 +8,49 @@ MEMORY
 
 SECTIONS
 {
-	.text :
-	{
-		KEEP(*(.isr_vector))
- 		*(.text)
- 		*(.text.*)
-		*(.rodata)
-        __start_global_ctor__ = .;
-        *(.init_array)
-        __end_global_ctor__ = .;
-		_sidata = .;
+  .text :
+  {
+    KEEP(*(.isr_vector))
+    *(.text)
+    *(.text.*)
+    *(.rodata)
+    *(.rodata.*)
+    __start_global_ctor__ = .;
+    *(.init_array)
+    __end_global_ctor__ = .;
     _etext = .;
-	} >FLASH
-        .myheap (NOLOAD):
-        {
-          . = ALIGN(8);
-          *(.myheap)
-          . = ALIGN(8);
-        } >RAM
+    _sidata = .;
+  } >FLASH
 
 
-	/* Initialized data will initially be loaded in FLASH at the end of the .text section. */
-    .data : AT (_sidata) 
-    {
+
+  /* Initialized data will initially be loaded in FLASH at the end of the .text section. */
+  /* .data : AT(0x5000) */
+  .data : AT(_sidata) 
+  {
     _data = .;
 
-		_sdata = .;
+    _sdata = .;
 
-		*(.data)		/* Initialized data */
-		_edata = .;
-	} >RAM
+    *(.data)		/* Initialized data */
+    _edata = .;
+  } >RAM
 
-	.bss : {
+  .myheap (NOLOAD):
+  {
+    . = ALIGN(8);
+    *(.myheap)
+    . = ALIGN(8);
+  } >RAM
+
+  .bss : 
+  {
     _bss = .;
-		_sbss = .;
-		*(.bss)         /* Zero-filled run time allocate data memory */
-		_ebss = .;
-	} >RAM
+    _sbss = .;
+    *(.bss)         /* Zero-filled run time allocate data memory */
+    _ebss = .;
+  } >RAM
+
     
-    _estack = ORIGIN(RAM) + LENGTH(RAM);
- }  
+  _estack = ORIGIN(RAM) + LENGTH(RAM);
+}  
