@@ -15,10 +15,15 @@ SECTIONS
     *(.text.*)
     *(.rodata)
     *(.rodata.*)
+    _etext = .;
+    _sidata = .;
+  } >FLASH
+
+  init_array : 
+  {
     __start_global_ctor__ = .;
     *(.init_array)
     __end_global_ctor__ = .;
-    _etext = .;
     _sidata = .;
   } >FLASH
 
