@@ -103,7 +103,8 @@ void g_dtor()
 #endif
 
   //for (int i=0 ; i < dobjs_vec.length() ; ++i)
-  for (int i=0 ; i < DOBJS_SIZE ; ++i)
+  //for (int i=0 ; i < DOBJS_SIZE ; ++i)
+  for (int i=obj_count-1 ; i >= 0 ; --i)
   {
     dobjs_vec[i].dtor_(dobjs_vec[i].arg_);
   }
