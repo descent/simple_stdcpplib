@@ -12,6 +12,12 @@ struct DObjs
 };
 
 void g_dtor();
-extern "C" void enter_main();
+
+extern "C"
+{
+  int  __cxa_atexit(void (*)(void*), void*, void* );
+  void enter_main();
+}
+
 
 #endif
