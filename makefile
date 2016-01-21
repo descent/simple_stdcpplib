@@ -1,8 +1,11 @@
 # make STM32F407=1
 # make P103=1
 #STM32F407=1
-P103=1
+#P103=1
 #RPI2=1
+X86=1
+
+OBJCOPY=arm-none-eabi-objcopy
 
 CXX=arm-none-eabi-g++
 
@@ -56,12 +59,26 @@ $(PLATFORM_OBJ):
 	(cd rpi2 ; make)
 endif
 
+ifdef X86
+OBJCOPY=objcopy
+IODIR=x86
+CXX=g++
+MYCFLAGS=-m32 -fno-common -g -DX86 -I. -I$(IODIR)
+#ref: -Wl,--build-id=none http://stackoverflow.com/questions/15316384/do-not-pass-build-id-to-linker-from-gcc
+LD_FLAGS=-Wl,--build-id=none -Wl,-T./x86.ld -nostartfiles
+#PLATFORM_OBJ=$(IODIR)/periph.o $(IODIR)/start.o 
+PLATFORM_OBJ=
+
+$(PLATFORM_OBJ):
+	(cd x86 ; make)
+endif
+
 CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS) 
 
 #LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
 
-libmystdcpp.a: cstring.o myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o $(PLATFORM_OBJ)
+libmystdcpp.a: myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o $(PLATFORM_OBJ)
 	arm-none-eabi-ar rcs $@ $^
 p103_io: $(OTHER_OBJS)
 	ls -l $^
@@ -158,7 +175,7 @@ bst: bst.cpp bst.h
 	g++ -g -DTEST_MAIN -DUSE_OS -m32 -std=c++11 -o $@ $<
 
 mymain.bin: mymain.elf
-	arm-none-eabi-objcopy -Obinary $< $@
+	$(OBJCOPY) -Obinary $< $@
 
 #arm-none-eabi-objdump -S demos/uart_echo/main.elf > demos/uart_echo/main.list
 

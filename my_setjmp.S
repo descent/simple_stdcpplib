@@ -1,5 +1,17 @@
 // our buffer looks like: eax,ebx,ecx,edx,esi,edi,esp,ebp,pc
 
+#ifdef X86
+  .globl	my_setjmp
+my_setjmp:
+  ret
+
+.globl	my_longjmp
+my_longjmp:
+  ret
+
+
+#else
+
 .text
 #ifdef RPI2
 .code 32
@@ -35,3 +47,5 @@ my_longjmp:
 bye:
 	ret
 #endif
+
+#endif // end #ifdef X86

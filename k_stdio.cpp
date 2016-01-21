@@ -56,6 +56,12 @@ void DS::go_left(int time)
 }
 
 #ifndef RPI2
+
+#ifdef X86
+void DS::send_byte(u8 b)
+{
+}
+#else
 void DS::send_byte(u8 b)
 {
   /* Send one byte */
@@ -64,6 +70,7 @@ void DS::send_byte(u8 b)
   /* Loop until USART2 DR register is empty */
   while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
 }
+#endif
 #endif
 
 void DS::myprint(const char *str)
@@ -102,12 +109,21 @@ int DS::ungetch(int c)
 }
 
 #ifndef RPI2
+#ifdef X86
+int DS::read_char()
+{
+}
+
+#else
+
 int DS::read_char()
 {
   while(USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == RESET);
   return (USART_ReceiveData(USART2) & 0x7F);
 }
-#else
+#endif
+
+#else // stm32f407, stm32 p103
 int DS::read_char()
 {
   return uart_recv();
