@@ -126,7 +126,7 @@ void g_dtor()
     ++obj_count;
 
     //dobjs_vec.push_back(dobj);
-print_memarea();
+    // print_memarea();
 
     DS::printf("fill ctor data: obj_count: %d, arg:%d\r\n", obj_count, arg);
     return 0;
