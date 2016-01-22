@@ -1,6 +1,5 @@
 #include "stm32.h"
 #include "crtbegin.h"
-#include "type.h"
 #include "eh.h"
 #include "mem.h"
 #include "myvec.h"
@@ -110,8 +109,6 @@ void g_dtor()
   }
 }
 
-extern "C"
-{
   int __cxa_atexit(void (*destructor) (void *), void *arg, void *__dso_handle)
   {
     DObjs dobj;
@@ -139,11 +136,20 @@ print_memarea();
   /* Register a function to be called by exit or when a shared library
      is unloaded.  This routine is like __cxa_atexit, but uses the
      calling sequence required by the ARM EABI.  */
-  int __aeabi_atexit (void *arg, void (*func) (void *), void *d);
   int __aeabi_atexit (void *arg, void (*func) (void *), void *d)
   {
     return __cxa_atexit (func, arg, d);
   }
+
+
+int __cxa_guard_acquire(u32 *myself)
+{
+  return !(*((char*)myself));
+}
+
+void __cxa_guard_release(u32 *myself)
+{
+  *((char*)myself) = 1;
 }
 
 typedef void (*Fp)();
