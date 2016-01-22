@@ -4,6 +4,8 @@
 #include "mystring.h"
 #include "mylist.h"
 
+#define TEST_STATIC_OBJ
+
 using namespace DS;
 
 class BaseClass
@@ -11,11 +13,18 @@ class BaseClass
   public:
     BaseClass(int base=5): base_(base)
     {
-      cout << "BaseClass: " << base_ << endl;
+      //cout << "BaseClass: " << base_ << endl;
+      printf("BaseClass: %d\n", base_);
+    }
+    ~BaseClass()
+    {
+      //cout << "dtor BaseClass: " << endl;
+      printf("dtor BaseClass\n");
     }
     virtual void vfunc()
     {
       cout << "Base vfunc: " << base_ << endl;
+      printf("Base vfunc: %d\n", base_);
     }
 
 #ifdef SUPPORT_PURE_VIRTUAL_FUNCTION
@@ -46,8 +55,21 @@ class DeriveClass : public BaseClass
     int d_;
 };
 
+#ifdef TEST_STATIC_OBJ
+void f1()
+{
+  static BaseClass obj;
+}
+#endif
+
 int mymain()
 {
+#ifdef TEST_STATIC_OBJ
+  cout << "test static obj" << endl;
+  f1();
+  cout << "test static obj again" << endl;
+  f1();
+#endif
 
 #if 1
 
