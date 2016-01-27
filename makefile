@@ -66,7 +66,7 @@ CXX=g++
 MYCFLAGS=-m32 -fno-common -g -DX86 -I. -I$(IODIR)
 #ref: -Wl,--build-id=none http://stackoverflow.com/questions/15316384/do-not-pass-build-id-to-linker-from-gcc
 LD_FLAGS=-Wl,--build-id=none -Wl,-T./x86.ld -nostartfiles
-PLATFORM_OBJ=$(IODIR)/start.o (IODIR)/bios_call.o
+PLATFORM_OBJ=$(IODIR)/start.o $(IODIR)/bios_call.o
 
 $(PLATFORM_OBJ):
 	(cd x86 ; make)
