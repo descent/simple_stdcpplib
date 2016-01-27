@@ -29,12 +29,11 @@ void init_command()
 }
 #endif
 
-
-
-
-
-
+#ifndef X86
 #define STACK_SIZE 0xfff0
+#else
+#define STACK_SIZE 1
+#endif
 extern unsigned long _etext;
 extern unsigned long _data;
 extern unsigned long _edata;
