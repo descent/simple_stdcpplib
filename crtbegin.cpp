@@ -1,4 +1,3 @@
-#include "stm32.h"
 #include "crtbegin.h"
 #include "eh.h"
 #include "mem.h"

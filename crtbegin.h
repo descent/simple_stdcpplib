@@ -13,6 +13,7 @@ struct DObjs
 };
 
 void g_dtor();
+void mymain();
 
 extern "C"
 {
