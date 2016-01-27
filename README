@@ -25,5 +25,5 @@ you can use p103 qemu to run it
 
 compile:
   make # default is p103
-  ./p103.sh can
+  ./p103.sh # script example for p103 qemu
 
