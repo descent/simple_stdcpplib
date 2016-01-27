@@ -1,5 +1,5 @@
 .code16
-.text
+.section booting
 .global begin
 begin:
   mov %cs,%ax
