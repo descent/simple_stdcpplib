@@ -139,11 +139,11 @@ k_stdio.o: k_stdio.cpp k_stdio.h
 bst.o: bst.cpp bst.h
 	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -I../../demos/uart_echo/ -c $<
 
-eh.o: eh.cpp stm32.h
+eh.o: eh.cpp 
 	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
 
 
-crtbegin.o: crtbegin.cpp stm32.h crtbegin.h
+crtbegin.o: crtbegin.cpp crtbegin.h
 	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
 
 mem.o: mem.cpp mem.h
