@@ -1,11 +1,13 @@
 #ifndef BIOS_CALL_H
 #define BIOS_CALL_H
 
-#ifdef X86_16
+//#ifdef X86_16
   __asm__(".code16gcc\n");
-#endif
+//#endif
 
-void bios_print_char(char ch);
-void bios_print_str(const char *str, int len);
+#include "../type.h"
+
+void bios_print_char(u8 ch);
+void bios_print_str(const u8 *str, int len);
 
 #endif
