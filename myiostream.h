@@ -1,6 +1,10 @@
 #ifndef MYIOSTREAM_H
 #define MYIOSTREAM_H
 
+#ifdef X86_16
+  __asm__(".code16gcc\n");
+#endif
+
 #include "type.h"
 
 #ifdef TEST

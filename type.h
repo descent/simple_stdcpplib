@@ -1,5 +1,9 @@
 #ifndef TYPE_H
 #define TYPE_H
+
+#ifdef X86_16
+  __asm__(".code16gcc\n");
+#endif
 typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;

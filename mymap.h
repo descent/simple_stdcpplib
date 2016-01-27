@@ -1,6 +1,10 @@
 #ifndef MYMAP_H
 #define MYMAP_H
 
+#ifdef X86_16
+  __asm__(".code16gcc\n");
+#endif
+
 #include "type.h"
 #include "bst.h"
 

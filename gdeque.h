@@ -1,5 +1,9 @@
 /*
  * g: generic
+
+#ifdef X86_16
+  __asm__(".code16gcc\n");
+#endif
  * gdeque: generic deque
  */
 

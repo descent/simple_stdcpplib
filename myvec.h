@@ -1,6 +1,10 @@
 #ifndef MYVEC_H
 #define MYVEC_H
 
+#ifdef X86_16
+  __asm__(".code16gcc\n");
+#endif
+
 #include "type.h"
 
 #ifdef USE_OS

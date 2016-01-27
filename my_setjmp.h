@@ -1,5 +1,9 @@
 /*
  * Copyright (C) 1991 DJ Delorie
+
+#ifdef X86_16
+  __asm__(".code16gcc\n");
+#endif
  * All rights reserved.
  *
  * Redistribution, modification, and use in source and binary forms is permitted

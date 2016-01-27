@@ -1,6 +1,10 @@
 #ifndef MYSTRING_H
 #define MYSTRING_H
 
+#ifdef X86_16
+  __asm__(".code16gcc\n");
+#endif
+
 #include "type.h"
 #include "k_string.h"
 

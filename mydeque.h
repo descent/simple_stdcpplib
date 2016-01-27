@@ -1,6 +1,10 @@
 #ifndef MYDEQUE_H
 #define MYDEQUE_H
 
+#ifdef X86_16
+  __asm__(".code16gcc\n");
+#endif
+
 #include <iostream>
 
 using namespace std;

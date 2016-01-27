@@ -1,6 +1,10 @@
 #ifndef BST_H
 #define BST_H
 
+#ifdef X86_16
+  __asm__(".code16gcc\n");
+#endif
+
 #ifdef USE_OS
 #include <cstdio>
 #include <cstdlib>

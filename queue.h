@@ -1,6 +1,10 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#ifdef X86_16
+  __asm__(".code16gcc\n");
+#endif
+
 #include <iostream>
 
 using namespace std;

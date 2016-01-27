@@ -1,6 +1,10 @@
 #ifndef EH_H
 #define EH_H
 
+#ifdef X86_16
+  __asm__(".code16gcc\n");
+#endif
+
 #include "my_setjmp.h"
 
 #define setjmp my_setjmp

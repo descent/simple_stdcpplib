@@ -1,6 +1,10 @@
 #ifndef STRING_H
 #define STRING_H
 
+#ifdef X86_16
+  __asm__(".code16gcc\n");
+#endif
+
 #include "type.h"
 
 #if 0

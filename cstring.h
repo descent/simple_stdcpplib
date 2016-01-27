@@ -1,6 +1,10 @@
 #ifndef CSTRING_H
 #define CSTRING_H
 
+#ifdef X86_16
+  __asm__(".code16gcc\n");
+#endif
+
 #ifdef OS_CPP
   #include <stdio.h>
   #include <cstring>
