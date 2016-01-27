@@ -58,8 +58,10 @@ void DS::go_left(int time)
 #ifndef RPI2
 
 #ifdef X86
+#include "x86/bios_call.h"
 void DS::send_byte(u8 b)
 {
+  bios_print_char(b);
 }
 #else
 void DS::send_byte(u8 b)
