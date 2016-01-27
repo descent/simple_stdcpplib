@@ -1,6 +1,6 @@
 CXX=g++
 
-CXXFLAGS=-m32 -Wall -O2 -nostdlib -nostartfiles -ffreestanding -fno-exceptions -fno-rtti 
+CXXFLAGS=-m32 -Wall -O2 -nostdlib -nostartfiles -ffreestanding -fno-exceptions -fno-rtti  -g
 
 all : start.o bios_call.o
 
