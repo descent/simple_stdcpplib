@@ -1,9 +1,20 @@
+#include "bios_call.h"
 
-void bios_print_char(char ch)
+void bios_print_char(u8 ch)
 {
+  __asm__ __volatile__
+  (
+    "mov     $0x0e,%%ah\n"
+    "mov     %0, %%al\n"    /* Char to print */
+    "mov     $0x0f, %%bl\n"   /* Front color: white */
+    "int     $0x10"       /* BIOS int 10h, ah=0xe: Print char */
+    :
+    :"g"(ch)
+    :
+  );
 }
 
-void bios_print_str(const char *str, int len)
+void bios_print_str(const u8 *str, int len)
 {
 
   __asm__ __volatile__
