@@ -168,8 +168,6 @@ void enter_main()
 #ifdef RPI2
     uart_init();
 #endif
-  void bios_print_char(u8 ch);
-  bios_print_char('A');
 
 
   // ur_puts(USART2, "Init complete! Hello World!\r\n");
@@ -182,7 +180,6 @@ void enter_main()
     unsigned int *start = &__start_global_ctor__;
     unsigned int *end = &__end_global_ctor__;
 
-    bios_print_char('B');
     // run global object ctor
     for (unsigned int *i = start; i != end; ++i)
     {
