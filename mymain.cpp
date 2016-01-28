@@ -64,6 +64,10 @@ void f1()
 
 int mymain()
 {
+  string s{"1bcd1234"};
+  cout << s << " ok" << endl;
+  while(1);
+
 #ifdef TEST_STATIC_OBJ
   cout << "test static obj" << endl;
   f1();
