@@ -90,8 +90,6 @@ static const int DOBJS_SIZE = 10;
 //DS::vector<DObjs> dobjs_vec;
 DObjs dobjs_vec[DOBJS_SIZE];
 
-int ex_code;
-
 void g_dtor()
 {
 #if 0
@@ -170,6 +168,8 @@ void enter_main()
 #ifdef RPI2
     uart_init();
 #endif
+  void bios_print_char(u8 ch);
+  bios_print_char('A');
 
 
   // ur_puts(USART2, "Init complete! Hello World!\r\n");
@@ -182,6 +182,7 @@ void enter_main()
     unsigned int *start = &__start_global_ctor__;
     unsigned int *end = &__end_global_ctor__;
 
+    bios_print_char('B');
     // run global object ctor
     for (unsigned int *i = start; i != end; ++i)
     {
@@ -191,6 +192,7 @@ void enter_main()
 
     mymain();
   }
+  #if 1
   CATCH(NOFREE_MEM)
   {
     cout << "no mem" << endl;
@@ -198,16 +200,20 @@ void enter_main()
   ETRY
   // run global object dtor
   g_dtor();
+  #endif
   while(1);
 }
 
-void ResetISR(void)
+void ResetISR()
 {
   unsigned long *pulSrc, *pulDest;
 
+#if defined(P103) || defined(STM32F407)
   pulSrc = &_etext;
   for (pulDest = &_data; pulDest < &_edata;)
     *pulDest++ = *pulSrc++;
+#endif
+
   for (pulDest = &_bss; pulDest < &_ebss;)
     *pulDest++ = 0;
 

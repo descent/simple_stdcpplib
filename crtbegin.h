@@ -21,6 +21,7 @@ void mymain();
 
 extern "C"
 {
+  void ResetISR();
   int __cxa_guard_acquire(u32 *myself);
   void __cxa_guard_release(u32 *myself);
   int  __cxa_atexit(void (*)(void*), void*, void* );
