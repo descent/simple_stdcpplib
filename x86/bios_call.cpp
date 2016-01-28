@@ -4,10 +4,14 @@ void bios_print_char(u8 ch)
 {
   __asm__ __volatile__
   (
+//    "push %%ax\n"
+//    "push %%bx\n"
     "mov     $0x0e,%%ah\n"
     "mov     %0, %%al\n"    /* Char to print */
     "mov     $0x0f, %%bl\n"   /* Front color: white */
-    "int     $0x10"       /* BIOS int 10h, ah=0xe: Print char */
+    "int     $0x10\n"       /* BIOS int 10h, ah=0xe: Print char */
+//    "pop %%ax\n"
+//    "pop %%bx\n"
     :
     :"g"(ch)
     :
