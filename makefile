@@ -1,9 +1,9 @@
 # make STM32F407=1
 # make P103=1
 #STM32F407=1
-P103=1
+#P103=1
 #RPI2=1
-#X86=1
+X86=1
 
 OBJCOPY=arm-none-eabi-objcopy
 
@@ -63,12 +63,13 @@ ifdef X86
 OBJCOPY=objcopy
 IODIR=x86
 CXX=g++
-MYCFLAGS=-m32 -fno-common -g -DX86 -I. -I$(IODIR)
+MYCFLAGS=-m32 -fno-common -g -DX86 -DX86_16 -I. -I$(IODIR)
 #ref: -Wl,--build-id=none http://stackoverflow.com/questions/15316384/do-not-pass-build-id-to-linker-from-gcc
 LD_FLAGS=-Wl,--build-id=none -Wl,-T./x86.ld -nostartfiles
+PLATFORM_SRC=$(IODIR)/start.s $(IODIR)/bios_call.cpp
 PLATFORM_OBJ=$(IODIR)/start.o $(IODIR)/bios_call.o
 
-$(PLATFORM_OBJ):
+$(PLATFORM_OBJ): $(PLATFORM_SRC)
 	(cd x86 ; make)
 endif
 
