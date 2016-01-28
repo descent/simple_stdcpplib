@@ -1,13 +1,9 @@
 #ifndef K_STDIO_H
 #define K_STDIO_H
 
-#ifdef X86_16
-  __asm__(".code16gcc\n");
-#endif
-
 #include <stdarg.h>
 
-
+#include "x86_16.h"
 #include "type.h"
 #include "gdeque.h"
 
