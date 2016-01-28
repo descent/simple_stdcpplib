@@ -13,6 +13,13 @@ SECTIONS
     _etext = .;
     _sidata = .;
   } 
+  .bss : 
+  {
+    _bss = .;
+    _sbss = .;
+    *(.bss)         /* Zero-filled run time allocate data memory */
+    _ebss = .;
+  } 
 
 
   .= ALIGN(32);
@@ -52,13 +59,6 @@ SECTIONS
     . = ALIGN(8);
   }
 
-  .bss : 
-  {
-    _bss = .;
-    _sbss = .;
-    *(.bss)         /* Zero-filled run time allocate data memory */
-    _ebss = .;
-  } 
 /*
   .sig : AT(0x7DFE)
   {
