@@ -1,7 +1,9 @@
 #include "bios_call.h"
 
-void bios_print_char(u8 ch)
+#if 0
+void bios_print_char1(u8 ch)
 {
+#if 1
   __asm__ __volatile__
   (
 //    "push %%ax\n"
@@ -10,13 +12,16 @@ void bios_print_char(u8 ch)
     "mov     %0, %%al\n"    /* Char to print */
     "mov     $0x0f, %%bl\n"   /* Front color: white */
     "int     $0x10\n"       /* BIOS int 10h, ah=0xe: Print char */
+    //"leave\n"       /* BIOS int 10h, ah=0xe: Print char */
 //    "pop %%ax\n"
 //    "pop %%bx\n"
     :
     :"g"(ch)
-    :
+    :"cc"
   );
+#endif
 }
+#endif
 
 void bios_print_str(const u8 *str, int len)
 {
