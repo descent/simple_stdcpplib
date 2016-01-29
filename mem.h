@@ -1,11 +1,17 @@
 #ifndef MEM_H
 #define MEM_H
 
-#ifdef X86_16
-  __asm__(".code16gcc\n");
-#endif
-
+#include "x86_16.h"
 #include "type.h"
+
+#ifdef X86_16
+const int PAGE_SIZE = 128;
+const int PAGE = 80; // how many pages
+#else
+const int PAGE_SIZE = 1024;
+const int PAGE = 64; // how many pages
+#endif
+const int HEAP_SIZE = PAGE * PAGE_SIZE;
 
 void *mymalloc(u32 size);
 void myfree(void *ptr);

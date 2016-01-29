@@ -28,9 +28,6 @@ using namespace DS;
 #define GET_FREE_MEMAREA 0
 
 
-const int PAGE_SIZE = 1024;
-const int PAGE = 64; // how many pages
-const int HEAP_SIZE = PAGE * PAGE_SIZE;
 #ifdef STM32
 __attribute__((section(".myheap")))
 #endif
