@@ -27,3 +27,14 @@ compile:
   make # default is p103
   ./p103.sh # script example for p103 qemu
 
+x86/16bit mode:
+x86/start.s bios_print_char
+should use retl, let sp +4, not +2
+save ebx/eax register, 
+
+fixed
+char cc='A';
+cout << ": " << cc << endl;
+the error.
+
+narrowing heap size, because the execute can access 64k address.
