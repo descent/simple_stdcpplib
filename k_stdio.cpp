@@ -84,7 +84,7 @@ void DS::myprint(const char *str)
 
 void DS::myprint(int num, int base)
 {
-  char str[10];
+  char str[10]="aa";
   s32_itoa_s(num, str, base);
   myprint(str);
 }
@@ -437,6 +437,16 @@ int DS::printf(const char *fmt, ...)
           s = __builtin_va_arg(ap, char *);  
           len = s_strlen(s);
           s_strcpy(cur_char, s);
+          cur_char += len;
+          break;
+        }
+        case 'x':
+        {
+          d = __builtin_va_arg(ap, int);
+          char num_str[10];
+          s32_itoa_s(d, num_str, 16);
+          len = s_strlen(num_str);
+          s_strcpy(cur_char, num_str);
           cur_char += len;
           break;
         }
