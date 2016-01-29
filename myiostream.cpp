@@ -70,6 +70,7 @@ namespace DS
 DS::ofstream& DS::ofstream::operator<<(char c)
 {
   putchar(c);
+  return *this;
 }
 
 DS::ofstream& DS::ofstream::operator<<(const char *str)
