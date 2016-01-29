@@ -22,7 +22,7 @@ bios_print_char:
     mov     0x4(%esp), %al    /* Char to print */
     mov     $0x0f, %bl   /* Front color: white */
     int     $0x10       /* BIOS int 10h, ah=0xe: Print char */
-    ret
+    retl
 
 LABEL_STACK:
   .space 40960, 0
