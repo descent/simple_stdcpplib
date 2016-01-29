@@ -1,10 +1,7 @@
 #ifndef CRTBEGIN_H
 #define CRTBEGIN_H
 
-#ifdef X86_16
-  __asm__(".code16gcc\n");
-#endif
-
+#include "x86_16.h"
 #include "type.h"
 
 extern void *__dso_handle;
