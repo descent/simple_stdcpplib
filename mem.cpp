@@ -1,5 +1,5 @@
 #include "mem.h"
-
+#include "eh.h"
 
 #ifdef STM32
 
@@ -416,6 +416,39 @@ void test_list_malloc()
   #endif
 }
 #endif // end #ifndef STM32
+
+void *operator new(unsigned int s)
+{
+  void *ptr = mymalloc(s);
+
+  if (ptr == 0)
+    THROW(NOFREE_MEM);
+
+  return ptr;
+}
+
+void *operator new[](unsigned int s)
+{
+  //cout << "s: " << s << endl;
+  // printf("s: %d\r\n", s);
+
+  void *ptr = mymalloc(s);
+
+  if (ptr == 0)
+    THROW(NOFREE_MEM);
+
+  return ptr;
+}
+
+void operator delete(void *p)
+{
+  myfree(p);
+}
+
+void operator delete[](void *p)
+{
+  myfree(p);
+}
 
 #ifdef TEST
 int main(int argc, char *argv[])

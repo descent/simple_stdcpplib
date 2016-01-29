@@ -1,8 +1,7 @@
 #include "crtbegin.h"
-#include "eh.h"
-#include "mem.h"
 #include "myvec.h"
 #include "myiostream.h"
+#include "eh.h"
 
 #ifdef P103
 #include "stm32f10x.h"
@@ -40,38 +39,6 @@ extern unsigned long _edata;
 extern unsigned long _bss;
 extern unsigned long _ebss;
 
-void *operator new(unsigned int s)
-{
-  void *ptr = mymalloc(s);
-
-  if (ptr == 0)
-    THROW(NOFREE_MEM);
-
-  return ptr;
-}
-
-void *operator new[](unsigned int s)
-{
-  //cout << "s: " << s << endl;
-  // printf("s: %d\r\n", s);
-
-  void *ptr = mymalloc(s);
-
-  if (ptr == 0)
-    THROW(NOFREE_MEM);
-
-  return ptr;
-}
-
-void operator delete(void *p)
-{
-  myfree(p);
-}
-
-void operator delete[](void *p)
-{
-  myfree(p);
-}
 
 #ifdef SUPPORT_PURE_VIRTUAL_FUNCTION
 // ref: http://wiki.osdev.org/C%2B%2B#Pure_virtual_functions
