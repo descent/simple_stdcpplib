@@ -4,7 +4,12 @@
 #include "mystring.h"
 #include "mylist.h"
 
-#define TEST_STATIC_OBJ
+//#define TEST_BASE
+#define TEST_MEM_PAGE_LIMIT
+//#define TEST_STATIC_OBJ
+//
+const int INDEX_MAX = PAGE_SIZE;
+const int WHICH_PAGE = PAGE-1;
 
 using namespace DS;
 
@@ -48,7 +53,8 @@ class DeriveClass : public BaseClass
 #ifdef SUPPORT_PURE_VIRTUAL_FUNCTION
     virtual void pf()
     {
-      cout << "pure virtual: " << endl;
+      //cout << "pure virtual: " << endl;
+      printf("pure virtual:\n");
     }
 #endif
   private:
@@ -62,11 +68,54 @@ void f1()
 }
 #endif
 
+
+namespace
+{
+  //char heap[64*10];
+}
+
 int mymain()
 {
+
+#ifdef TEST_BASE
   string s{"1bcd1234"};
   cout << s << " ok" << endl;
+  //print_memarea();
   while(1);
+#endif
+
+#if 0
+  heap[63*1024+1] = 'B'+1;
+  char ch = heap[63*1024+1];
+  cout << ch << " ok" << endl;
+  heap[63*1024+2] = 'B'+2;
+  ch = heap[63*1024+2];
+  cout << ch << " xx" << endl;
+#endif
+
+
+#ifdef TEST_MEM_PAGE_LIMIT
+  extern char heap[];
+  int j=0;
+  for (int i=0 ; i < INDEX_MAX ; ++i, ++j)
+  {
+    if (j%26 == 0)
+      j=0;
+    heap[WHICH_PAGE* PAGE_SIZE +i] = 'A'+ j;
+  }
+
+  for (int i=0 ; i < INDEX_MAX ; ++i)
+  {
+    char cc = heap[WHICH_PAGE* PAGE_SIZE +i];
+    //cout << i << ": ";
+    //cout << cc << endl;
+    //cout << i << ": " << cc << endl;
+    cout << i << ": " << cc << endl;
+  }
+  while(1);
+#endif
+
+
 
 #ifdef TEST_STATIC_OBJ
   cout << "test static obj" << endl;
@@ -75,7 +124,7 @@ int mymain()
   f1();
 #endif
 
-#if 1
+#ifdef TEST_VIRTUAL_FUNC
 
 #ifdef SUPPORT_PURE_VIRTUAL_FUNCTION
   BaseClass *bc = 0;
@@ -84,10 +133,13 @@ int mymain()
 #endif
   DeriveClass *dv = new DeriveClass(2);
 
+
+
 #ifndef SUPPORT_PURE_VIRTUAL_FUNCTION
   cout << "call bc->vfunc();" << endl;
   bc->vfunc();
 #endif
+
 
   bc = dv;
   cout << "call dv->vfunc();" << endl;
@@ -96,6 +148,7 @@ int mymain()
 
   int i=0;
 
+#ifdef TEST_VECTOR
 {
   vector<string> vec;
 
@@ -106,11 +159,16 @@ int mymain()
 
   for (i=0 ; i < vec.size() ; ++i)
     cout << vec[i] << endl;
+
+
   cout << "test vec iterator" << endl;
   for (auto it=vec.begin() ; it!=vec.end() ; ++it)
     cout << *it << endl;
-}
 
+}
+#endif
+
+#ifdef TEST_MAP
 {
   map<string, int> str_map;
 
@@ -123,7 +181,10 @@ int mymain()
     cout << "(" << it->k_ << "," << it->v_ << ")" << endl;
 
 }
+#endif
 
+
+#ifdef TEST_LIST
 {
   list<string> list;
 
@@ -134,10 +195,16 @@ int mymain()
   for (auto it=list.begin() ; it!=list.end() ; ++it)
     cout << *it << endl;
 }
+#endif
+
+
+#ifdef TEST_MEM_ALLOC_FAIL
   for (i=0 ; i < 100 ; ++i)
   {
     char *c = new char;
     cout << "i: " << i << endl;
   }
-  cout << "abc" << endl;
-}
+  cout << "alloc all memory ok" << endl;
+#endif
+
+} // end int mymain()
