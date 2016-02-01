@@ -19,7 +19,7 @@ begin:
 #  call enter_main
   callw ResetISR
 
-
+#ref: http://www.cppblog.com/luqingfei/archive/2011/06/13/122220.html
 .global bios_read_char
 bios_read_char:
   mov 0x0, %ah
