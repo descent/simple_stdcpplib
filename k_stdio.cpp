@@ -114,6 +114,7 @@ int DS::ungetch(int c)
 #ifdef X86
 int DS::read_char()
 {
+  return bios_read_char();
 }
 
 #else
