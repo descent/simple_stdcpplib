@@ -28,6 +28,11 @@ bios_read_char:
   mov 0x0, %ah
   retl
 
+.global back_to_dos
+back_to_dos:
+  mov     $0x4c00, %ax
+  int     $0x21             #  回到 DOS
+
 .global bios_print_char
 bios_print_char:
     pushl   %eax
