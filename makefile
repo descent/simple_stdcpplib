@@ -65,7 +65,7 @@ IODIR=x86
 CXX=g++
 MYCFLAGS=-m32 -fno-common -g -DX86 -DX86_16 -I. -I$(IODIR)
 #ref: -Wl,--build-id=none http://stackoverflow.com/questions/15316384/do-not-pass-build-id-to-linker-from-gcc
-LD_FLAGS=-Wl,--build-id=none -Wl,-T./x86.ld -nostartfiles
+LD_FLAGS=-Wl,--build-id=none -Wl,-T./x86_16.ld -nostartfiles
 PLATFORM_SRC=$(IODIR)/start.s $(IODIR)/bios_call.cpp
 PLATFORM_OBJ=$(IODIR)/start.o $(IODIR)/bios_call.o
 
