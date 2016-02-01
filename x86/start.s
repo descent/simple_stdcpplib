@@ -7,10 +7,10 @@ begin:
   mov %ax,%es
 
 
-  mov $0x8000,%ax
+  #mov $0x8000,%ax
   mov %ax, %ss
-  mov $0xfff0, %esp
-  #mov $top_of_stack, %esp
+#  mov $0xfff0, %esp
+  mov $top_of_stack, %esp
   xchg %bx, %bx
 
   movw    $0xb800, %ax
@@ -39,6 +39,6 @@ bios_print_char:
     popl   %eax
     retl
 
-#LABEL_STACK:
-#  .space 40960, 0
-#  .set top_of_stack, (. - LABEL_STACK)
+LABEL_STACK:
+  .space 10240, 0
+  .set top_of_stack, (. - LABEL_STACK)
