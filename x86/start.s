@@ -16,6 +16,13 @@ begin:
   callw ResetISR
 
 
+.global bios_read_char
+bios_read_char:
+  mov 0x0, %ah
+  int $0x16
+  mov 0x0, %ah
+  retl
+
 .global bios_print_char
 bios_print_char:
     pushl   %eax

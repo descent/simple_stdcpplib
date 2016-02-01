@@ -11,6 +11,7 @@
 extern "C" 
 {
   void bios_print_char(u8 ch);
+  u8 bios_read_char();
 }
 void bios_print_str(const u8 *str, int len);
 
