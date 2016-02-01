@@ -13,6 +13,7 @@ struct DObjs
   void *dso_handle_;
 };
 
+void exit(int status);
 void g_dtor();
 void mymain();
 

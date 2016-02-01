@@ -16,7 +16,13 @@
 #include "rpi2_io.h"
 #endif
 
+#ifdef X86_16
+#include "bios_call.h"
+#endif
+
 using namespace DS;
+
+// #define DOS
 
 #if 0
 
@@ -117,6 +123,16 @@ void __cxa_guard_release(u32 *myself)
 
 typedef void (*Fp)();
 
+void exit(int status)
+{
+#ifdef DOS
+  back_to_dos();
+#else
+  while(1);
+#endif
+}
+
+
 void enter_main()
 {
   // init usart for showing error message
@@ -165,7 +181,7 @@ void enter_main()
   // run global object dtor
   g_dtor();
   #endif
-  while(1);
+  exit(0);
 }
 
 void ResetISR()
