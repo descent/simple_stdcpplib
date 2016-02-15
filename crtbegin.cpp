@@ -22,7 +22,7 @@
 
 using namespace DS;
 
-// #define DOS
+#define DOS
 
 #if 0
 
@@ -133,6 +133,8 @@ void exit(int status)
 }
 
 
+  char str[]="xyz\r\n";
+
 void enter_main()
 {
   // init usart for showing error message
@@ -151,6 +153,11 @@ void enter_main()
 #ifdef RPI2
     uart_init();
 #endif
+
+  //putchar('A');
+  myprint("abc\r\n");
+  myprint(str);
+  while(1);
 
 
   // ur_puts(USART2, "Init complete! Hello World!\r\n");

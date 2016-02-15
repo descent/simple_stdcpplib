@@ -23,12 +23,6 @@ SECTIONS
 
 
   .= ALIGN(32);
-  .rodata :
-  {
-    *(.rodata)
-    *(.rodata.*)
-  }
-
   init_array : 
   {
     __start_global_ctor__ = .;
@@ -47,6 +41,8 @@ SECTIONS
 
     _sdata = .;
     *(.ccm)
+    *(.rodata)
+    *(.rodata.*)
 
     *(.data)		/* Initialized data */
     _edata = .;
