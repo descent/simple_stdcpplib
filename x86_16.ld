@@ -23,15 +23,6 @@ SECTIONS
 
 
   .= ALIGN(32);
-  init_array : 
-  {
-    __start_global_ctor__ = .;
-    *(.init_array)
-    __end_global_ctor__ = .;
-    _sidata = .;
-  }
-
-
 
   /* Initialized data will initially be loaded in FLASH at the end of the .text section. */
   /* .data : AT(0x5000) */
@@ -40,6 +31,9 @@ SECTIONS
     _data = .;
 
     _sdata = .;
+    __start_global_ctor__ = .;
+    *(.init_array)
+    __end_global_ctor__ = .;
     *(.ccm)
     *(.rodata)
     *(.rodata.*)
