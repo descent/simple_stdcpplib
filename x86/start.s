@@ -28,13 +28,13 @@
 .global begin
 begin:
   mov %cs,%ax
-  #mov $0x8000,%ax
+  mov $0x8000,%ax
   mov %ax,%ds
   mov %ax,%es
   mov %ax, %ss
   mov $0xfff0, %esp
 
-  #call init_data_asm
+  call init_data_asm
 
 #  mov $top_of_stack, %esp
   xchg %bx, %bx
