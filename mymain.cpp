@@ -4,10 +4,16 @@
 #include "mystring.h"
 #include "mylist.h"
 
-//#define TEST_BASE
-#define TEST_MEM_PAGE_LIMIT
+//#define TEST_BASIC
+//#define TEST_MEM_PAGE_LIMIT
 //#define TEST_STATIC_OBJ
-//
+//#define TEST_VIRTUAL_FUNC
+//#define TEST_VECTOR
+//#define TEST_MAP
+//#define TEST_LIST
+#define TEST_MEM_ALLOC_FAIL
+//#define SET_SETJMP
+
 const int INDEX_MAX = PAGE_SIZE;
 const int WHICH_PAGE = PAGE-1;
 
@@ -29,7 +35,7 @@ class BaseClass
     virtual void vfunc()
     {
       cout << "Base vfunc: " << base_ << endl;
-      printf("Base vfunc: %d\n", base_);
+      //printf("Base vfunc: %d\n", base_);
     }
 
 #ifdef SUPPORT_PURE_VIRTUAL_FUNCTION
@@ -74,10 +80,33 @@ namespace
   //char heap[64*10];
 }
 
+#include "bios_call.h"
+
+jmp_buf jbuf;
+
+
 int mymain()
 {
 
-#ifdef TEST_BASE
+#ifdef SET_SETJMP
+  int jnum = my_setjmp(jbuf);
+  if (jnum == 0)
+  {
+  }
+  else
+  {
+    cout << "longjmp: " << jnum << endl;
+    while(1);
+  }
+
+  cout << "sizeof(int): " << sizeof(int) << endl;
+  my_longjmp(jbuf, 5);
+#endif
+
+#if 1
+  //bios_read_char();
+
+#ifdef TEST_BASIC
   string s{"1bcd1234"};
   cout << s << " ok" << endl;
   //print_memarea();
@@ -112,7 +141,6 @@ int mymain()
     //cout << i << ": " << cc << endl;
     cout << i << ": " << cc << endl;
   }
-  while(1);
 #endif
 
 
@@ -206,5 +234,6 @@ int mymain()
   }
   cout << "alloc all memory ok" << endl;
 #endif
-
+#endif
+  return 1;
 } // end int mymain()
