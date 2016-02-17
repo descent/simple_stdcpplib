@@ -155,9 +155,8 @@ void enter_main()
 #endif
 
   //putchar('A');
-  myprint("abc\r\n");
+  myprint("xx abc\r\n");
   myprint(str);
-  while(1);
 
 
   // ur_puts(USART2, "Init complete! Hello World!\r\n");
@@ -165,17 +164,33 @@ void enter_main()
   TRY
   {
 
-    extern unsigned int __start_global_ctor__;
-    extern unsigned int __end_global_ctor__;
-    unsigned int *start = &__start_global_ctor__;
-    unsigned int *end = &__end_global_ctor__;
+    extern u32 __start_global_ctor__;
+    extern u32 __end_global_ctor__;
+    u32 *start = &__start_global_ctor__;
+    u32 *end = &__end_global_ctor__;
 
     // run global object ctor
-    for (unsigned int *i = start; i != end; ++i)
+    #if 1
+    //for (unsigned int *i = start; i != end; ++i)
+    for (u32 *i = start; i != end; ++i)
     {
       Fp fp = (Fp)(*i);
+      //myprint((u32)(*i), 16);
       (*fp)();
+      myprint((int)start, 16);
+      myprint("\r\n");
     }
+    #endif
+    #if 0
+    for (unsigned int i = 0 ; i < 2; ++i)
+    {
+      myprint((int)start, 16);
+      myprint("\r\n");
+      myprint((int)end, 16);
+      myprint("\r\n");
+    }
+    #endif
+    //while(1);
 
     mymain();
   }
@@ -201,8 +216,10 @@ void ResetISR()
     *pulDest++ = *pulSrc++;
 #endif
 
+#if 1
   for (pulDest = &_bss; pulDest < &_ebss;)
     *pulDest++ = 0;
+#endif
 
   enter_main();
 }
