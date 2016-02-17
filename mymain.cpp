@@ -4,7 +4,7 @@
 #include "mystring.h"
 #include "mylist.h"
 
-//#define TEST_BASIC
+// #define TEST_BASIC
 //#define TEST_MEM_PAGE_LIMIT
 //#define TEST_STATIC_OBJ
 //#define TEST_VIRTUAL_FUNC
@@ -18,6 +18,8 @@ const int INDEX_MAX = PAGE_SIZE;
 const int WHICH_PAGE = PAGE-1;
 
 using namespace DS;
+
+int arr[1024];
 
 class BaseClass
 {
@@ -84,9 +86,20 @@ namespace
 
 jmp_buf jbuf;
 
+void test_bss(int *i)
+{
+  cout << "bss: " << *i << endl; 
+}
+
 
 int mymain()
 {
+  for (int i=0 ; i < 1024 ; ++i)
+  {
+    cout << i << ": " << arr[i] << endl;
+    test_bss(&arr[i]);
+  }
+  while(1);
 
 #ifdef SET_SETJMP
   int jnum = my_setjmp(jbuf);
