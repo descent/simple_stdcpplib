@@ -21,9 +21,16 @@
 #ifndef MY_SETJMP_H
 #define MY_SETJMP_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
+// #define UEFI
+#ifdef UEFI
+
+#define _JBTYPE long
+#define _JBLEN  32
+typedef _JBTYPE jmp_buf[_JBLEN];
+
+#else
+
 
 typedef struct JmpBuf_{
   unsigned long r4;
@@ -39,12 +46,17 @@ typedef struct JmpBuf_{
 } JmpBuf;
 
 typedef JmpBuf jmp_buf[1];
+#endif
 
-extern int my_setjmp(jmp_buf);
-extern void my_longjmp(jmp_buf, int);
+#ifdef __cplusplus
+extern "C" {
+#endif
+int my_setjmp(jmp_buf);
+void my_longjmp(jmp_buf, int);
 
 #ifdef __cplusplus
 }
 #endif
+
 
 #endif
