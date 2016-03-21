@@ -27,7 +27,9 @@ namespace DS
   void myprint_float(float num);
   void send_byte(u8 b);
   int ungetch(int c);
+#ifndef UEFI
   int putchar(int c);
+#endif
   int getchar();
   int getch(); // no buffer
   int ungetc(int c);
@@ -40,7 +42,9 @@ namespace DS
   void go_down();
   int sprintf(char *str, const char *fmt, ...);
   int vsprintf(char *str, const char *fmt, va_list ap);
+#ifndef UEFI
   int printf(const char *fmt, ...);
+#endif
 }
 
 //extern MyDeque mydeque;

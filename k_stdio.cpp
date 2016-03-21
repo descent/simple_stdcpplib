@@ -15,11 +15,13 @@
 //extern void uart_send ( unsigned int );
 #endif
 
+#ifndef UEFI
 int DS::putchar(int c)
 {
   send_byte(c);
   return c;
 }
+#endif
 
 void DS::go_up()
 {
@@ -57,11 +59,23 @@ void DS::go_left(int time)
 
 #ifndef RPI2
 
+
 #ifdef X86
 #include "x86/bios_call.h"
 void DS::send_byte(u8 b)
 {
   bios_print_char(b);
+}
+#else
+
+#ifdef UEFI
+// #include <stdio.h>
+
+extern "C" int putchar(int c);
+
+void DS::send_byte(u8 b)
+{
+  putchar(b);
 }
 #else
 void DS::send_byte(u8 b)
@@ -72,6 +86,8 @@ void DS::send_byte(u8 b)
   /* Loop until USART2 DR register is empty */
   while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
 }
+#endif
+
 #endif
 #endif
 
@@ -111,18 +127,18 @@ int DS::ungetch(int c)
 }
 
 #ifndef RPI2
+
 #ifdef X86
 int DS::read_char()
 {
   return bios_read_char();
 }
+#endif
 
-#else
-
+#ifdef UEFI
 int DS::read_char()
 {
-  while(USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == RESET);
-  return (USART_ReceiveData(USART2) & 0x7F);
+  return 0;
 }
 #endif
 
@@ -404,6 +420,7 @@ int DS::sprintf(char *str, const char *fmt, ...)
   return len;
 }
 
+#ifndef UEFI
 int DS::printf(const char *fmt, ...)
 {
   va_list ap;
@@ -492,3 +509,4 @@ int DS::printf(const char *fmt, ...)
   myprint(str);
   return len;
 }
+#endif
