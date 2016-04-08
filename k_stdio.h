@@ -13,7 +13,11 @@
 #define BACKSPACE 8
 #endif
 
+#ifdef UEFI
+#define ENTER '\n'
+#else
 #define ENTER '\r'
+#endif
 
 #define UP_KEY 0xff01
 #define DOWN_KEY 0xff02
