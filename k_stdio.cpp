@@ -136,8 +136,10 @@ int DS::read_char()
 #endif
 
 #ifdef UEFI
+#include <stdio.h>
 int DS::read_char()
 {
+  //getchar();
   return 0;
 }
 #endif
@@ -149,6 +151,7 @@ int DS::read_char()
 }
 #endif
 
+#ifndef UEFI
 int DS::getchar()
 {
   int b;
@@ -205,6 +208,7 @@ end:
     mydeque.pop_front(ch);
     return ch;
 }
+#endif
 
 char *DS::gets(char *s, int size)
 {

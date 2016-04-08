@@ -33,8 +33,8 @@ namespace DS
   int ungetch(int c);
 #ifndef UEFI
   int putchar(int c);
-#endif
   int getchar();
+#endif
   int getch(); // no buffer
   int ungetc(int c);
   int read_char();
