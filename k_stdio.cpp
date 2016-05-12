@@ -110,15 +110,14 @@ int DS::ungetch(int c)
   return 0;
 }
 
-#ifndef RPI2
 #ifdef X86
 int DS::read_char()
 {
   return bios_read_char();
 }
+#endif
 
-#else
-
+#if defined(P103) || defined(STM32F407)
 int DS::read_char()
 {
   while(USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == RESET);
@@ -126,7 +125,7 @@ int DS::read_char()
 }
 #endif
 
-#else // stm32f407, stm32 p103
+#if defined(RPI2) 
 int DS::read_char()
 {
   return uart_recv();
