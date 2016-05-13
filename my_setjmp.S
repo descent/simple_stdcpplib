@@ -1,5 +1,47 @@
 // our buffer looks like: eax,ebx,ecx,edx,esi,edi,esp,ebp,pc
 
+
+//#define UEFI
+#ifdef UEFI
+// x86_64: 
+// newlib-2.1.0/newlib/libc/machine/x86_64/setjmp.S
+// newlib-2.1.0/newlib/libc/machine/x86_64/x86_64mach.h
+// newlib-2.1.0/newlib/libc/include/machine/setjmp.h
+
+  .globl	my_setjmp
+my_setjmp:
+  movq    %rbx,  0 (%rdi)
+  movq    %rbp,  8 (%rdi)
+  movq    %r12, 16 (%rdi)
+  movq    %r13, 24 (%rdi)
+  movq    %r14, 32 (%rdi)
+  movq    %r15, 40 (%rdi)
+  leaq    8 (%rsp), %rax
+  movq    %rax, 48 (%rdi)
+  movq    (%rsp), %rax
+  movq    %rax, 56 (%rdi)
+  movq    $0, %rax
+  ret
+
+
+  .globl	my_longjmp
+my_longjmp:
+  movq    %rsi, %rax        /* Return value */
+  movq     8 (%rdi), %rbp
+  #__CLI
+  movq    48 (%rdi), %rsp
+  pushq   56 (%rdi)
+  movq     0 (%rdi), %rbx
+  movq    16 (%rdi), %r12
+  movq    24 (%rdi), %r13
+  movq    32 (%rdi), %r14
+  movq    40 (%rdi), %r15
+  #__STI
+  ret
+
+
+#else
+
 #ifdef X86
 #ifdef X86_16
 .code16
@@ -58,7 +100,16 @@ bye:
 
 #else // #ifdef X86
 
+
+
+
 .text
+
+
+
+
+
+
 #ifdef RPI2
 .code 32
 #else
@@ -95,3 +146,5 @@ bye:
 #endif
 
 #endif // end #ifdef X86
+
+#endif 
