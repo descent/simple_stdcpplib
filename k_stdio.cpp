@@ -126,8 +126,7 @@ int DS::ungetch(int c)
   return 0;
 }
 
-#ifndef RPI2
-
+// different platform read_char 
 #ifdef X86
 int DS::read_char()
 {
@@ -135,16 +134,24 @@ int DS::read_char()
 }
 #endif
 
+#if defined(P103) || defined(STM32F407)
+int DS::read_char()
+{
+  while(USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == RESET);
+  return (USART_ReceiveData(USART2) & 0x7F);
+}
+#endif
+
+
 #ifdef UEFI
 #include <stdio.h>
 int DS::read_char()
 {
-  //getchar();
   return 0;
 }
 #endif
 
-#else // stm32f407, stm32 p103
+#if defined(RPI2) 
 int DS::read_char()
 {
   return uart_recv();
