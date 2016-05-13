@@ -15,11 +15,13 @@
 //extern void uart_send ( unsigned int );
 #endif
 
+#ifndef UEFI
 int DS::putchar(int c)
 {
   send_byte(c);
   return c;
 }
+#endif
 
 void DS::go_up()
 {
@@ -55,15 +57,26 @@ void DS::go_left(int time)
     go_left();
 }
 
-#ifndef RPI2
-
 #ifdef X86
 #include "x86/bios_call.h"
 void DS::send_byte(u8 b)
 {
   bios_print_char(b);
 }
-#else
+#endif
+
+#ifdef UEFI
+// #include <stdio.h>
+
+extern "C" int putchar(int c);
+
+void DS::send_byte(u8 b)
+{
+  putchar(b);
+}
+#endif
+
+#if defined(P103) || defined(STM32F407)
 void DS::send_byte(u8 b)
 {
   /* Send one byte */
@@ -72,7 +85,6 @@ void DS::send_byte(u8 b)
   /* Loop until USART2 DR register is empty */
   while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
 }
-#endif
 #endif
 
 void DS::myprint(const char *str)
@@ -110,6 +122,7 @@ int DS::ungetch(int c)
   return 0;
 }
 
+// different platform read_char 
 #ifdef X86
 int DS::read_char()
 {
@@ -125,6 +138,15 @@ int DS::read_char()
 }
 #endif
 
+
+#ifdef UEFI
+#include <stdio.h>
+int DS::read_char()
+{
+  return 0;
+}
+#endif
+
 #if defined(RPI2) 
 int DS::read_char()
 {
@@ -132,6 +154,7 @@ int DS::read_char()
 }
 #endif
 
+#ifndef UEFI
 int DS::getchar()
 {
   int b;
@@ -188,6 +211,7 @@ end:
     mydeque.pop_front(ch);
     return ch;
 }
+#endif
 
 char *DS::gets(char *s, int size)
 {
@@ -403,6 +427,7 @@ int DS::sprintf(char *str, const char *fmt, ...)
   return len;
 }
 
+#ifndef UEFI
 int DS::printf(const char *fmt, ...)
 {
   va_list ap;
@@ -491,3 +516,4 @@ int DS::printf(const char *fmt, ...)
   myprint(str);
   return len;
 }
+#endif
