@@ -19,7 +19,9 @@ using namespace std;
 #include "my_setjmp.h"
 #endif
 
-
+#ifdef UEFI
+#include <stdio.h>
+#endif
 
 #if 0
 #define setjmp my_setjmp
