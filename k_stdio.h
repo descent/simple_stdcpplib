@@ -13,7 +13,11 @@
 #define BACKSPACE 8
 #endif
 
+#ifdef UEFI
+#define ENTER '\n'
+#else
 #define ENTER '\r'
+#endif
 
 #define UP_KEY 0xff01
 #define DOWN_KEY 0xff02
@@ -27,8 +31,10 @@ namespace DS
   void myprint_float(float num);
   void send_byte(u8 b);
   int ungetch(int c);
+#ifndef UEFI
   int putchar(int c);
   int getchar();
+#endif
   int getch(); // no buffer
   int ungetc(int c);
   int read_char();
@@ -40,7 +46,9 @@ namespace DS
   void go_down();
   int sprintf(char *str, const char *fmt, ...);
   int vsprintf(char *str, const char *fmt, va_list ap);
+#ifndef UEFI
   int printf(const char *fmt, ...);
+#endif
 }
 
 //extern MyDeque mydeque;
