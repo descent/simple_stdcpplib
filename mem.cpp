@@ -15,6 +15,9 @@ using namespace DS;
 
 #endif
 
+#ifdef UEFI
+#include <stdio.h>
+#endif
 
 // #define DEBUG_MSG
 #ifdef DEBUG_MSG
@@ -157,8 +160,15 @@ void *mymalloc_internal(u8 size)
 
 } // end anonymous namespace
 
+#ifdef UEFI
+#include <stdlib.h>
+#endif
+
 void *mymalloc(u32 size)
 {
+#ifdef UEFI
+  return malloc(size);
+#else
   PF("mymalloc: %d byte(s)\n", size);
 
   u32 page = size / PAGE_SIZE;
@@ -169,10 +179,14 @@ void *mymalloc(u32 size)
   PF("alloc size: %d\n", size);
   PF("alloc page: %d\n", page);
   return mymalloc_internal(page);
+#endif
 }
 
 void myfree(void *ptr)
 {
+#ifdef UEFI
+  return free(ptr);
+#else
   if (ptr == 0) return;
 
   PF("myfree: %p\n", ptr);
@@ -191,6 +205,7 @@ void myfree(void *ptr)
     free_index -= size;
     PF("\tmerge free_index: %d\n", free_index);
   }
+#endif
 #endif
 }
 
@@ -417,7 +432,7 @@ void test_list_malloc()
 }
 #endif // end #ifndef STM32
 
-void *operator new(unsigned int s)
+void *operator new(size_t s)
 {
   void *ptr = mymalloc(s);
 
@@ -427,7 +442,7 @@ void *operator new(unsigned int s)
   return ptr;
 }
 
-void *operator new[](unsigned int s)
+void *operator new[](size_t s)
 {
   //cout << "s: " << s << endl;
   // printf("s: %d\r\n", s);
