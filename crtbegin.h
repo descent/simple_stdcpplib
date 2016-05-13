@@ -15,7 +15,7 @@ struct DObjs
 
 void exit(int status);
 void g_dtor();
-void mymain();
+int mymain();
 
 extern "C"
 {
