@@ -7,6 +7,7 @@
 #define longjmp my_longjmp
 
 extern  int ex_code;
+extern jmp_buf ex_buf__;
 
 #define TRY do { switch((ex_code = setjmp(ex_buf__))) { case 0:
 #define CATCH(x) break; case x : 
@@ -15,7 +16,6 @@ extern  int ex_code;
 
 #define NOFREE_MEM 5
 
-jmp_buf ex_buf__;
 
 
 #endif
