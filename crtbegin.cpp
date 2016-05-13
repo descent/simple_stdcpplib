@@ -88,7 +88,11 @@ void g_dtor()
 
     if (obj_count >= DOBJS_SIZE)
     {
-      DS::printf("too many global objects\r\n");
+#ifdef UEFI
+      printf("too many global objects: %d\n", obj_count);
+#else
+      DS::printf("too many global objects\n");
+#endif
       return -1;
     }
     dobjs_vec[obj_count] = dobj;
@@ -97,7 +101,12 @@ void g_dtor()
     //dobjs_vec.push_back(dobj);
     // print_memarea();
 
+#ifdef UEFI
+    //printf("too many global objects\r\n");
+    printf("fill ctor data: obj_count: %d, arg: %x\r\n", obj_count, arg);
+#else
     DS::printf("fill ctor data: obj_count: %d, arg: %x\r\n", obj_count, arg);
+#endif
     return 0;
   }
 
@@ -133,6 +142,9 @@ void exit(int status)
 }
 
 
+  char str[]="xyz\r\n";
+
+#ifndef UEFI
 void enter_main()
 {
   // init usart for showing error message
@@ -152,23 +164,45 @@ void enter_main()
     uart_init();
 #endif
 
+  //putchar('A');
+  myprint("xx abc\r\n");
+  myprint(str);
+
 
   // ur_puts(USART2, "Init complete! Hello World!\r\n");
 
   TRY
   {
 
-    extern unsigned int __start_global_ctor__;
-    extern unsigned int __end_global_ctor__;
-    unsigned int *start = &__start_global_ctor__;
-    unsigned int *end = &__end_global_ctor__;
+    extern u32 __start_global_ctor__;
+    extern u32 __end_global_ctor__;
+    u32 *start = &__start_global_ctor__;
+    u32 *end = &__end_global_ctor__;
 
+    //myprint((u32)(*start), 16);
+    //while(1);
     // run global object ctor
-    for (unsigned int *i = start; i != end; ++i)
+    #if 1
+    //for (unsigned int *i = start; i != end; ++i)
+    for (u32 *i = start; i != end; ++i)
     {
       Fp fp = (Fp)(*i);
+      //myprint((u32)(*i), 16);
       (*fp)();
+      //myprint((int)start, 16);
+      //myprint("\r\n");
     }
+    #endif
+    #if 0
+    for (unsigned int i = 0 ; i < 2; ++i)
+    {
+      myprint((int)start, 16);
+      myprint("\r\n");
+      myprint((int)end, 16);
+      myprint("\r\n");
+    }
+    #endif
+    //while(1);
 
     mymain();
   }
@@ -194,8 +228,10 @@ void ResetISR()
     *pulDest++ = *pulSrc++;
 #endif
 
+#if 1
   for (pulDest = &_bss; pulDest < &_ebss;)
     *pulDest++ = 0;
+#endif
 
   enter_main();
 }
@@ -286,3 +322,4 @@ pfnISR VectorTable[]=
   exti0_isr                  // EXTI Line0 
 #endif
 };
+#endif // #ifndef EFUI
