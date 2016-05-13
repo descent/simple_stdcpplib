@@ -56,10 +56,10 @@ namespace DS
       }
     private:
       void grow();
-      u32 len_;
       const u32 MAX_LEN_ = (u32)(-2); // (u32)(-1) for vector::end()
-      u32 capacity_;
+      u32 len_;
       Type *data_;
+      u32 capacity_;
   };
 
 }
