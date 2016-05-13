@@ -78,7 +78,7 @@ CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS)
 #LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
 
-libmystdcpp.a: cstring.o myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o $(PLATFORM_OBJ)
+libmystdcpp.a: $(PLATFORM_OBJ) cstring.o myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o 
 	arm-none-eabi-ar rcs $@ $^
 p103_io: $(OTHER_OBJS)
 	ls -l $^
