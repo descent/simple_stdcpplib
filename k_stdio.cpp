@@ -57,16 +57,13 @@ void DS::go_left(int time)
     go_left();
 }
 
-#ifndef RPI2
-
-
 #ifdef X86
 #include "x86/bios_call.h"
 void DS::send_byte(u8 b)
 {
   bios_print_char(b);
 }
-#else
+#endif
 
 #ifdef UEFI
 // #include <stdio.h>
@@ -77,7 +74,9 @@ void DS::send_byte(u8 b)
 {
   putchar(b);
 }
-#else
+#endif
+
+#if defined(P103) || defined(STM32F407)
 void DS::send_byte(u8 b)
 {
   /* Send one byte */
@@ -86,9 +85,6 @@ void DS::send_byte(u8 b)
   /* Loop until USART2 DR register is empty */
   while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
 }
-#endif
-
-#endif
 #endif
 
 void DS::myprint(const char *str)
