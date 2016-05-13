@@ -176,8 +176,8 @@ class Deque
         mvprintw(j++, 40, s.c_str());
         i = (i + 1) % len_;
       }
-      return true;
 #endif
+      return true;
     }
     bool ready() const
     {
