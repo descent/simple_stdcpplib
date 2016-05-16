@@ -94,6 +94,14 @@ void DS::myprint(const char *str)
     send_byte(*p++);
 }
 
+void DS::myprint(long num, u16 base)
+{
+  char str[10]="aa";
+  //my_itoa_s(num, str, sizeof(str)/sizeof(char), base);
+  my_itoa_s(num, str, 4, base);
+  myprint(str);
+}
+
 void DS::myprint(int num, int base)
 {
   char str[10]="aa";

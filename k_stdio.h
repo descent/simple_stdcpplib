@@ -27,6 +27,7 @@
 namespace DS
 {
   void myprint(const char *str);
+  void myprint(long num, u16 base=10);
   void myprint(int num, int base=10);
   void myprint_float(float num);
   void send_byte(u8 b);
