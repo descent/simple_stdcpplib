@@ -1,9 +1,9 @@
 # make STM32F407=1
 # make P103=1
 #STM32F407=1
-#P103=1
+P103=1
 #RPI2=1
-X86=1
+#X86=1
 
 OBJCOPY=arm-none-eabi-objcopy
 
@@ -78,7 +78,7 @@ CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS)
 #LINK_FILES=bst.h bst.cpp k_stdio.cpp k_stdio.h mem.h mem.cpp
 
 
-libmystdcpp.a: $(PLATFORM_OBJ) cstring.o myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o 
+libmystdcpp.a: $(PLATFORM_OBJ) cstring.o myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o k_string.o
 	arm-none-eabi-ar rcs $@ $^
 p103_io: $(OTHER_OBJS)
 	ls -l $^
@@ -100,8 +100,8 @@ k_stdio.cpp:
 k_stdio.h:
 	ln -s /home/descent/git/jserv-course/stm32f4_prog/stm32f4_simple_scheme/$@ .
 
-k_string.h:
-	ln -s /home/descent/git/jserv-course/stm32f4_prog/stm32f4_simple_scheme/$@ .
+k_string.o: k_string.cpp k_string.h
+	$(CXX) $(MYCFLAGS) $(MYCXXFLAGS) $(CFLAGS) -c $<
 
 gdeque.h:
 	ln -s /home/descent/git/progs/queue/$@ .
