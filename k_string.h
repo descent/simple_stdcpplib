@@ -57,6 +57,13 @@ static inline int s_strcmp(const char *s1, const char *s2)
   return res;
 }
 
+/**
+ * \brief sign long version
+ * \param[in] str_len str length, include '\'
+ * \param[in] radix: 8, 10, 16
+ */
+char* my_itoa_s(long n, char* str, u16 str_len, u8 radix=10);
+
 static inline int s_memcmp(const char *s1, const char *s2, int n)
 {
   if ((s1 == 0) || (s2 == 0)) 
