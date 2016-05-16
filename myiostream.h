@@ -72,6 +72,8 @@ namespace DS
       {
         printf("i am cout dtor: %d\r\n", id_);
       }
+      ofstream& operator<<(long n);
+      ofstream& operator<<(unsigned long n);
       ofstream& operator<<(char c);
       ofstream& operator<<(const char *str);
       ofstream& operator<<(int num);

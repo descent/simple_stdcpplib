@@ -123,6 +123,20 @@ DS::ofstream& DS::ofstream::operator<<(unsigned int num)
   return *this;
 }
 
+DS::ofstream& DS::ofstream::operator<<(long n)
+{
+  DS::myprint("long version\n");
+  DS::myprint(n);
+  return *this;
+}
+
+DS::ofstream& DS::ofstream::operator<<(unsigned long n)
+{
+  DS::myprint("unsigned long version\n");
+  DS::myprint(n);
+  return *this;
+}
+
 DS::ofstream& DS::ofstream::operator<<(int num)
 {
   switch (basefield_)
