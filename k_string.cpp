@@ -96,4 +96,18 @@ char* my_itoa(unsigned long n, char* str, u16 str_len, u8 radix)
   return str;
 }
 
+char* stringncopy(char *dest, const char *src, int n)
+{
+  char *p = dest;
+  int i=0;
+  while(*src)
+  {
+    *dest++ = *src++;
+    ++i;
+    if (i >= n)
+      break;
+  }
+  return p; 
+}
+
 #endif

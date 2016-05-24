@@ -33,6 +33,14 @@ static inline char* s_strcpy(char *dest, const char *src)
   return p;
 }
 
+/**
+ \breif for mystring, don't append '\0'
+
+ \param[in] dest need gurarantee the memroy space is enough to copy src n byte char
+
+ */
+char* stringncopy(char *dest, const char *src, int n);
+
 static inline char* s_strncpy(char *dest, const char *src, int n)
 {
   char *p = dest;
