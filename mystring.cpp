@@ -21,7 +21,17 @@ DS::string::string(const char *str)
   generate_string(str, s_strlen(str));
 
 #ifdef TEST
-  std::printf("2 ctor\n");
+  std::printf("const char *str ctor\n");
+#endif
+}
+
+DS::string::string(string &&s)
+{
+  str_ = s.str_;
+  len_ = s.len_;
+  s.str_ = 0;
+#ifdef TEST
+  std::printf("move ctor\n");
 #endif
 }
 

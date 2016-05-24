@@ -10,12 +10,16 @@
 
 namespace DS
 {
+  /**
+   * \brief like std::string
+   */
   class string
   {
     public:
       explicit string();
       string(const char *str);
       string(const string &s);
+      string(string &&s);
       ~string();
       string& operator=(const string& s);
       string& operator=(const char *str);
