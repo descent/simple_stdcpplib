@@ -35,13 +35,14 @@ namespace DS
       #endif
     private:
       int generate_string(const char *str, int len);
-      char *str_;
-      u32 len_;
+      char *str_; /// append '\0'
+      u32 len_; /// string length
   };
 
 }
 
 #if 1
+
 static inline bool operator>(const DS::string& lhs, const DS::string& rhs)
 {
   if (s_strcmp(lhs.c_str(), rhs.c_str()) > 0)

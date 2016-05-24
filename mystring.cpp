@@ -40,7 +40,7 @@ DS::string::string(const string &s)
   generate_string(s.c_str(), s.length());
 
 #ifdef TEST
-  std::printf("3 ctor\n");
+  std::printf("copy ctor\n");
 #endif
 }
 
@@ -135,8 +135,19 @@ DS::string f1()
 
 int main(int argc, char *argv[])
 {
+  DS::string s1=f2();
+  printf("s1: %s\n", s1.c_str());
+  f3(std::move(s1));
+  printf("s1: %s\n", s1.c_str());
+  printf("s1.length(): %d\n", s1.length());
+
+#if 0
   DS::string s1{"123"};
   DS::string s2{"456"};
+  printf("s1: %s\n", s1.c_str());
+
+  DS::string s3{s1 + s2};
+  printf("s3: %s\n", s3.c_str());
 
   char ch = s1[2];
   printf("ch: %c\n", ch);
@@ -167,7 +178,7 @@ int main(int argc, char *argv[])
   s5="666";
 
   //std::cout << s1.c_str() << std::endl;
-
+#endif
   return 0;
 }
 #endif
