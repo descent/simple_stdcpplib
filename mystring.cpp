@@ -30,6 +30,7 @@ DS::string::string(string &&s)
   str_ = s.str_;
   len_ = s.len_;
   s.str_ = 0;
+  s.len_ = 0;
 #ifdef TEST
   std::printf("move ctor\n");
 #endif
