@@ -75,11 +75,13 @@ DS::string& DS::string::operator=(const char *str)
   return *this;
 }
 
+
 int DS::string::generate_string(const char *str, int len)
 {
   len_ = len;
-  str_ = new char[len_];
-  s_strcpy(str_, str);
+  str_ = new char[len_+1];
+  stringncopy(str_, str, len);
+  str_[len_] = '\0';
   return 0;
 }
 
