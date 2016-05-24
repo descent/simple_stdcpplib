@@ -136,12 +136,19 @@ DS::string f1()
 
 int main(int argc, char *argv[])
 {
+#if 0
   DS::string s1=f2();
   printf("s1: %s\n", s1.c_str());
   f3(std::move(s1));
+  //f3((s1));
   printf("s1: %s\n", s1.c_str());
   printf("s1.length(): %d\n", s1.length());
 
+#endif
+  DS::string str1;
+  DS::string str2{"12"};
+  DS::string str3{"34"};
+  str1 = "ab" + str2 + "Hello" + str3;
 #if 0
   DS::string s1{"123"};
   DS::string s2{"456"};
