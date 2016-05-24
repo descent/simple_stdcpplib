@@ -74,6 +74,8 @@ static inline bool operator<(const DS::string& lhs, const DS::string& rhs)
   else
     return false;
 }
+
+DS::string operator+(const DS::string& lhs, const DS::string& rhs);
 #endif
 
 #endif

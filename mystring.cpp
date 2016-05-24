@@ -79,7 +79,39 @@ char& DS::string::operator[](unsigned int idx)
   return str_[idx];
 }
 
+DS::string operator+(const DS::string& lhs, const DS::string& rhs)
+{
 #ifdef TEST
+  printf("operator+\n");
+#endif
+
+  u32 lhs_len = lhs.length();
+  u32 rhs_len = rhs.length();
+  char *s = new char[lhs_len + rhs_len + 1];
+
+  stringncopy(s, lhs.c_str(), lhs_len);
+  stringncopy(s + lhs_len, rhs.c_str(), rhs_len);
+  s[lhs_len + rhs_len] = '\0';
+  
+  DS::string ns{s};
+  delete s;
+  return ns;
+}
+
+#ifdef TEST
+#include <stdio.h>
+#include <utility>
+
+void f3(DS::string s)
+{
+  printf("f3 s: %s\n", s.c_str());
+}
+
+DS::string f2()
+{
+  DS::string s1{"f2"};
+  return s1;
+}
 
 DS::string f1()
 {
