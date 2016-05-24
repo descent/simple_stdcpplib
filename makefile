@@ -165,8 +165,8 @@ myvec: myvec.cpp myvec.h
 mylist: mylist.cpp mylist.h
 	g++ -g -DTEST_MAIN -DUSE_OS -m32 -std=c++11 -o $@ $<
 
-mystring: mystring.cpp mystring.h
-	g++ -static -g -DTEST -m32 -std=c++11 -o $@ $<
+mystring: mystring.cpp mystring.h type.h k_string.h myiostream.h mem.h x86_16.h
+	g++ -static -g -DTEST -m32 -std=c++11 -o $@ $< k_string.cpp
 
 myiostream: myiostream.cpp myiostream.h
 	g++ -g -DTEST -m32 -std=c++11 -o $@ $<
