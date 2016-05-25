@@ -8,6 +8,9 @@
 #include "type.h"
 #include "k_string.h"
 
+using DS::s_strcmp;
+using DS::stringncopy;
+
 namespace DS
 {
   /**
@@ -69,6 +72,7 @@ static inline bool operator<(const DS::string& lhs, const char* rhs)
   else
     return false;
 }
+
 
 static inline bool operator<(const DS::string& lhs, const DS::string& rhs)
 {
