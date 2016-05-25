@@ -61,7 +61,7 @@ DS::string::string(const string &s)
   generate_string(s.c_str(), s.length());
 
 #ifdef TEST
-  TEST_MACRO(1, ctor_time_, "copy ctor: string &&s, %s, count: %d\n", s.c_str(), ctor_time_)
+  TEST_MACRO(1, ctor_time_, "copy ctor: string &s, %s, count: %d\n", s.c_str(), ctor_time_)
 #endif
 }
 
@@ -74,14 +74,34 @@ DS::string::~string()
   //cout << "string ~ctor" << endl;
 }
 
+void DS::string::swap(string &s1, string &s2)
+{
+  char *tmp_str;
+  u32 tmp_len;
+
+  tmp_str = s1.str_;
+  tmp_len = s1.len_;
+
+  s1.str_ = s2.str_;
+  s1.len_ = s2.len_;
+
+  s2.str_ = tmp_str;
+  s2.len_ = tmp_len;
+  
+}
+
 DS::string& DS::string::operator=(const DS::string& s)
 {
+//ref: http://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom
 #ifdef TEST
   std::printf("1 op=\n");
 #endif
-  delete [] str_;
+  string tmp{s};
 
-  generate_string(s.c_str(), s.length());
+  swap(*this, tmp);
+
+  //delete [] str_;
+  //generate_string(s.c_str(), s.length());
   return *this;
 }
 
@@ -154,7 +174,8 @@ DS::string operator+(const DS::string& lhs, const DS::string& rhs)
 #include <time.h>
 
 // #define TEST_MOVE_SEMANTIC
-#define TEST_ADD_STRING
+//#define TEST_ADD_STRING
+#define TEST_OP_ASSIGN
 
 #if 1
 void f3(DS::string s)
@@ -211,6 +232,15 @@ int main(int argc, char *argv[])
   clock_gettime(CLOCK_REALTIME, &time2);
 
   printf("time diff: %ld\n", time2.tv_nsec - time1.tv_nsec);
+#endif
+
+#ifdef TEST_OP_ASSIGN
+  DS::string str1{"ABC"};
+  DS::string str2;
+
+  str2 = str1;
+  printf("str1: %s\n", str1.c_str());
+  printf("str2: %s\n", str2.c_str());
 #endif
 
 #if 0
