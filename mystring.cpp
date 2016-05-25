@@ -1,6 +1,9 @@
 #include "mystring.h"
+
+#ifndef TEST
 #include "myiostream.h"
 #include "mem.h"
+#endif
 
 #ifdef TEST
 #include <cstdio>
@@ -114,6 +117,9 @@ DS::string operator+(const DS::string& lhs, const DS::string& rhs)
 #ifdef TEST
 #include <stdio.h>
 #include <utility>
+#include <memory>
+
+#define TEST_MOVE_SEMANTIC
 
 void f3(DS::string s)
 {
@@ -136,19 +142,33 @@ DS::string f1()
 
 int main(int argc, char *argv[])
 {
-#if 0
+#ifdef TEST_UNIQUE_PTR
+  std::unique_ptr<DS::string> ptr{new DS::string{"123"}};
+  std::unique_ptr<DS::string> ptr2;
+
+  printf("ptr1: %s\n", ptr->c_str());
+  ptr2 = std::move(ptr);
+  printf("ptr2: %s\n", ptr2->c_str());
+  printf("ptr1: %s\n", ptr->c_str());
+#endif
+
+#ifdef TEST_MOVE_SEMANTIC
   DS::string s1=f2();
   printf("s1: %s\n", s1.c_str());
-  f3(std::move(s1));
+  //f3(std::move(s1));
+  f3((DS::string &&)(s1));
   //f3((s1));
   printf("s1: %s\n", s1.c_str());
   printf("s1.length(): %d\n", s1.length());
-
 #endif
+
+#ifdef TEST_ADD_STRING
   DS::string str1;
   DS::string str2{"12"};
   DS::string str3{"34"};
   str1 = "ab" + str2 + "Hello" + str3;
+#endif
+
 #if 0
   DS::string s1{"123"};
   DS::string s2{"456"};
@@ -189,4 +209,4 @@ int main(int argc, char *argv[])
 #endif
   return 0;
 }
-#endif
+#endif // #ifdef TEST
