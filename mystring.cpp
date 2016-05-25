@@ -7,36 +7,50 @@
 
 #ifdef TEST
 #include <cstdio>
+
+#define TEST_MACRO(assign, count, ...) \
+{ \
+  std::printf(__VA_ARGS__); \
+  if (assign) \
+    id_ = count; \
+  std::printf("\tid_: %d\n", id_); \
+  ++count; \
+}
+
 using namespace std;
 #else
 // #define std DS
 #endif
 
+u32 DS::string::ctor_time_ = 0;
+u32 DS::string::dtor_time_ = 0;
+
 DS::string::string():len_(0), str_(0)
 {
 #ifdef TEST
-  std::printf("1 ctor\n");
+  TEST_MACRO(1, ctor_time_, "def ctor, count: %d\n", ctor_time_)
 #endif
 }
 
+#if 1
 DS::string::string(const char *str)
 {
   generate_string(str, s_strlen(str));
 
 #ifdef TEST
-  std::printf("const char *str ctor\n");
+  TEST_MACRO(1, ctor_time_, "ctor: const char *str, %s, count: %d\n", str, ctor_time_)
 #endif
 }
-
+#endif
 DS::string::string(string &&s)
 {
+#ifdef TEST
+  TEST_MACRO(1, ctor_time_, "move ctor: string &&s, %s, count: %d\n", s.c_str(), ctor_time_)
+#endif
   str_ = s.str_;
   len_ = s.len_;
   s.str_ = 0;
   s.len_ = 0;
-#ifdef TEST
-  std::printf("move ctor\n");
-#endif
 }
 
 DS::string::string(const string &s)
@@ -44,14 +58,14 @@ DS::string::string(const string &s)
   generate_string(s.c_str(), s.length());
 
 #ifdef TEST
-  std::printf("copy ctor\n");
+  TEST_MACRO(1, ctor_time_, "copy ctor: string &&s, %s, count: %d\n", s.c_str(), ctor_time_)
 #endif
 }
 
 DS::string::~string()
 {
 #ifdef TEST
-  std::printf("11 dtor:%s\n", str_);
+  TEST_MACRO(0, dtor_time_, "dtor: str_: %s, count: %d\n", str_, dtor_time_)
 #endif
   delete [] str_;
   //cout << "string ~ctor" << endl;
@@ -98,7 +112,7 @@ char& DS::string::operator[](unsigned int idx)
 DS::string operator+(const DS::string& lhs, const DS::string& rhs)
 {
 #ifdef TEST
-  printf("operator+\n");
+  printf("operator+, %s, %s\n", lhs.c_str(), rhs.c_str());
 #endif
 
   u32 lhs_len = lhs.length();
@@ -119,8 +133,10 @@ DS::string operator+(const DS::string& lhs, const DS::string& rhs)
 #include <utility>
 #include <memory>
 
-#define TEST_MOVE_SEMANTIC
+// #define TEST_MOVE_SEMANTIC
+#define TEST_ADD_STRING
 
+#if 1
 void f3(DS::string s)
 {
   printf("f3 s: %s\n", s.c_str());
@@ -139,6 +155,7 @@ DS::string f1()
   std::printf("ee\n");
   return s1; 
 }
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -163,9 +180,10 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef TEST_ADD_STRING
-  DS::string str1;
   DS::string str2{"12"};
   DS::string str3{"34"};
+  DS::string str1;
+  printf("expr: \"ab\" + str2 + \"Hello\" + str3\n");
   str1 = "ab" + str2 + "Hello" + str3;
 #endif
 

@@ -40,6 +40,11 @@ namespace DS
       int generate_string(const char *str, int len);
       char *str_; /// append '\0'
       u32 len_; /// string length
+#ifdef TEST
+      static u32 ctor_time_;
+      static u32 dtor_time_;
+      u32 id_;
+#endif
   };
 
 }
