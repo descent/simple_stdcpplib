@@ -4,7 +4,7 @@
 #include "k_string.h"
 #include "k_stdio.h"
 
-char* my_itoa_s(long n, char* str, u16 str_len, u8 radix)
+char* DS::my_itoa_s(long n, char* str, u16 str_len, u8 radix)
 {
 #ifdef DEBUG_STR_LEN
   DS::myprint("str_len: ");
@@ -53,7 +53,7 @@ char* my_itoa_s(long n, char* str, u16 str_len, u8 radix)
   return str;
 }
 
-char* my_itoa(unsigned long n, char* str, u16 str_len, u8 radix)
+char* DS::my_itoa(unsigned long n, char* str, u16 str_len, u8 radix)
 {
 #ifdef DEBUG_STR_LEN
   DS::myprint("str_len: ");
@@ -96,7 +96,7 @@ char* my_itoa(unsigned long n, char* str, u16 str_len, u8 radix)
   return str;
 }
 
-char* stringncopy(char *dest, const char *src, int n)
+char* DS::stringncopy(char *dest, const char *src, int n)
 {
   char *p = dest;
   int i=0;

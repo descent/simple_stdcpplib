@@ -14,6 +14,9 @@ void asm_seg_memcpy(u8 *dest, u8 *src, int n, u16 fs);
 void asm_absolute_memcpy(u8 *dest, u8 *src, int n);
 #endif
 
+namespace DS
+{
+
 // prefix s is simple; 32 means in protoected mode
 static inline u32 s_strlen(const char *s)
 {
@@ -517,4 +520,5 @@ static inline unsigned long strtoul(const char *nptr, char **endptr=0, int base=
 	return (acc);
 }
 
+}
 #endif
