@@ -42,6 +42,8 @@ DS::string::string(const char *str)
 #endif
 }
 #endif
+
+#ifdef MOVE_SEMANTIC
 DS::string::string(string &&s)
 {
 #ifdef TEST
@@ -52,6 +54,7 @@ DS::string::string(string &&s)
   s.str_ = 0;
   s.len_ = 0;
 }
+#endif
 
 DS::string::string(const string &s)
 {
@@ -81,6 +84,21 @@ DS::string& DS::string::operator=(const DS::string& s)
   generate_string(s.c_str(), s.length());
   return *this;
 }
+
+#ifdef MOVE_SEMANTIC
+DS::string& DS::string::operator=(DS::string&& s)
+{
+#ifdef TEST
+  std::printf("move op=\n");
+#endif
+
+  str_ = s.str_;
+  len_ = s.len_;
+  s.str_ = 0;
+  s.len_ = 0;
+  return *this;
+}
+#endif
 
 DS::string& DS::string::operator=(const char *str)
 {
@@ -129,9 +147,11 @@ DS::string operator+(const DS::string& lhs, const DS::string& rhs)
 }
 
 #ifdef TEST
-#include <stdio.h>
 #include <utility>
 #include <memory>
+
+#include <stdio.h>
+#include <time.h>
 
 // #define TEST_MOVE_SEMANTIC
 #define TEST_ADD_STRING
@@ -184,7 +204,13 @@ int main(int argc, char *argv[])
   DS::string str3{"34"};
   DS::string str1;
   printf("expr: \"ab\" + str2 + \"Hello\" + str3\n");
+  struct timespec time1;
+  struct timespec time2;
+  clock_gettime(CLOCK_REALTIME, &time1);
   str1 = "ab" + str2 + "Hello" + str3;
+  clock_gettime(CLOCK_REALTIME, &time2);
+
+  printf("time diff: %ld\n", time2.tv_nsec - time1.tv_nsec);
 #endif
 
 #if 0

@@ -8,6 +8,8 @@
 #include "type.h"
 #include "k_string.h"
 
+//#define MOVE_SEMANTIC
+
 using DS::s_strcmp;
 using DS::stringncopy;
 
@@ -22,9 +24,14 @@ namespace DS
       explicit string();
       string(const char *str);
       string(const string &s);
+#ifdef MOVE_SEMANTIC
       string(string &&s);
+#endif
       ~string();
       string& operator=(const string& s);
+#ifdef MOVE_SEMANTIC
+      string& operator=(string&& s);
+#endif
       string& operator=(const char *str);
       //bool operator<(const char *s);
       //bool operator>(const char *s);
