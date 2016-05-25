@@ -38,6 +38,7 @@ namespace DS
       char& operator[](unsigned int idx);
       const char* c_str() const{return str_;}
       u32 length() const {return len_;}
+      void swap(string &s1, string &s2);
       #if 0
       bool operator>(char const * rhs )
       {
