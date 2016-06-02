@@ -26,11 +26,11 @@ namespace DS
       class iterator
       {
         public:
-          iterator(Type *data, u32 vec_size):element_data_(data),index_(0), vec_size_(vec_size)
+          iterator(Type *data, u32 vec_size, u32 index=0):element_data_(data), vec_size_(vec_size), index_(index)
           {
           }
           iterator &operator++() {++index_; return *this;}
-          bool operator!=(const iterator & other) {return index_ != other.vec_size_;}
+          bool operator!=(const iterator & other) {return index_ != other.index_;}
           Type operator*(){return element_data_[index_];}
           Type* operator->(){return &element_data_[index_];}
         private:
@@ -52,7 +52,7 @@ namespace DS
       }
       iterator end()
       {
-        return iterator(data_, len_);
+        return iterator(data_, len_, len_);
       }
     private:
       void grow();
