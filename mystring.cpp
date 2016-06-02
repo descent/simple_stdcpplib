@@ -22,8 +22,10 @@ using namespace std;
 // #define std DS
 #endif
 
+#ifdef TEST
 u32 DS::string::ctor_time_ = 0;
 u32 DS::string::dtor_time_ = 0;
+#endif
 
 DS::string::string():len_(0), str_(0)
 {
@@ -44,6 +46,7 @@ DS::string::string(const char *str)
 #endif
 
 #ifdef MOVE_SEMANTIC
+#if __cplusplus >= 201103L
 DS::string::string(string &&s)
 {
 #ifdef TEST
@@ -54,6 +57,7 @@ DS::string::string(string &&s)
   s.str_ = 0;
   s.len_ = 0;
 }
+#endif
 #endif
 
 DS::string::string(const string &s)
@@ -106,6 +110,7 @@ DS::string& DS::string::operator=(const DS::string& s)
 }
 
 #ifdef MOVE_SEMANTIC
+#if __cplusplus >= 201103L
 DS::string& DS::string::operator=(DS::string&& s)
 {
 #ifdef TEST
@@ -118,6 +123,7 @@ DS::string& DS::string::operator=(DS::string&& s)
   s.len_ = 0;
   return *this;
 }
+#endif
 #endif
 
 DS::string& DS::string::operator=(const char *str)
@@ -169,13 +175,14 @@ DS::string operator+(const DS::string& lhs, const DS::string& rhs)
 #ifdef TEST
 #include <utility>
 #include <memory>
+#include <vector>
 
 #include <stdio.h>
 #include <time.h>
 
-// #define TEST_MOVE_SEMANTIC
+#define TEST_MOVE_SEMANTIC
 //#define TEST_ADD_STRING
-#define TEST_OP_ASSIGN
+//#define TEST_OP_ASSIGN
 
 #if 1
 void f3(DS::string s)
@@ -211,19 +218,39 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef TEST_MOVE_SEMANTIC
-  DS::string s1=f2();
+
+#if 0
+  std::vector<DS::string> v;
+  
+  v.push_back(DS::string{"456"});
+  v.push_back(DS::string{"abc"});
+  v.push_back(DS::string{"xyz"});
+
+  for (auto &i: v)
+    printf("%s\n", i.c_str());
+#endif
+
+#if 1
+
+  DS::string s1;
+  s1 = f2();
+  #if 1
   printf("s1: %s\n", s1.c_str());
   //f3(std::move(s1));
   f3((DS::string &&)(s1));
   //f3((s1));
   printf("s1: %s\n", s1.c_str());
   printf("s1.length(): %d\n", s1.length());
+  #endif
+
+#endif
 #endif
 
 #ifdef TEST_ADD_STRING
+  DS::string str1;
   DS::string str2{"12"};
   DS::string str3{"34"};
-  DS::string str1;
+  #if 0
   printf("expr: \"ab\" + str2 + \"Hello\" + str3\n");
   struct timespec time1;
   struct timespec time2;
@@ -232,6 +259,7 @@ int main(int argc, char *argv[])
   clock_gettime(CLOCK_REALTIME, &time2);
 
   printf("time diff: %ld\n", time2.tv_nsec - time1.tv_nsec);
+  #endif
 #endif
 
 #ifdef TEST_OP_ASSIGN
