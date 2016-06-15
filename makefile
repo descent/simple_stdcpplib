@@ -2,7 +2,7 @@
 # make P103=1
 #STM32F407=1
 #P103=1
-RPI2=1
+#RPI2=1
 #X86=1
 
 OBJCOPY=arm-none-eabi-objcopy
