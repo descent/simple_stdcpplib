@@ -1,12 +1,12 @@
 # make STM32F407=1
 # make P103=1
 #STM32F407=1
-P103=1
-#RPI2=1
+#P103=1
+RPI2=1
 #X86=1
 
 OBJCOPY=arm-none-eabi-objcopy
-
+AR=arm-none-eabi-ar
 CXX=arm-none-eabi-g++
 
 MYCXXFLAGS = -fno-exceptions -fno-rtti -ffreestanding -nostdlib -nodefaultlibs -std=c++11
@@ -48,6 +48,8 @@ $(PLATFORM_OBJ):
 endif
 
 ifdef RPI2
+OBJCOPY=arm-linux-gnueabihf-objcopy
+AR=arm-linux-gnueabihf-ar
 IODIR=rpi2
 CXX=arm-linux-gnueabihf-g++
 MYCFLAGS=-fno-common -O0 -g -mcpu=cortex-a7 -I. -DRPI2 -Irpi2
@@ -61,6 +63,7 @@ endif
 
 ifdef X86
 OBJCOPY=objcopy
+AR=ar
 IODIR=x86
 CXX=g++
 MYCFLAGS=-m32 -fno-common -g -DX86 -DX86_16 -I. -I$(IODIR)
@@ -79,7 +82,7 @@ CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS)
 
 
 libmystdcpp.a: $(PLATFORM_OBJ) cstring.o myiostream.o  mylist.o  mymap.o  my_setjmp.o  mystring.o  myvec.o bst.o  gdeque.o  k_stdio.o mem.o eh.o crtbegin.o k_string.o
-	arm-none-eabi-ar rcs $@ $^
+	$(AR) rcs $@ $^
 p103_io: $(OTHER_OBJS)
 	ls -l $^
 mymain.elf: mymain.o libmystdcpp.a
