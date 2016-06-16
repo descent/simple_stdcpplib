@@ -179,6 +179,9 @@ mymain.bin: mymain.elf
 
 #arm-none-eabi-objdump -S demos/uart_echo/main.elf > demos/uart_echo/main.list
 
+k_string: k_string.cpp k_string.h
+	g++ -static -g -DTEST -m32 -std=c++11 -o $@ $<
+
 clean:
 	rm -rf *.o *.elf *.bin *.dpp *.dpp.* $(TARGET)
 	(cd $(IODIR) ; make clean)
