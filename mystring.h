@@ -8,6 +8,11 @@
 #include "type.h"
 #include "k_string.h"
 
+#ifdef TEST_MYSTRING
+#include <iostream>
+using std::ostream;
+#endif
+
 #define MOVE_SEMANTIC
 
 using DS::s_strcmp;
@@ -65,8 +70,15 @@ namespace DS
     return ofs << str.c_str();
   }
 
+
 } // end namespace DS
 
+#ifdef TEST_MYSTRING
+  static inline ostream& operator<<(ostream& os, const DS::string &str)
+  {
+    return os << str.c_str();
+  }
+#endif
 
 
 #if 1

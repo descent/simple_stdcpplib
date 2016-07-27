@@ -190,6 +190,7 @@ DS::string operator+(const DS::string& lhs, const DS::string& rhs)
 #define TEST_MOVE_SEMANTIC
 //#define TEST_ADD_STRING
 //#define TEST_OP_ASSIGN
+// #define TEST_OSTREAM
 
 #if 1
 void f3(DS::string s)
@@ -214,6 +215,11 @@ DS::string f1()
 
 int main(int argc, char *argv[])
 {
+#ifdef TEST_OSTREAM
+  DS::string s{"abcdef"};
+  cout << s << endl;
+#endif
+
 #ifdef TEST_UNIQUE_PTR
   std::unique_ptr<DS::string> ptr{new DS::string{"123"}};
   std::unique_ptr<DS::string> ptr2;
