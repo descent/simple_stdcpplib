@@ -143,7 +143,7 @@ void exit(int status)
 }
 
 
-  char str012[]="xyz\r\n";
+  char str012[]="abcxyz\r\n";
 
 #ifndef UEFI
 void enter_main()
@@ -225,8 +225,12 @@ void ResetISR()
 {
   unsigned long *pulSrc, *pulDest;
 
-#if defined(P103) || defined(STM32F407)
+#if defined(P103)
   pulSrc = &_sidata;
+#elif defined(STM32F407)
+  pulSrc = &_etext;
+#endif
+#if defined(P103) || defined(STM32F407)
   for (pulDest = &_data; pulDest < &_edata;)
     *pulDest++ = *pulSrc++;
 #endif
