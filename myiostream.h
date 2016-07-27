@@ -78,7 +78,7 @@ namespace DS
       ofstream& operator<<(const char *str);
       ofstream& operator<<(int num);
       ofstream& operator<<(double num);
-      ofstream& operator<<(const DS::string &str);
+      //ofstream& operator<<(const DS::string &str);
       ofstream& operator<<(unsigned int num);
       ofstream& operator<<(ofstream& (*op)(ofstream &)) { return (*op)(*this); }
       ofstream& operator<<(u32 *ptr);
@@ -88,7 +88,6 @@ namespace DS
     private:
       u8 basefield_;
   };
-
 
   extern ofstream cout;
 

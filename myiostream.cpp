@@ -183,6 +183,7 @@ DS::ofstream& DS::ofstream::operator<<(double num)
   return *this;
 }
 
+#if 0
 DS::ofstream& DS::ofstream::operator<<(const DS::string& str)
 {
 #ifdef TEST
@@ -191,6 +192,7 @@ DS::ofstream& DS::ofstream::operator<<(const DS::string& str)
 #endif
   return *this;
 }
+#endif
 
 DS::ofstream& DS::ofstream::operator<<(u32 *ptr)
 {
