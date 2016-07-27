@@ -1,11 +1,18 @@
 #include "mystring.h"
 
-#ifndef TEST
+#ifndef TEST_MYSTRING
 #include "myiostream.h"
 #include "mem.h"
 #endif
 
-#ifdef TEST
+#if 0
+DS::ofstream& DS::operator<<(DS::ofstream& ofs, const DS::string &str)
+{
+  return ofs << str.c_str();
+}
+#endif
+
+#ifdef TEST_MYSTRING
 #include <cstdio>
 
 #define TEST_MACRO(assign, count, ...) \
@@ -22,14 +29,14 @@ using namespace std;
 // #define std DS
 #endif
 
-#ifdef TEST
+#ifdef TEST_MYSTRING
 u32 DS::string::ctor_time_ = 0;
 u32 DS::string::dtor_time_ = 0;
 #endif
 
 DS::string::string():len_(0), str_(0)
 {
-#ifdef TEST
+#ifdef TEST_MYSTRING
   TEST_MACRO(1, ctor_time_, "def ctor, count: %d\n", ctor_time_)
 #endif
 }
@@ -39,7 +46,7 @@ DS::string::string(const char *str)
 {
   generate_string(str, s_strlen(str));
 
-#ifdef TEST
+#ifdef TEST_MYSTRING
   TEST_MACRO(1, ctor_time_, "ctor: const char *str, %s, count: %d\n", str, ctor_time_)
 #endif
 }
@@ -49,7 +56,7 @@ DS::string::string(const char *str)
 #if __cplusplus >= 201103L
 DS::string::string(string &&s)
 {
-#ifdef TEST
+#ifdef TEST_MYSTRING
   TEST_MACRO(1, ctor_time_, "move ctor: string &&s, %s, count: %d\n", s.c_str(), ctor_time_)
 #endif
   str_ = s.str_;
@@ -64,14 +71,14 @@ DS::string::string(const string &s)
 {
   generate_string(s.c_str(), s.length());
 
-#ifdef TEST
+#ifdef TEST_MYSTRING
   TEST_MACRO(1, ctor_time_, "copy ctor: string &s, %s, count: %d\n", s.c_str(), ctor_time_)
 #endif
 }
 
 DS::string::~string()
 {
-#ifdef TEST
+#ifdef TEST_MYSTRING
   TEST_MACRO(0, dtor_time_, "dtor: str_: %s, count: %d\n", str_, dtor_time_)
 #endif
   delete [] str_;
@@ -97,7 +104,7 @@ void DS::string::swap(string &s1, string &s2)
 DS::string& DS::string::operator=(const DS::string& s)
 {
 //ref: http://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom
-#ifdef TEST
+#ifdef TEST_MYSTRING
   std::printf("1 op=\n");
 #endif
   string tmp{s};
@@ -113,7 +120,7 @@ DS::string& DS::string::operator=(const DS::string& s)
 #if __cplusplus >= 201103L
 DS::string& DS::string::operator=(DS::string&& s)
 {
-#ifdef TEST
+#ifdef TEST_MYSTRING
   std::printf("move op=\n");
 #endif
 
@@ -128,7 +135,7 @@ DS::string& DS::string::operator=(DS::string&& s)
 
 DS::string& DS::string::operator=(const char *str)
 {
-#ifdef TEST
+#ifdef TEST_MYSTRING
   std::printf("2 op=\n");
 #endif
   delete [] str_;
@@ -155,7 +162,7 @@ char& DS::string::operator[](unsigned int idx)
 
 DS::string operator+(const DS::string& lhs, const DS::string& rhs)
 {
-#ifdef TEST
+#ifdef TEST_MYSTRING
   printf("operator+, %s, %s\n", lhs.c_str(), rhs.c_str());
 #endif
 
@@ -172,7 +179,7 @@ DS::string operator+(const DS::string& lhs, const DS::string& rhs)
   return ns;
 }
 
-#ifdef TEST
+#ifdef TEST_MYSTRING
 #include <utility>
 #include <memory>
 #include <vector>
@@ -311,4 +318,4 @@ int main(int argc, char *argv[])
 #endif
   return 0;
 }
-#endif // #ifdef TEST
+#endif // #ifdef TEST_MYSTRING

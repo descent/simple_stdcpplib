@@ -15,6 +15,7 @@ using DS::stringncopy;
 
 namespace DS
 {
+  class ofstream;
   /**
    * \brief like std::string
    */
@@ -52,14 +53,21 @@ namespace DS
       int generate_string(const char *str, int len);
       char *str_; /// append '\0'
       u32 len_; /// string length
-#ifdef TEST
+#ifdef TEST_MYSTRING
       static u32 ctor_time_;
       static u32 dtor_time_;
       u32 id_;
 #endif
   };
 
-}
+  static inline ofstream& operator<<(ofstream& ofs, const DS::string &str)
+  {
+    return ofs << str.c_str();
+  }
+
+} // end namespace DS
+
+
 
 #if 1
 
