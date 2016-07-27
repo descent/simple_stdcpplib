@@ -40,6 +40,7 @@ void init_command()
 #define STACK_SIZE 1
 #endif
 extern unsigned long _etext;
+extern unsigned long _sidata;
 extern unsigned long _data;
 extern unsigned long _edata;
 extern unsigned long _bss;
@@ -142,7 +143,7 @@ void exit(int status)
 }
 
 
-  char str[]="xyz\r\n";
+  char str012[]="xyz\r\n";
 
 #ifndef UEFI
 void enter_main()
@@ -165,8 +166,10 @@ void enter_main()
 #endif
 
   //putchar('A');
+#if 1
   myprint("xx abc\r\n");
-  myprint(str);
+  myprint(str012);
+#endif
 
 
   // ur_puts(USART2, "Init complete! Hello World!\r\n");
@@ -223,7 +226,7 @@ void ResetISR()
   unsigned long *pulSrc, *pulDest;
 
 #if defined(P103) || defined(STM32F407)
-  pulSrc = &_etext;
+  pulSrc = &_sidata;
   for (pulDest = &_data; pulDest < &_edata;)
     *pulDest++ = *pulSrc++;
 #endif
