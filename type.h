@@ -14,7 +14,7 @@ typedef unsigned int u32;
 
 typedef unsigned long long u64;
 
-#ifdef UEFI
+#ifdef X86_64
 typedef unsigned long size_t;
 #else
 typedef unsigned int size_t;

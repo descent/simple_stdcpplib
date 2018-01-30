@@ -194,14 +194,18 @@ DS::ofstream& DS::ofstream::operator<<(const DS::string& str)
 
 DS::ofstream& DS::ofstream::operator<<(u32 *ptr)
 {
+#if 0
   u32 num = (u32)ptr;
   return operator<<(num);
+#endif
 }
 
 DS::ofstream& DS::ofstream::operator<<(s32 *ptr)
 {
+#if 0
   s32 num = (s32)ptr;
   return operator<<(num);
+#endif
 }
 
 #ifdef TEST

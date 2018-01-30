@@ -31,7 +31,7 @@ namespace DS
   void myprint(unsigned long num, u16 base=10);
   void myprint(int num, int base=10);
   void myprint_float(float num);
-  void send_byte(u8 b);
+  static inline void send_byte(u8 b){}
   int ungetch(int c);
 #ifndef UEFI
   int putchar(int c);
@@ -39,7 +39,9 @@ namespace DS
 #endif
   int getch(); // no buffer
   int ungetc(int c);
-  int read_char();
+  static inline int read_char()
+  {
+  }
   char *gets(char *s, int size);
   void go_right();
   void go_left();

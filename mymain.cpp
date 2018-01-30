@@ -1,7 +1,7 @@
 #include "myiostream.h"
 #include "myvec.h"
 #include "mymap.h"
-#include "mystring.h"
+//#include "mystring.h"
 #include "mylist.h"
 
 // #define TEST_BASIC
@@ -95,6 +95,7 @@ void test_bss(int *i)
 
 int mymain()
 {
+#if 0
 #ifdef TEST_BSS
   for (int i=0 ; i < 1024 ; ++i)
   {
@@ -249,6 +250,7 @@ int mymain()
     cout << "i: " << i << endl;
   }
   cout << "alloc all memory ok" << endl;
+#endif
 #endif
 #endif
   return 1;

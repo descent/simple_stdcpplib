@@ -15,6 +15,10 @@
 //extern void uart_send ( unsigned int );
 #endif
 
+#ifdef UEFI_WITHOUT_EDK2_X86_64
+//extern void uart_send ( unsigned int );
+#endif
+
 #ifndef UEFI
 int DS::putchar(int c)
 {

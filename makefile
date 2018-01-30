@@ -4,10 +4,14 @@
 #P103=1
 #RPI2=1
 #X86=1
+UEFI_WITHOUT_EDK2_X86_64=1
 
 OBJCOPY=arm-none-eabi-objcopy
 AR=arm-none-eabi-ar
 CXX=arm-none-eabi-g++
+TEST_IMG=mymain.bin
+
+MYOBJCOPYFLAGS=-Obinary
 
 MYCXXFLAGS = -fno-exceptions -fno-rtti -ffreestanding -nostdlib -nodefaultlibs -std=c++11
 CFLAGS=-g
@@ -74,6 +78,23 @@ PLATFORM_OBJ=$(IODIR)/start.o $(IODIR)/bios_call.o
 
 $(PLATFORM_OBJ): $(PLATFORM_SRC)
 	(cd x86 ; make)
+endif
+
+ifdef UEFI_WITHOUT_EDK2_X86_64
+TEST_IMG=mymain.efi
+OBJCOPY=objcopy
+AR=ar
+IODIR=uefi_without_edk2
+CXX=g++
+MYCFLAGS=-fno-common -g -DUEFI_WITHOUT_EDK2_X86_64 -DX86_64 -I. -I$(IODIR) -fpic
+MYOBJCOPYFLAGS=-j .text -j .sdata -j .data -j .dynamic -j .dynsym -j .rel -j .rela -j .reloc --target=efi-app-x86_64
+#ref: -Wl,--build-id=none http://stackoverflow.com/questions/15316384/do-not-pass-build-id-to-linker-from-gcc
+LD_FLAGS=-Wl,--build-id=none -Wl,-T./uefi_without_edk2.ld -shared -nostartfiles -Wl,-Bsymbolic -Wl,-Bsymbolic-functions -Wl,--no-undefined uefi_without_edk2/crt0_x86_64_efi.o
+PLATFORM_SRC=$(IODIR)/crt0_x86_64_efi.S $(IODIR)/reloc_x86_64_efi.cpp $(IODIR)/m.cpp
+PLATFORM_OBJ=$(IODIR)/crt0_x86_64_efi.o $(IODIR)/reloc_x86_64_efi.o $(IODIR)/m.o
+
+$(PLATFORM_OBJ): $(PLATFORM_SRC)
+	(cd uefi_without_edk2 ; make)
 endif
 
 CXXFLAGS += $(MYCXXFLAGS) $(CFLAGS) 
@@ -178,7 +199,8 @@ bst: bst.cpp bst.h
 	g++ -g -DTEST_MAIN -DUSE_OS -m32 -std=c++11 -o $@ $<
 
 mymain.bin: mymain.elf
-	$(OBJCOPY) -Obinary $< $@
+	$(OBJCOPY) $(MYOBJCOPYFLAGS) $< $@
+	mv $@ $(TEST_IMG)
 
 #arm-none-eabi-objdump -S demos/uart_echo/main.elf > demos/uart_echo/main.list
 

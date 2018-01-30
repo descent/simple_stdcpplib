@@ -39,6 +39,7 @@ void pop_test(Queue &q)
 // how to autotest for class Queue
 int main(void)
 {
+#if 0
   for (int i= -100; i < 100 ; ++i)
   {
 
@@ -87,5 +88,6 @@ int main(void)
   }
 
   }
+#endif
   return 0;
 }

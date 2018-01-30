@@ -38,3 +38,21 @@ cout << ": " << cc << endl;
 the error.
 
 narrowing heap size, because the execute can access 64k address.
+
+porting:
+1. c-runtime:
+initialize bss
+platform spec
+
+crtbegin.cpp
+void enter_main()
+
+2. I/O function
+k_stdio.cpp
+void DS::myprint(const char *str)
+{
+        send_byte(*p++);
+}
+
+3. write a linker script
+

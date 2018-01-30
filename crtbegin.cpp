@@ -136,6 +136,8 @@ void exit(int status)
 {
 #ifdef DOS
   back_to_dos();
+#elif defined(UEFI_WITHOUT_EDK2_X86_64)
+  return;
 #else
   while(1);
 #endif
@@ -144,7 +146,7 @@ void exit(int status)
 
   char str[]="xyz\r\n";
 
-#ifndef UEFI
+#if !defined(UEFI) || defined(UEFI_WITHOUT_EDK2_X86_64)
 void enter_main()
 {
   // init usart for showing error message
@@ -174,17 +176,17 @@ void enter_main()
   TRY
   {
 
-    extern u32 __start_global_ctor__;
-    extern u32 __end_global_ctor__;
-    u32 *start = &__start_global_ctor__;
-    u32 *end = &__end_global_ctor__;
+    extern u64 __start_global_ctor__;
+    extern u64 __end_global_ctor__;
+    u64 *start = &__start_global_ctor__;
+    u64 *end = &__end_global_ctor__;
 
     //myprint((u32)(*start), 16);
     //while(1);
     // run global object ctor
     #if 1
     //for (unsigned int *i = start; i != end; ++i)
-    for (u32 *i = start; i != end; ++i)
+    for (u64 *i = start; i != end; ++i)
     {
       Fp fp = (Fp)(*i);
       //myprint((u32)(*i), 16);
@@ -204,6 +206,7 @@ void enter_main()
     #endif
     //while(1);
 
+  return;
     mymain();
   }
   #if 1

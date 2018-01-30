@@ -2,7 +2,7 @@
 
 
 //#define UEFI
-#ifdef UEFI
+#ifdef X86_64
 // x86_64: 
 // newlib-2.1.0/newlib/libc/machine/x86_64/setjmp.S
 // newlib-2.1.0/newlib/libc/machine/x86_64/x86_64mach.h
